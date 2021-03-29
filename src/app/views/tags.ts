@@ -77,7 +77,9 @@ const tags = {
   p: tag('p'),
   br: () => `<br/>`,
   span: tag('span'),
+  strong: tag('strong'),
 
+  main: tag('main'),
   section: tag('section'),
 
   header: tag('header'),

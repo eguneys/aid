@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
-let { app, boot } = require('../lib/app');
+let { withApp } = require('../lib/app');
 
-let port = process.env.PORT || '3000';
+withApp((app, boot) => {
+  let port = process.env.PORT || '3000';
 
-app.set('port', port);
+  app.set('port', port);
 
-app.listen(port, onListening);
+  app.listen(port, onListening);
 
-function onListening() {
-  let bind = `port ${port}`;
-  console.log('Listening on ' + bind);
-  boot();
-}
+  function onListening() {
+    let bind = `port ${port}`;
+    console.log('Listening on ' + bind);
+    boot();
+  }
+});

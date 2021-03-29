@@ -1,13 +1,25 @@
+import path from 'path';
 import express from 'express';
 import routes from './routes';
+import Env from './env';
+import { env as helperEnv } from './views/helper';
 
-export const app = express();
+export async function withApp(cb: (_: express.Application, __: () => void) => void) {
 
-let router = routes();
+  const app = express();
+  const env = new Env(app);
 
-app.use(router);
-
-
-export function boot() {
+  helperEnv.setEnv(env);
   
+  await env.awaitVariables().then(() => {
+
+    app.use('/assets', express.static(path.join(__dirname, '../public')));
+
+    let router = routes();
+
+    app.use(router);
+
+    cb(app, () => {});
+  });
+
 }
