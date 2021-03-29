@@ -1,0 +1,4 @@
+@function c-light($color, $value) {
+  @return change-color($color, $lightness: $value);
+}
+

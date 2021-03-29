@@ -2,6 +2,7 @@
   "name": "stedon",
   "version": "1.0.0",
   "license": "MIT",
+  "private": "true",
   "scripts": {
     "watch": "tsc-watch --onSuccess \"yarn -s start\"",
     "build": "rm -rf lib && tsc",
@@ -15,5 +16,10 @@
   "dependencies": {
     "@types/express": "^4.17.11",
     "express": "^5.0.0-alpha.8"
-  }
+  },
+  "workspaces": [
+    "src/ui/common",
+    "src/ui/ateb",
+    "src/ui/rotide"
+  ]
 }

@@ -1,0 +1,20 @@
+%base-font-fallback {
+  font-family: 'Poppins', Sans-Serif;
+};
+
+%base-font {
+  font-family: 'Poppins', Sans-Serif;
+};
+
+%nunito {
+  font-family: 'Nunito', Sans-Serif;
+};
+
+%chess-font {
+  font-family: 'Noto Chess', 'Noto Sans';
+};
+
+%san {
+  @extend %chess-font;
+  
+}

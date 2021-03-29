@@ -1,0 +1,24 @@
+@import 'default';
+
+$theme: 'dark';
+$theme-dark: true;
+
+
+@function c-dimmer($color, $weight: 20%) {
+  @return mix(#000, $color, $weight);
+}
+
+
+@function c-clearer($color, $weight: 20%) {
+  @return mix(#fff, $color, $weight);
+}
+
+$c-bg-page: hsl($c-site-hue, 10%, 8%);
+
+$c-font: hsl(0, 0%, 73%);
+
+$c-primary: hsl(209, 79%, 56%);
+$c-primary-dim: c-dimmer($c-primary, 15%);
+
+$c-link: $c-primary;
+$c-link-hover: c-clearer(saturate($c-primary, 100%), 25%);

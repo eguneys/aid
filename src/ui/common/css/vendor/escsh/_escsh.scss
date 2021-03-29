@@ -1,0 +1,10 @@
+.hover-board, .board {
+  position: relative;
+  width: calc(50vw - 20px);
+  aspect-ratio: 1/1;
+
+  margin-bottom: 1em;
+}
+
+@import 'notation';
+@import 'ply'

@@ -1,0 +1,15 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "typings": "./index",
+  "scripts": {
+    "compile": "tsc",
+    "dev": "yarn run compile",
+    "prod": "yarn run compile"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  }
+}
