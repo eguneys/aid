@@ -1,6 +1,6 @@
 import tags from '../tags';
 import * as h from '../helper';
-import { Context } from '../../modules/api';
+import { Context } from '../../../modules/api';
 
 const doctype = tags.raw('<!DOCTYPE html>');
 const htmlTag = tags.html();

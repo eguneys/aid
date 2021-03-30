@@ -1,8 +1,8 @@
 import e from './env';
 import tags from '../tags';
-import { Context } from '../../modules/api';
+import { Context } from '../../../modules/api';
 
-let assetBaseUrl = () => e.env.assetBaseUrl;
+let assetBaseUrl = () => e.env.net.assetBaseUrl;
 
 export function assetUrl(path: string) {
   return `${assetBaseUrl()}/assets/${path}`;
@@ -17,11 +17,11 @@ function jsAt(path: string) {
 }
 
 export function jsModule(name: string) {
-  return jsAt(`compiled/${name}${e.env.minifiedAssets?'.min':'.dev'}.js`);
+  return jsAt(`compiled/${name}${e.env.net.minifiedAssets?'.min':'.dev'}.js`);
 }
 
 export const cssTag = (name: string) =>
-  cssAt(`css/${name}.dark.${e.env.minifiedAssets?'min':'dev'}.css`);
+  cssAt(`css/${name}.dark.${e.env.net.minifiedAssets?'min':'dev'}.css`);
 
 
 export const editorTag = () => jsModule('rotide');

@@ -1,42 +1,38 @@
 import { env as helperEnv } from './views/helper';
+import { NetConfig } from '../modules/common';
+import Configuration from './config';
+import * as chest from '../modules';
 
 export class Env {
 
-  mode: string
-  isProd: boolean
-  minifiedAssets: boolean
-  domain!: string
-  assetDomain!: string
-  assetBaseUrl!: string
+  net: NetConfig
+  book: chest.book.Env
   
-  constructor(mode: string) {
-
-    this.mode = mode;
-    this.isProd = mode === 'production';
-    this.minifiedAssets = this.isProd;
-
-    this.domain = this.isProd ? 'https://chessishard.com' :
-      'http://localhost:3000';
-
-    this.assetDomain = this.domain;
-    this.assetBaseUrl = this.isProd ? this.domain : '';
-
-
+  constructor(net: NetConfig,
+              book: chest.book.Env) {
+    this.net = net;
+    this.book = book;
   }
 
-  async awaitVariables() {
-    
-  }
 }
 
 export default class EnvBoot {
 
   env: Env
 
-  constructor(mode: string) {
-    
-    this.env = new Env(mode);
+  constructor(config: Configuration) {
+
+    let db = new chest.db.Env(config);
+    let book = new chest.book.Env(db);
+
+    this.env = new Env(config.net,
+                       book);
 
     helperEnv.setEnv(this.env);
+  }
+
+
+  async awaitVariables() {
+    
   }
 }

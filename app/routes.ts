@@ -4,7 +4,8 @@ import wireCtrls from './wireCtrls';
 export default function routes(c: wireCtrls) {
   const router = express.Router();
 
-  router.use('/editor', c.site.editor.bind(c.site));
+  router.get('/editor', c.site.editor.bind(c.site));
+  router.get('/book', c.book.all.bind(c.book));
 
   router.use(c.site.notFound.bind(c.site));
 

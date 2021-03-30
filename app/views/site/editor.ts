@@ -1,7 +1,7 @@
 import tags from '../tags';
 import * as html from '../';
 import * as h from '../helper';
-import { Context } from '../../modules/api';
+import { Context } from '../../../modules/api';
 
 export const editor = () => (ctx: Context) => html.base.layout("Edit New Article", [
   tags.main({ id: 'board-editor'})

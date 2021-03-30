@@ -1,6 +1,6 @@
 import tags from '../tags';
 import { layout } from './layout';
-import { Context } from '../../modules/api';
+import { Context } from '../../../modules/api';
 
 export const notFound = () => (ctx: Context) => layout("Page not found", [
   tags.main({ cls: 'not-found' }, [
