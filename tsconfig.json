@@ -7,8 +7,9 @@
     "strict": true,
     "declaration": true,
     "incremental": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["@types/chest"]
   },
-  "include": ["src"],
+  "include": ["app"],
   "exclude": ["**/node_modules", "**/.*/"]
 }

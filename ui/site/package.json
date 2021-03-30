@@ -1,0 +1,16 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch --env=development",
+    "dev": "webpack --env=development",
+    "prod": "webpack --env=production"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@build/webpackProject": "1.0.0",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0"
+  }
+}

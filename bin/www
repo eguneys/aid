@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-let { withApp } = require('../lib/app');
+let { withApp } = require('../lib');
 
 withApp((app, boot) => {
   let port = process.env.PORT || '3000';
