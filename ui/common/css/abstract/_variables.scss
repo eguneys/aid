@@ -1,2 +1,12 @@
 $font-path: '../font';
 $image-path: '../images';
+
+$site-header-tall-height: 60px;
+$site-header-short-height: 40px;
+
+$main-max-width: 1300px !default;
+
+$main-margin: var(--main-margin);
+$site-header-height: var(--site-header-height);
+
+$site-header-margin: var(--site-header-margin);

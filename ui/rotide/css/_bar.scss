@@ -1,0 +1,21 @@
+.rotide__bar__control {
+
+  margin: 1em 1.8em;
+
+  div {
+    background: $c-primary;
+    font-weight: bold;
+    font-size: 2em;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      background: $c-primary-dim;
+    }
+  }
+  
+  
+}

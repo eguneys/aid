@@ -22,3 +22,6 @@ $c-primary-dim: c-dimmer($c-primary, 15%);
 
 $c-link: $c-primary;
 $c-link-hover: c-clearer(saturate($c-primary, 100%), 25%);
+
+$c-font-shadow: black;
+$text-shadow: none;

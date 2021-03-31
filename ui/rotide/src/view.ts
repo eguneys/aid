@@ -38,16 +38,13 @@ export default class View {
       }, []);
 
 
-    return h('div.rotide__editor', 
+    return h('div.rotide__app__editor', 
              [h('div.editor', [v$edit]), 
               h('div.preview', [v$preview])]);
   }
   
   vApp() {
-    
-    return h('div.rotide', [
-      this.vEditor()
-    ]);
+    return this.vEditor()
   }
 
 }

@@ -28,6 +28,7 @@ export function layout(title: string, body: string[], params: LayoutParams) {
           pieceSprite()
         ]),
         tags.body({ cls: [], }, [
+          siteHeader(),
           tags.div({
             id: 'main-wrap',
             cls: []
@@ -37,6 +38,16 @@ export function layout(title: string, body: string[], params: LayoutParams) {
       ])
     ]);
 };
+
+function siteHeader() {
+  return tags.header({ id: 'top' }, [
+    tags.div({ cls: 'site-title-nav' }, [
+      tags.h1({ cls: 'site-title' }, [
+        tags.a({ href: '/' }, ['Chess Is Hard'])
+      ])
+    ])
+  ]);
+}
 
 function chestJsObject(ctx: Context) {
   return h.embedJsUnsafe(`chest={load:new Promise(r=>{window.onload=r})}`)(ctx);

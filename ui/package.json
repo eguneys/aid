@@ -12,5 +12,8 @@
     "watch": "gulp watch",
     "dev": "gulp dev",
     "prod": "gulp prod"
+  },
+  "dependencies": {
+    "breakpoint-sass": "^2.7.1"
   }
 }

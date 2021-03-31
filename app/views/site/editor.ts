@@ -4,7 +4,10 @@ import * as h from '../helper';
 import { Context } from '../../../modules/api';
 
 export const editor = () => (ctx: Context) => html.base.layout("Edit New Article", [
-  tags.main({ id: 'board-editor'})
+  tags.main({ class: 'rotide'}, [
+    tags.div({ class: 'rotide__app' }),
+    tags.div({ class: 'rotide__bar' }),
+  ]),
 ], {
   moreJs: tags.frag([
     h.editorTag(),
