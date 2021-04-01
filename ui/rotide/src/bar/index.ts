@@ -10,5 +10,7 @@ export default function app(element: Element) {
   let recons = vinit(),
   $_ = recons(view.vApp());
 
+  ctrl.trigger();
+  
   element.appendChild($_);
 }

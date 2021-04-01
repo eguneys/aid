@@ -12,6 +12,9 @@ $c-site-hue: 37;
 
 $c-bg-page: hsl($c-site-hue, 10%, 92%);
 
+$c-bg-high: hsl(0, 0%, 100%);
+$c-bg-low: hsl(0, 0%, 89%);
+
 $c-font: hsl(0, 0%, 30%);
 $c-font-dim: c-light($c-font, 47%);
 $c-font-page: c-light($c-font, 37%);
@@ -19,9 +22,15 @@ $c-font-page: c-light($c-font, 37%);
 $c-primary: hsl(209, 77%, 46%);
 $c-primary-dim: c-dimmer($c-primary);
 
+$c-secondary: hsl(88, 62%, 37%);
+
 $c-link: $c-primary;
 $c-link-dim: $c-primary-dim;
 $c-link-hover: c-clearer(saturate($c-primary, 100%), 35%);
+
+$c-bg-popup: $c-bg-high;
+$c-popup: $c-font;
+
 
 $c-font-shadow: white;
 $text-shadow: 0 1px 0 $c-font-shadow;

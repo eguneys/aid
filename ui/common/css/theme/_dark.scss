@@ -14,14 +14,22 @@ $theme-dark: true;
 }
 
 $c-bg-page: hsl($c-site-hue, 10%, 8%);
+$c-bg-high: hsl($c-site-hue, 7%, 14%);
+$c-bg-low: hsl($c-site-hue, 7%, 22%);
 
 $c-font: hsl(0, 0%, 73%);
+$c-font-clear: c-light($c-font, 80%);
 
 $c-primary: hsl(209, 79%, 56%);
 $c-primary-dim: c-dimmer($c-primary, 15%);
 
+$c-secondary: hsl(28, 62%, 37%);
+
 $c-link: $c-primary;
 $c-link-hover: c-clearer(saturate($c-primary, 100%), 25%);
+
+$c-bg-popup: $c-bg-low;
+$c-popup: $c-font-clear;
 
 $c-font-shadow: black;
 $text-shadow: none;

@@ -1,8 +1,10 @@
 .rotide__bar__control {
 
+  position: relative;
   margin: 1em 1.8em;
 
-  div {
+  .open {
+    user-select: none;
     background: $c-primary;
     font-weight: bold;
     font-size: 2em;
@@ -16,6 +18,7 @@
       background: $c-primary-dim;
     }
   }
-  
-  
+
 }
+
+@import 'barchild';
