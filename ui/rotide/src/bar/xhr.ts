@@ -1,54 +1,37 @@
+import * as xhr from 'common/xhr';
 import { kbt } from 'koob';
 
-const fixtures = {
-  books: [{
-    id: '1',
-    name: `King's Gambit`
-  }],
-  chapters: [{
-    id: '1',
-    bookId: '1',
-    name: 'Chapter 1'
-  }, {
-    id: '2',
-    bookId: '1',
-    name: 'Chapter 2'
-  },{
-    id: '3',
-    bookId: '1',
-    name: 'Chapter 3'
-  },{
-    id: '4',
-    bookId: '1',
-    name: 'Chapter 4'
-  }],
-  sections: [{
-    id: '1',
-    chapterId: '1',
-    name: 'Section 1'
-  }, {
-    id: '2',
-    chapterId: '1',
-    name: 'Section 2'
-  },{
-    id: '3',
-    chapterId: '1',
-    name: 'Section 3'
-  }]
-}
+export const books = () =>
+  xhr.json('/books');
 
-export const mockXhr = {
-  books() {
-    return Promise.resolve(fixtures.books);
-  },
+export const chapters = (id: kbt.BookId) =>
+  xhr.json(`/chapters/${id}`);
 
-  chapters(id: kbt.BookId) {
-    return Promise.resolve(fixtures.chapters);
-  },
+export const sections = (id: kbt.ChapterId) =>
+  xhr.json(`/sections/${id}`);
 
-  sections(id: kbt.ChapterId) {
-    return Promise.resolve(fixtures.sections);
-  }
+export const newBook = (name: string) =>
+  xhr.json('/books', {
+    method: 'POST',
+    body: xhr.form({
+      name
+    })
+  });
 
-  
-}
+export const newChapter = (bookId: kbt.BookId, name: string) =>
+  xhr.json('/chapters', {
+    method: 'POST',
+    body: xhr.form({
+      bookId,
+      name
+    })
+  });
+
+export const newSection = (chapterId: kbt.ChapterId, name: string) =>
+  xhr.json('/sections', {
+    method: 'POST',
+    body: xhr.form({
+      chapterId,
+      name
+    })
+  });

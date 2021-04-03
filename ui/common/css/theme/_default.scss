@@ -31,6 +31,8 @@ $c-link-hover: c-clearer(saturate($c-primary, 100%), 35%);
 $c-bg-popup: $c-bg-high;
 $c-popup: $c-font;
 
+$c-border: hsl(0, 0%, 85%);
+$c-border-page: hsl(0, 0%, 80%);
 
 $c-font-shadow: white;
 $text-shadow: 0 1px 0 $c-font-shadow;

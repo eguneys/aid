@@ -1,6 +1,7 @@
 import { h, vh, vmap, vex, VHNode, VHCEx } from 'hhh';
 import Ctrl from './ctrl';
 import VChapter from './vchapter';
+import * as c from './chapter';
 
 
 
@@ -39,6 +40,13 @@ export default class View {
 
     document.body.addEventListener('click', () => {
       fToggleAddToBook(true) || fToggle(true);
+    });
+
+    this.ctrl.cchapter.addTo.sub(addTo => {
+      if (c.isInSection(addTo)) {
+        fToggleAddToBook(true);
+        fToggle(true);
+      }
     });
     
     return vh('div.rotide__bar__control', {}, {

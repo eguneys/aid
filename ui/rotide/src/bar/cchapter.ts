@@ -1,21 +1,45 @@
 import { Sub } from 'uuu';
 import { AddToBuilder, AddTo, InAbook, InSection, InChapter, InBook } from './chapter';
+import * as ton from './tonew';
 import { kbt } from 'koob';
-import { mockXhr } from './xhr';
+import * as xhr from './xhr';
 
 export default class ChapterCtrl {
 
+  toNew: Sub<ton.ToNew | 0>
   addTo: Sub<AddTo>
   addToBuilder: AddToBuilder
   
   constructor() {
 
-    this.addToBuilder = new AddToBuilder(mockXhr);
+    this.addToBuilder = new AddToBuilder(xhr);
     
     this.addTo = new Sub<AddTo>({books: []});
+    this.toNew = new Sub<ton.ToNew| 0>(0);
 
     this.inABook();
   }
+
+  newBook(toNewBook: ton.ToNewBook, name: string) {
+    this.addToBuilder.newBook(toNewBook, name).then((_: InBook) => {
+      this.toNew.mutatePub(_ => 0);
+      this.addTo.mutatePub((__) => _)
+    });
+  }      
+
+  newChapter(toNewChapter: ton.ToNewChapter, name: string) {
+    this.addToBuilder.newChapter(toNewChapter, name).then((_: InChapter) => {
+      this.toNew.mutatePub(_ => 0);
+      this.addTo.mutatePub((__) => _)
+    });
+  }
+
+  newSection(toNewSection: ton.ToNewSection, name: string) {
+    this.addToBuilder.newSection(toNewSection, name).then((_: InSection) => {
+      this.toNew.mutatePub(_ => 0);
+      this.addTo.mutatePub((__) => _)
+    });
+  }  
 
   trigger() {
     this.addTo.pub();
@@ -40,15 +64,5 @@ export default class ChapterCtrl {
     let _ = this.addToBuilder.inSection(inChapter, section);
     this.addTo.mutatePub((__) => _);
   }
-
-  backToInABook(inBook: InBook) {
-    this.addTo.mutatePub((_) => ({books: inBook.books}));
-  }
-
-  backToInBook(inChapter: InChapter) {
-    let { chapter, sections, ...inBook } = inChapter;
-    this.addTo.mutatePub((_) => ({...inBook}));
-  }
-  
 }
 

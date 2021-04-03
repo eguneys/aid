@@ -10,9 +10,8 @@ export default class VChapter {
   constructor(ctrl: ChapterCtrl) {
     this.ctrl = ctrl;
   }
-        
-  vsAddToBook(inABook: c.InAbook) {
 
+  vsAddToBook(inABook: c.InAbook) {
     let v$books = inABook.books.map(_ =>
       vh('div.book.item', {}, {
         listeners: {
@@ -25,7 +24,13 @@ export default class VChapter {
     return [
       h('div.headline', 'Add to Book'),
       h('div.books', v$books),
-      h('button', [h('i', '+'), 'New Book'])
+      vh('button', {}, {
+        listeners: {
+          click: (e, _) => {
+            this.ctrl.toNew.pub(inABook);
+          }
+        }
+      }, [h('i', '+'), h('span', 'New Book')])
     ];
   }
 
@@ -33,7 +38,7 @@ export default class VChapter {
     return vh('div.headline', {}, {
       listeners: {
         click: (e, _) => {
-          this.ctrl.backToInABook(inBook)
+          this.ctrl.inABook()
         }
       }
     }, [h('i', '←'), h('span', book.name)]);
@@ -43,7 +48,8 @@ export default class VChapter {
     return vh('div.headline', {}, {
       listeners: {
         click: (e, _) => {
-          this.ctrl.backToInBook(inChapter)
+          let { books } = inChapter;
+          this.ctrl.inBook({ books }, inChapter.book)
         }
       }
     }, [h('i', '←'), h('span', chapter.name)]);    
@@ -64,7 +70,13 @@ export default class VChapter {
     return [
       this.vBackToABook(inBook, book),
       h('div.chapters', v$chapters),
-      h('button', [h('i', '+'), 'New Chapter'])
+      vh('button', {}, {
+        listeners: {
+          click: (e, _) => {
+            this.ctrl.toNew.pub(inBook);
+          }
+        }
+      }, [h('i', '+'), h('span', 'New Chapter')])
     ];
   }
 
@@ -72,13 +84,25 @@ export default class VChapter {
     let { book, chapter, sections } = inChapter;
     
     let v$sections = sections.map(_ =>
-      h('div.section.item', [_.name]));
+      vh('div.section.item', {}, {
+        listeners: {
+          click: (e, __) => {
+            this.ctrl.inSection(inChapter, _)
+          }
+        }
+      }, [h('span', _.name)]));
 
     return [
       this.vBackToABook(inChapter, book),
       this.vBackToBook(inChapter, chapter),
       h('div.sections', v$sections),
-      h('button', [h('i', '+'), 'New Section'])
+      vh('button', {}, {
+        listeners: {
+          click: (e, _) => {
+            this.ctrl.toNew.pub(inChapter);
+          }
+        }
+      }, [h('i', '+'), h('span', 'New Section')])
     ];
   }
 
@@ -94,7 +118,8 @@ export default class VChapter {
       } else if (c.isInChapter(addTo)) {
         v$content.replace(this.vsAddToSection(addTo));
       } else if (c.isInSection(addTo)) {
-        console.log(addTo);
+        // console.log(addTo);
+        // selected
       }
     });
 

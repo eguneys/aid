@@ -57,6 +57,27 @@ export class AddToBuilder {
     this.books = kApi.books();
   }
 
+  newBook(inABook: InAbook, book: string) {
+    return this.kApi.newBook(book).then(_ => {
+      this.books = this.kApi.books();
+      return this.inBook(inABook, _);
+    });
+  }
+
+  newChapter(inBook: InBook, chapter: string) {
+    return this.kApi.newChapter(inBook.book.id, chapter).then(_ => {
+      this.chapters.get(inBook.book.id, true);
+      return this.inChapter(inBook, _);
+    });
+  }
+
+  newSection(inChapter: InChapter, section: string) {
+    return this.kApi.newSection(inChapter.chapter.id, section).then(_ => {
+      this.sections.get(inChapter.chapter.id, true);
+      return this.inSection(inChapter, _);
+    });
+  }
+
   inABook() {
     return this.books.then(books => ({books}));
   }

@@ -10,14 +10,21 @@ export class MemCol extends Coll {
     this.data = [];
   }
 
-  find() {
-    return Promise.resolve(this.data);
+  find(query: any) {
+    return Promise.resolve(this.data.filter(_ => {
+      for (let key of Object.keys(query)) {
+        if (_[key] !== query[key]) {
+          return false;
+        }
+      }
+      return true;
+    }));
   }
 
   insert(_: any) {
     return Promise.resolve()
       .then(() => this.data.push(_))
-      .then(() => {});
+      .then(() => _);
   }
 
 }
