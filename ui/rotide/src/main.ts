@@ -1,14 +1,32 @@
-import { vinit } from 'hhh';
+import { VNode,
+         init,
+         eventListenersModule,
+         propsModule,
+         classModule,
+         styleModule,
+         attributesModule } from 'snabbdom';
+
+import view from './view';
 import Ctrl from './ctrl';
-import View from './view';
 
-export default function app(element: Element) {
+const patch = init([
+  propsModule,
+  eventListenersModule,
+  classModule,
+  styleModule,
+  attributesModule]);
 
-  let ctrl = new Ctrl();
-  let view = new View(ctrl);
+export default function main($_: Element) {
 
-  let recons = vinit(),
-  $_ = recons(view.vApp());
+  let vnode: VNode, ctrl: Ctrl;
+  
+  function redraw() {
+    vnode = patch(vnode, view(ctrl));
+  }
 
-  element.appendChild($_);
+  ctrl = new Ctrl(redraw);
+  
+  vnode = patch($_, view(ctrl));
+
+  
 }

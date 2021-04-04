@@ -1,121 +1,75 @@
-import { h, vh, vmap, vex, VHNode, VHCEx } from 'hhh';
-import ChapterCtrl from './cchapter';
-import * as tn from './tonew';
+import { VNode, h } from 'snabbdom';
+import Ctrl from './ctrl';
+import * as t from './types';
+import * as util from '../util';
 
-export default class OView {
+function vNameDialog(ctrl: Ctrl) {
 
-  ctrl: ChapterCtrl
+  let headline;
 
-  constructor(ctrl: ChapterCtrl) {
-    this.ctrl = ctrl;
-  }
-
-  vNewItemName(headline: string, onSave: (_: string) => void) {
-
-    let iname = '';
-    
-    return [
-      h('div.headline', headline),
-      h('div.input', [
-        h('label.name', 'Name'),
-        vh('input', {}, {
-          attrs: (props) => ({
-            type: 'text'
-          }),
-          listeners: {
-            input: (e, _) => {
-              iname = e.target.value; 
-            }
-          }
-        }, [])]),
-      h('div.buttons', [
-        vh('button', {}, {
-          listeners: {
-            click: (e, _) => {
-              this.ctrl.toNew.pub(0);              
-            }
-          }
-        }, [h('span', 'Cancel')]),
-        vh('button', {}, {
-          listeners: {
-            click: (e, _) => {
-              onSave(iname);
-            }
-          }
-        }, [h('span', 'Save')])
-      ])
-    ];
-  }
-
-  vNewBook(toNewBook: tn.ToNewBook) {
-    return this.vNewItemName('New Book', iname => {
-      this.ctrl.newBook(toNewBook, iname);
-    });
-  }
-
-  vNewChapter(toNewChapter: tn.ToNewChapter) {
-    return this.vNewItemName('New Chapter', iname => {
-      this.ctrl.newChapter(toNewChapter, iname);
-    });
-  }
-
-  vNewSection(toNewSection: tn.ToNewSection) {
-    return this.vNewItemName('New Section', iname => {
-      this.ctrl.newSection(toNewSection, iname);
-    });
+  if (!ctrl.vSelectBook) {
+    return null;
   }
   
-  vDialog() {
-    let v$dx = vex([]);
-    let v$d = vh('div.rotide__dialog', {
-      hidden: true
-    }, {
-      listeners: {
-        click: (e, _) => { e.stopPropagation(); }
-      },
-      klassList: (props) => [props.hidden?'hidden':[]].flat()
-    }, [
-      v$dx
-    ]);
-
-    this.ctrl.toNew.sub(_ => {
-      if (_ === 0) {
-        v$d.update({ hidden: true });
-      } else if (tn.isToNewBook(_)) {
-        v$d.update({ hidden: false });
-        v$dx.replace(this.vNewBook(_));
-      } else if (tn.isToNewChapter(_)) {
-        v$d.update({ hidden: false });
-        v$dx.replace(this.vNewChapter(_));        
-      } else if (tn.isToNewSection(_)) {
-        v$d.update({ hidden: false });
-        v$dx.replace(this.vNewSection(_));
-      }
-    });
-
-    return v$d;
+  if (t.isBooksView(ctrl.vSelectBook)) {
+    headline = 'New Book';
+  } else if (t.isChaptersView(ctrl.vSelectBook)) {
+    headline = 'New Chapter';
+  } else if (t.isSectionsView(ctrl.vSelectBook)) {
+    headline = 'New Section';
   }
 
-  vOverlay() {
+  
+  return h('div.rotide__dialog', {
+    on: { click: e => e.stopPropagation() }
+  }, [
+    h('div.headline', headline),
+    h('div.input', [
+      h('label.name', 'Name'),
+      h('input', {
+        attrs: { type: 'text' },
+        on: {
+          input(e) {
+            let $_ = e.target as HTMLInputElement;
+            ctrl.nameSelectBook = $_.value;
+          }
+        }
+      })
+    ]),
+    h('div.buttons', [
+      h('button', {
+        hook: util.bind('click', e => {
+          e.stopPropagation();
+          ctrl.closeNewBookDialog();
+        }, ctrl.redraw)
+      }, 'Cancel'),
+      h('button', {
+        hook: util.bind('click', e => {
+          return ctrl.submitNewBookDialog();
+        }, ctrl.redraw)
+      }, 'Save')
+    ])
+  ])
+}
 
-    let v$o = vh('div.rotide__overlay', {
-      hidden: true
-    }, {
-      klassList: (props) => [props.hidden?'hidden':[]].flat(),
-      listeners: {
-        click: (e, _) => { e.stopPropagation(); this.ctrl.toNew.pub(0); }
-      }
-    }, []);
 
-    this.ctrl.toNew.sub(_ => {
-      if (_ === 0) {
-        v$o.update({ hidden: true });
-      } else {
-        v$o.update({ hidden: false });
-      }
-    });
-    
-    return v$o;
+export default function view(ctrl: Ctrl) {
+
+  let children: Array<VNode | null> = [];
+
+  if (ctrl.isNewDialogOpen) {
+    children = [
+      h('div.rotide__overlay', {
+        style: {
+          opacity: '0',
+          transition: 'opacity 0.3s',
+          delayed: ({ opacity: '0.8' } as any)
+        }
+      }),
+      vNameDialog(ctrl)
+    ];
   }
+  
+  return h('div', children);
   
 }

@@ -1,50 +1,45 @@
-import { vh, h } from 'hhh';
+import { h } from 'snabbdom';
 import Ctrl from './ctrl';
 import throttle from 'common/throttle';
+import * as util from './util';
 import escsh from 'escsh';
-import { defaultMd } from './fixtures';
+import { default as vBar } from './bar/view';
+import { default as vOverlay } from './bar/oview';
 
-export default class View {
+export default function view(ctrl: Ctrl) {
+  return h('div.rotide', {
+    hook: util.bind('click', e => {
+      ctrl.barCtrl.close();
+    }, ctrl.redraw)
+  }, [
+    vApp(ctrl),
+    vBar(ctrl.barCtrl),
+    vOverlay(ctrl.barCtrl)
+  ]);
+}
+
+export function vApp(ctrl: Ctrl) {
+
+  let onInput = throttle(400, ctrl.input.bind(ctrl));
   
-  ctrl: Ctrl
-  
-  constructor(ctrl: Ctrl) {
-    this.ctrl = ctrl;
-  }
-
-  vEditor() {
-
-    const onInput = throttle(400, this.ctrl.input.bind(this.ctrl));
-
-    let v$edit = vh('textarea', {}, {
-      listeners: {
-        input: (e: InputEvent, _: Node) => {
-          let value: string = (e.target as HTMLTextAreaElement).value;
-          onInput(value);
-        }
-      },
-      element: () => (_$: Node) => {
-        (_$ as HTMLTextAreaElement).value = defaultMd;
-      }
-    }, []);
-
-    let v$preview = 
-      vh('div', {}, {
-        element: () => ($_: Node) => {
-          this.ctrl.setEsApi(escsh($_ as Element, {
-            md: defaultMd
-          }));
-        }
-      }, []);
-
-
-    return h('div.rotide__app__editor', 
-             [h('div.editor', [v$edit]), 
-              h('div.preview', [v$preview])]);
-  }
-  
-  vApp() {
-    return this.vEditor()
-  }
-
+  return h('div.rotide__app', [
+    h('div.rotide__app__editor', [
+      h('div.editor', [
+        h('textarea', {
+          props: {
+            value: ctrl.md
+          },
+          on: {
+            input(e) {
+              const $_ = e.target as HTMLTextAreaElement;
+              onInput($_.value);
+            }
+          }
+        })
+      ]),
+      h('div.preview', {
+        hook: util.onInsert(el => {})
+      })
+    ])
+  ]);
 }

@@ -1,24 +1,26 @@
-.rotide__bar__control {
+.rotide__bar {
 
-  position: relative;
-  margin: 1em 1.8em;
+  &__control {
 
-  .open {
-    user-select: none;
-    background: $c-primary;
-    font-weight: bold;
-    font-size: 2em;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
+    position: relative;
+    margin: 1em 1.8em;
 
-    &:hover {
-      cursor: pointer;
-      background: $c-primary-dim;
+    .open {
+      user-select: none;
+      background: $c-primary;
+      font-weight: bold;
+      font-size: 2em;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+
+      &:hover {
+        cursor: pointer;
+        background: $c-primary-dim;
+      }
     }
+
   }
-
 }
-
 @import 'barchild';

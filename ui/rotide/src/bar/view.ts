@@ -1,88 +1,127 @@
-import { h, vh, vmap, vex, VHNode, VHCEx } from 'hhh';
+import { h } from 'snabbdom';
 import Ctrl from './ctrl';
-import VChapter from './vchapter';
-import * as c from './chapter';
+import * as util from '../util';
+import * as t from './types';
 
-
-
-export default class View {
-  
-  ctrl: Ctrl
-  chapterView: VChapter
-  
-  constructor(ctrl: Ctrl) {
-    this.ctrl = ctrl;
-    this.chapterView = new VChapter(this.ctrl.cchapter);
-  }
-  
-  vDropdown(onAddToBook: () => void) {
-    return h('div.popup.dropdown', [
-      vh('div', {}, { listeners: {
-        click: (e, _) => { onAddToBook(); } } }, [h('a', 'Add to book')]),
-    ]);
-  }
-
-  vOpen(onClick: () => void) {
-    return vh('div.open', {}, {
-      listeners: {
-        click: (e, _) => {
-          onClick();
-        }
-      }
-    }, [h('span', '⋮')]);
-  }
-
-  vApp() {
-
-    let [v$addToBook, fToggleAddToBook] = togglePopup(this.chapterView.vAddToBookPopup());
-    
-    let [v$dropdown, fToggle] = togglePopup(this.vDropdown(fToggleAddToBook));
-
-    document.body.addEventListener('click', () => {
-      fToggleAddToBook(true) || fToggle(true);
-    });
-
-    this.ctrl.cchapter.addTo.sub(addTo => {
-      if (c.isInSection(addTo)) {
-        fToggleAddToBook(true);
-        fToggle(true);
-      }
-    });
-    
-    return vh('div.rotide__bar__control', {}, {
-      element: () => (_) => {
-        fToggle();
-        fToggleAddToBook();
-      },
-      listeners: {
-        click: (e, _) => { e.stopPropagation(); }
-      }
+function vsSelectSection(ctrl: Ctrl, v: t.SectionsView) {
+  return [
+    h('div.headline.book', {
+      hook: util.bind('click', e => {
+        ctrl.openSelectBookView();
+      }, ctrl.redraw)
+    }, [h('i', '←'), v.book.name]),
+    h('div.headline.chapter', {
+      hook: util.bind('click', e => {
+        ctrl.openSelectChapters(v.book);
+      }, ctrl.redraw)
+    }, [h('i', '←'), v.chapter.name]),
+    ...v.sections.map(section =>
+      h('div.item.section', {
+        hook: util.bind('click', e => {
+          // return ctrl.openSelectSections(chapter);
+        }, ctrl.redraw)
+      }, section.name)),
+    h('button', {
+      hook: util.bind('click', e => {
+        ctrl.openNewBookDialog();
+      }, ctrl.redraw)
     }, [
-      v$addToBook,
-      v$dropdown,
-      this.vOpen(() => {
-        fToggleAddToBook(true) || fToggle();
-      })
-    ]);
-  }
-
-  
+      h('i', '+'),
+      'New Section'
+    ])
+  ];
 }
 
-function togglePopup(v$content: VHNode): [VHCEx, any] {
-  let v$closed: Array<VHNode> = [],
-  v$opened = [v$content],
-  v$dropContent = v$closed;
+function vsSelectChapter(ctrl: Ctrl, v: t.ChaptersView) {
+  return [
+    h('div.headline.book', {
+      hook: util.bind('click', e => {
+        ctrl.openSelectBookView();
+      }, ctrl.redraw)
+    }, [h('i', '←'), v.book.name]),
+    ...v.chapters.map(chapter =>
+      h('div.item.chapter', {
+        hook: util.bind('click', e => {
+          return ctrl.openSelectSections(chapter);
+        }, ctrl.redraw)
+      }, chapter.name)),
+    h('button', {
+      hook: util.bind('click', e => {
+        ctrl.openNewBookDialog();
+      }, ctrl.redraw)
+    }, [
+      h('i', '+'),
+      'New Chapter'
+    ])
+  ];
+}
 
-  let v$dropdown = vex(v$dropContent);
+function vsSelectBook(ctrl: Ctrl, v: t.BooksView) {
+  return [
+    h('div.headline', 'Select book'),
+    ...v.books.map(book =>
+      h('div.item.book', {
+        hook: util.bind('click', e => {
+          return ctrl.openSelectChapters(book);
+        }, ctrl.redraw)
+      }, book.name)),
+    h('button', {
+      hook: util.bind('click', e => {
+        ctrl.openNewBookDialog();
+      }, ctrl.redraw)
+    }, [
+      h('i', '+'),
+      'New Book'
+    ])
+  ];
+}
 
-  function toggle(close: boolean = false) {
-    if (close && v$dropContent === v$closed) {
-      return false;
-    }
-    v$dropContent = v$dropContent===v$closed?v$opened:v$closed;
-    v$dropdown.replace(v$dropContent);
-    return true;
+function vOpenBookPopup(ctrl: Ctrl) {
+  let children;
+
+  if (!ctrl.vSelectBook) {
+    return null;
+  } else if (t.isBooksView(ctrl.vSelectBook)) {
+    children = vsSelectBook(ctrl, ctrl.vSelectBook);
+  } else if (t.isChaptersView(ctrl.vSelectBook)) {
+    children = vsSelectChapter(ctrl, ctrl.vSelectBook);
+  } else if (t.isSectionsView(ctrl.vSelectBook)) {
+    children = vsSelectSection(ctrl, ctrl.vSelectBook);
   }
-  return [v$dropdown, toggle];
+  
+  return h('div.popup.selectbook', {
+    on: {
+      click: e => e.stopPropagation()
+    }
+  }, children);
+}
+
+function vDropdown(ctrl: Ctrl) {
+  return h('div.popup.dropdown', {
+    class: {
+      hidden: !ctrl.isBarOpen
+    }
+  }, [
+    h('div.item', {
+      hook: util.bind('click', _ => {
+        _.stopPropagation();
+        return ctrl.openSelectBookView();
+      }, ctrl.redraw)
+    }, [h('a', 'Open book')])
+  ]);
+}
+
+
+export default function view(ctrl: Ctrl) {
+  return h('div.rotide__bar', [h('div.rotide__bar__control', [
+    vDropdown(ctrl),
+    vOpenBookPopup(ctrl),
+    h('div.open', {
+      hook: util.bind('click', _ => {
+        _.stopPropagation();
+        ctrl.toggle();
+      }, ctrl.redraw)
+    }, ['⋮'])
+  ])]);
+  
 }

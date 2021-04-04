@@ -7,7 +7,7 @@
     bottom: 50px;
     right: 0;
     min-width: 150px;
-    border: 1px solid #3a3a3a;
+    border: 1px solid $c-border;
   }
 
   .popup {
@@ -32,7 +32,7 @@
   }
 
 
-  .addtobook {
+  .selectbook {
     display: flex;
     flex-flow: column;
     .headline {
