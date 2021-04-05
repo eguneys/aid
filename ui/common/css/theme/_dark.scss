@@ -24,6 +24,7 @@ $c-primary: hsl(209, 79%, 56%);
 $c-primary-dim: c-dimmer($c-primary, 15%);
 
 $c-secondary: hsl(28, 62%, 37%);
+$c-secondary-dim: c-dimmer($c-secondary);
 
 $c-link: $c-primary;
 $c-link-hover: c-clearer(saturate($c-primary, 100%), 25%);

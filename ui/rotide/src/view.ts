@@ -20,7 +20,10 @@ export default function view(ctrl: Ctrl) {
 
 export function vApp(ctrl: Ctrl) {
 
-  let onInput = throttle(400, ctrl.setUnsavedMd.bind(ctrl));
+  let onInput = throttle(400, _ => {
+    ctrl.setUnsavedMd(_);
+    ctrl.redraw();
+  });
   
   return h('div.rotide__app', [
     h('div.rotide__app__editor', [

@@ -12,6 +12,23 @@
     &.hidden {
       display: none;
     }
+
+    .headline {
+      cursor: pointer;
+      display: flex;
+      padding: 0.8em;
+      justify-content: center;
+      color: white;
+      border-bottom: 1px solid #2a2a2a;
+
+      i {
+        margin-right: 1em;
+      }
+      &.content {
+        color: $c-secondary-dim;
+      }
+      
+    }
   }
 
   .popup {

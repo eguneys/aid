@@ -3,7 +3,7 @@ import * as html from '../';
 import * as h from '../helper';
 import { Context } from '../../../modules/api';
 
-export const editor = () => (ctx: Context) => html.base.layout("Edit New Article", [
+export const editor = (data: any) => (ctx: Context) => html.base.layout("Edit New Article", [
   tags.main({ class: 'rotide'}, [
     tags.div({ class: 'rotide__app' }),
     tags.div({ class: 'rotide__bar' })
@@ -13,6 +13,7 @@ export const editor = () => (ctx: Context) => html.base.layout("Edit New Article
     h.editorTag(),
     h.embedJsUnsafeLoadThen(`
 ChessIsRotide.boot(${h.safeJsonValue({
+data: data
 })})`)(ctx)
   ]),
   moreCss: tags.frag([

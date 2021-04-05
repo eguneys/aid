@@ -1,4 +1,4 @@
-import { Redraw } from '../types';
+import { Redraw, noop } from '../types';
 import SelectBookCache from './book';
 import * as kApi from '../xhr';
 import { default as BaseCtrl } from '../ctrl';
@@ -65,8 +65,8 @@ export default class Ctrl {
     });
   }
 
-  openContent(content: kbt.Content) {
-    this.baseCtrl.loadContent(content);
+  openContent(v: t.SelectBookView, content: kbt.Content) {
+    this.baseCtrl.loadContent(content, this.sbvInvalidation(v));
     this.isBarOpen = false;
     this.isNewContentDialogOpen = false;
     this.vSelectBook = undefined;
@@ -96,6 +96,8 @@ export default class Ctrl {
         return;
       }
 
+      let invalidation = this.sbvInvalidation(vSelectBook);
+
       if (t.isBooksView(vSelectBook)) {
         return this.sbCache
           .newBook(this.nameSelectBook).then(_ => {
@@ -108,7 +110,7 @@ export default class Ctrl {
           return this.sbCache
             .newContentForBook(book, this.nameSelectBook, 'content')
             .then(_ => {
-              this.baseCtrl.loadContent(_);
+              this.baseCtrl.loadContent(_, invalidation);
               this.isBarOpen = false;
               this.isNewContentDialogOpen = false;
               this.vSelectBook = undefined;
@@ -128,7 +130,7 @@ export default class Ctrl {
           return this.sbCache
             .newContentForChapter(chapter, this.nameSelectBook, 'content')
             .then(_ => {
-              this.baseCtrl.loadContent(_);
+              this.baseCtrl.loadContent(_, invalidation);
               this.isNewContentDialogOpen = false;
               this.isBarOpen = false;
               this.vSelectBook = undefined;
@@ -139,17 +141,33 @@ export default class Ctrl {
         }
         return this.sbCache
           .newSection(vSelectBook.chapter, this.nameSelectBook).then(_ => {
-          this.isNewDialogOpen = false;
-        });
+            this.vSelectBook = _;
+            this.isNewDialogOpen = false;
+          });
       } else if (t.isSectionView(vSelectBook)) {
+        let { section } = vSelectBook;
         return this.sbCache
-          .newContentForSection(vSelectBook.section, this.nameSelectBook, 'content')
+          .newContentForSection(section, this.nameSelectBook, 'content')
           .then(_ => {
-            this.baseCtrl.loadContent(_);
+            this.baseCtrl.loadContent(_, invalidation);
             this.isNewContentDialogOpen = false;
+            this.isBarOpen = false;
           });
       }
     }
+  }
+
+  sbvInvalidation(v: t.SelectBookView) {
+    return () => {
+      if (t.isBooksView(v)) {
+      } else if (t.isChaptersView(v)) {
+        this.sbCache.chapters.get(v.book, true);
+      } else if (t.isSectionsView(v)) {
+        this.sbCache.sections.get(v.chapter, true);        
+      } else if (t.isSectionView(v)) {
+        this.sbCache.section.get(v.section, true);
+      }
+    };
   }
   
 }

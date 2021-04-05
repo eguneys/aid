@@ -21,7 +21,8 @@ export default class Site extends ChestCtrl {
   async editor(req: any, res: any) {
     let ctx: any = await this.reqToCtx(req);
 
-    res.send(html.site.editor()(ctx));
+    this.env.api.bookApi.editor(ctx.me).then(data =>    
+      res.send(html.site.editor(data)(ctx)));
   }
 
 }

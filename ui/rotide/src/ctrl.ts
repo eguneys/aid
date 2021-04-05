@@ -1,43 +1,50 @@
 import { api as EsApi } from 'escsh';
 import * as kApi from './xhr';
-import { defaultMd } from './fixtures';
+import { defaultMd, defaultContent } from './fixtures';
 import { default as BarCtrl } from './bar/ctrl';
-import { Redraw } from './types';
+import { noop, Invalidate, Redraw, RotideOpts } from './types';
 import { kbt } from 'koob';
 
 export default class Ctrl {
 
   esApi!: EsApi
-  content: Maybe<kbt.Content>
+  invalidateContent: Invalidate = noop
+  content: kbt.Content
   unsavedMd: string = defaultMd
-  hasUnsavedChanges: boolean = true
   barCtrl: BarCtrl
   redraw: Redraw
   
-  constructor(redraw: Redraw) {
+  constructor(opts: RotideOpts, redraw: Redraw) {
     this.redraw = redraw;
+
+    this.content = opts.data.content || defaultContent;
+    this.setUnsavedMd(this.content.content);
+    
     this.barCtrl = new BarCtrl(this, redraw);
   }
 
-  loadContent(content: kbt.Content) {
+  hasUnsavedChanges() {
+    return this.unsavedMd !== this.content.content;
+  }
+  
+  loadContent(content: kbt.Content, invalidateContent: Invalidate) {
+    this.invalidateContent = invalidateContent;
     this.content = content;
-    this.setUnsavedMd(content.content, true);
+    this.setUnsavedMd(content.content);
   }
 
-  setUnsavedMd(value: string, original: boolean = false) {
+  setUnsavedMd(value: string) {
     this.unsavedMd = value;
-    this.hasUnsavedChanges = !original;
     // this.esApi.md(this.unsavedMd);
-    this.redraw();
   }
 
   saveContent() {
-    if (this.content) {
-      return kApi.updateContent(this.content.id, this.unsavedMd).then(() => {
-        this.hasUnsavedChanges = false;
-      });
-    }
-    return Promise.reject();
+    return kApi.updateContent(this.content.id, this.unsavedMd).then(_ => {
+      if (_) {
+        this.invalidateContent?.();
+        this.loadContent(_, noop);
+      }
+    });
   }
 
   setEscsh(eApi: EsApi) {

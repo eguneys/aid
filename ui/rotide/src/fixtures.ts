@@ -8,3 +8,9 @@ To embed a chess board use ply number like:
 Embed variation lines <main2 initial 3. d4 d5 4. a3 a6> . "main2" is variation name and "initial" is the parent line.
 Happy studies 💙
 `;
+
+export const defaultContent = {
+  id: 'default',
+  name: 'default',
+  content: defaultMd
+};

@@ -30,7 +30,18 @@ export class BookRepo {
   async chapter(chapterId: kbt.ChapterId) {
     return this.chapterColl.one({id: chapterId});
   }
-  
+
+  async section(sectionId: kbt.SectionId) {
+    return this.sectionColl.one({ id: sectionId});
+  }
+
+  async content(contentId: kbt.ContentId) {
+    return this.contentColl.one({ id: contentId });
+  }
+
+  async contentBySourceId(sourceId: kbt.SourceId) {
+    return this.contentColl.one({ sourceId });
+  }
 
   async all() {
     return this.coll

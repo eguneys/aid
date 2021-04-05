@@ -7,10 +7,13 @@ export class Env {
 
   net: NetConfig
   book: chest.book.Env
+  api: chest.api.Env
   
   constructor(net: NetConfig,
+              api: chest.api.Env,
               book: chest.book.Env) {
     this.net = net;
+    this.api = api;
     this.book = book;
   }
 
@@ -24,8 +27,10 @@ export default class EnvBoot {
 
     let db = new chest.db.Env(config);
     let book = new chest.book.Env(db);
+    let api = new chest.api.Env(book);
 
     this.env = new Env(config.net,
+                       api,
                        book);
 
     helperEnv.setEnv(this.env);
