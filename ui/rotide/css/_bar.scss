@@ -6,19 +6,13 @@
     margin: 1em 1.8em;
 
     .open {
-      user-select: none;
-      background: $c-primary;
       font-weight: bold;
       font-size: 2em;
       border-radius: 50%;
       width: 40px;
       height: 40px;
       text-align: center;
-
-      &:hover {
-        cursor: pointer;
-        background: $c-primary-dim;
-      }
+      padding: 0;
     }
 
   }

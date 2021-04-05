@@ -10,7 +10,7 @@ export default class Db {
     this.prefix = prefix;
   }
 
-  apply(name: string) {
-    return new MemCol(name);
+  apply<A>(name: string) {
+    return new MemCol<A>(name);
   }
 }

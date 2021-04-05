@@ -2,41 +2,93 @@ import { h } from 'snabbdom';
 import Ctrl from './ctrl';
 import * as util from '../util';
 import * as t from './types';
+import { kbt } from 'koob';
 
-function vsSelectSection(ctrl: Ctrl, v: t.SectionsView) {
+function vContent(ctrl: Ctrl, content: kbt.Content) {
+  return h('div.item.content', {
+    hook: util.bind('click', e => {
+      return ctrl.openContent(content);
+    }, ctrl.redraw)
+  }, content.name)
+}
+
+function vsSelectSection(ctrl: Ctrl, v: t.SectionView) {
   return [
     h('div.headline.book', {
       hook: util.bind('click', e => {
-        ctrl.openSelectBookView();
+        return ctrl.openSelectBookView();
       }, ctrl.redraw)
     }, [h('i', '←'), v.book.name]),
     h('div.headline.chapter', {
       hook: util.bind('click', e => {
-        ctrl.openSelectChapters(v.book);
+        return ctrl.openSelectChapters(v.book);
+      }, ctrl.redraw)
+    }, [h('i', '←'), v.chapter.name]),
+    h('div.headline.section', {
+      hook: util.bind('click', e => {
+        return ctrl.openSelectSections(v.chapter);
+      }, ctrl.redraw)
+    }, [h('i', '←'), v.section.name]),
+    ...v.contents.map(_ => vContent(ctrl, _)),
+    
+    h('div.buttons.section', [
+      h('div.button', {
+        hook: util.bind('click', e => {
+          return ctrl.openNewContentDialog();
+        }, ctrl.redraw)
+      }, [
+        h('i', '+'),
+        'New Content'
+      ])
+    ])
+  ];
+}
+
+function vsSelectSections(ctrl: Ctrl, v: t.SectionsView) {
+  return [
+    h('div.headline.book', {
+      hook: util.bind('click', e => {
+        return ctrl.openSelectBookView();
+      }, ctrl.redraw)
+    }, [h('i', '←'), v.book.name]),
+    h('div.headline.chapter', {
+      hook: util.bind('click', e => {
+        return ctrl.openSelectChapters(v.book);
       }, ctrl.redraw)
     }, [h('i', '←'), v.chapter.name]),
     ...v.sections.map(section =>
       h('div.item.section', {
         hook: util.bind('click', e => {
-          // return ctrl.openSelectSections(chapter);
+          return ctrl.openSelectSection(section);
         }, ctrl.redraw)
       }, section.name)),
-    h('button', {
-      hook: util.bind('click', e => {
-        ctrl.openNewBookDialog();
-      }, ctrl.redraw)
-    }, [
-      h('i', '+'),
-      'New Section'
+    ...v.contents.map(_ => vContent(ctrl, _)),
+    h('div.buttons.section', [
+      h('div.button', {
+        hook: util.bind('click', e => {
+          return ctrl.openNewContentDialog();
+        }, ctrl.redraw)
+      }, [
+        h('i', '+'),
+        'New Content'
+      ]),
+      h('div.button', {
+        hook: util.bind('click', e => {
+          return ctrl.openNewBookDialog();
+        }, ctrl.redraw)
+      }, [
+        h('i', '+'),
+        'New Section'
+      ])
     ])
   ];
 }
 
-function vsSelectChapter(ctrl: Ctrl, v: t.ChaptersView) {
+function vsSelectChapters(ctrl: Ctrl, v: t.ChaptersView) {
   return [
     h('div.headline.book', {
       hook: util.bind('click', e => {
-        ctrl.openSelectBookView();
+        return ctrl.openSelectBookView();
       }, ctrl.redraw)
     }, [h('i', '←'), v.book.name]),
     ...v.chapters.map(chapter =>
@@ -45,18 +97,29 @@ function vsSelectChapter(ctrl: Ctrl, v: t.ChaptersView) {
           return ctrl.openSelectSections(chapter);
         }, ctrl.redraw)
       }, chapter.name)),
-    h('button', {
-      hook: util.bind('click', e => {
-        ctrl.openNewBookDialog();
-      }, ctrl.redraw)
-    }, [
-      h('i', '+'),
-      'New Chapter'
+    ...v.contents.map(_ => vContent(ctrl, _)),
+    h('div.buttons.chapter', [
+      h('div.button', {
+        hook: util.bind('click', e => {
+          return ctrl.openNewContentDialog();
+        }, ctrl.redraw)
+      }, [
+        h('i', '+'),
+        'New Content'
+      ]),
+      h('div.button', {
+        hook: util.bind('click', e => {
+          return ctrl.openNewBookDialog();
+        }, ctrl.redraw)
+      }, [
+        h('i', '+'),
+        'New Chapter'
+      ])
     ])
   ];
 }
 
-function vsSelectBook(ctrl: Ctrl, v: t.BooksView) {
+function vsSelectBooks(ctrl: Ctrl, v: t.BooksView) {
   return [
     h('div.headline', 'Select book'),
     ...v.books.map(book =>
@@ -65,13 +128,15 @@ function vsSelectBook(ctrl: Ctrl, v: t.BooksView) {
           return ctrl.openSelectChapters(book);
         }, ctrl.redraw)
       }, book.name)),
-    h('button', {
-      hook: util.bind('click', e => {
-        ctrl.openNewBookDialog();
-      }, ctrl.redraw)
-    }, [
-      h('i', '+'),
-      'New Book'
+    h('div.buttons.book', [
+      h('div.button', {
+        hook: util.bind('click', e => {
+          return ctrl.openNewBookDialog();
+        }, ctrl.redraw)
+      }, [
+        h('i', '+'),
+        'New Book'
+      ])
     ])
   ];
 }
@@ -82,10 +147,12 @@ function vOpenBookPopup(ctrl: Ctrl) {
   if (!ctrl.vSelectBook) {
     return null;
   } else if (t.isBooksView(ctrl.vSelectBook)) {
-    children = vsSelectBook(ctrl, ctrl.vSelectBook);
+    children = vsSelectBooks(ctrl, ctrl.vSelectBook);
   } else if (t.isChaptersView(ctrl.vSelectBook)) {
-    children = vsSelectChapter(ctrl, ctrl.vSelectBook);
+    children = vsSelectChapters(ctrl, ctrl.vSelectBook);
   } else if (t.isSectionsView(ctrl.vSelectBook)) {
+    children = vsSelectSections(ctrl, ctrl.vSelectBook);
+  } else if (t.isSectionView(ctrl.vSelectBook)) {
     children = vsSelectSection(ctrl, ctrl.vSelectBook);
   }
   
@@ -94,6 +161,25 @@ function vOpenBookPopup(ctrl: Ctrl) {
       click: e => e.stopPropagation()
     }
   }, children);
+}
+
+function vContentSave(ctrl: Ctrl) {
+  let { content, hasUnsavedChanges } = ctrl.baseCtrl;
+
+  let children = [];
+
+  if (content && hasUnsavedChanges) {
+    children = [
+      h('div.button.button-red', {
+        hook: util.bind('click', e => {
+          e.stopPropagation();
+          return ctrl.baseCtrl.saveContent();
+        }, ctrl.redraw)
+      }, 'Save Content')
+    ];
+  }
+  
+  return h('div.buttons', children);
 }
 
 function vDropdown(ctrl: Ctrl) {
@@ -107,7 +193,8 @@ function vDropdown(ctrl: Ctrl) {
         _.stopPropagation();
         return ctrl.openSelectBookView();
       }, ctrl.redraw)
-    }, [h('a', 'Open book')])
+    }, [h('a', 'Open book')]),
+    vContentSave(ctrl),
   ]);
 }
 
@@ -116,7 +203,10 @@ export default function view(ctrl: Ctrl) {
   return h('div.rotide__bar', [h('div.rotide__bar__control', [
     vDropdown(ctrl),
     vOpenBookPopup(ctrl),
-    h('div.open', {
+    h('div.button.open', {
+      class: {
+        'button-red': ctrl.baseCtrl.hasUnsavedChanges
+      },
       hook: util.bind('click', _ => {
         _.stopPropagation();
         ctrl.toggle();

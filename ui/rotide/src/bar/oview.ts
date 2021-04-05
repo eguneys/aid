@@ -10,8 +10,10 @@ function vNameDialog(ctrl: Ctrl) {
   if (!ctrl.vSelectBook) {
     return null;
   }
-  
-  if (t.isBooksView(ctrl.vSelectBook)) {
+
+  if (ctrl.isNewContentDialogOpen) {
+    headline = 'New Content';
+  } else if (t.isBooksView(ctrl.vSelectBook)) {
     headline = 'New Book';
   } else if (t.isChaptersView(ctrl.vSelectBook)) {
     headline = 'New Chapter';
@@ -37,13 +39,13 @@ function vNameDialog(ctrl: Ctrl) {
       })
     ]),
     h('div.buttons', [
-      h('button', {
+      h('div.button.button-red', {
         hook: util.bind('click', e => {
           e.stopPropagation();
           ctrl.closeNewBookDialog();
         }, ctrl.redraw)
       }, 'Cancel'),
-      h('button', {
+      h('div.button', {
         hook: util.bind('click', e => {
           return ctrl.submitNewBookDialog();
         }, ctrl.redraw)
@@ -57,7 +59,7 @@ export default function view(ctrl: Ctrl) {
 
   let children: Array<VNode | null> = [];
 
-  if (ctrl.isNewDialogOpen) {
+  if (ctrl.isNewDialogOpen || ctrl.isNewContentDialogOpen) {
     children = [
       h('div.rotide__overlay', {
         style: {

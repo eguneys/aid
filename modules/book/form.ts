@@ -46,3 +46,34 @@ export function section(body: any): e.Either<kbt.Section, string> {
   }
 }
 
+
+export function updateContent(body: any): e.Either<kbt.UpdateContent, string> {
+  let { content } = body;
+
+  if (!content) {
+    return e.right('Content is required');
+  } else {
+    return e.left({ content });
+  }
+}
+
+export function content(body: any): e.Either<kbt.Content, string> {
+  let { name, content, sourceId } = body;
+
+  if (!name) {
+    return e.right('Name is required');
+  }
+  if (!content) {
+    return e.right('Content is required');
+  }
+  if (!sourceId) {
+    return e.right('Source id is required');
+  }
+
+  return e.left({
+    id: nextString(8),
+    sourceId,
+    name,
+    content
+  });
+}

@@ -1,8 +1,23 @@
 import { Coll } from './coll';
 
-export class MemCol extends Coll {
+const fUpdate = (update: any) => (_: any) => {
+  for (let key of Object.keys(update)) {
+    _[key] = update[key];
+  }
+}
+
+const fFind = (query: any) => (_: any) => {
+  for (let key of Object.keys(query)) {
+    if (_[key] !== query[key]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export class MemCol<A> extends Coll<A> {
   
-  data: Array<any>
+  data: Array<A>
 
   constructor(name: string) {
     super(name);
@@ -10,21 +25,26 @@ export class MemCol extends Coll {
     this.data = [];
   }
 
+  one(query: any) {
+    return Promise.resolve(this.data.find(fFind(query)));
+  }
+  
   find(query: any) {
-    return Promise.resolve(this.data.filter(_ => {
-      for (let key of Object.keys(query)) {
-        if (_[key] !== query[key]) {
-          return false;
-        }
-      }
-      return true;
-    }));
+    return Promise.resolve(this.data.filter(fFind(query)));
   }
 
-  insert(_: any) {
+  insert(_: A) {
     return Promise.resolve()
       .then(() => this.data.push(_))
-      .then(() => _);
+      .then(() => {})
   }
 
+  update(filter: any, update: any) {
+    let _update = fUpdate(update);
+    return Promise.resolve()
+      .then(() =>
+        this.data.filter(fFind(filter)).forEach(_update))
+      .then(() => {});
+  }
+  
 }

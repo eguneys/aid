@@ -20,14 +20,14 @@ export default function view(ctrl: Ctrl) {
 
 export function vApp(ctrl: Ctrl) {
 
-  let onInput = throttle(400, ctrl.input.bind(ctrl));
+  let onInput = throttle(400, ctrl.setUnsavedMd.bind(ctrl));
   
   return h('div.rotide__app', [
     h('div.rotide__app__editor', [
       h('div.editor', [
         h('textarea', {
           props: {
-            value: ctrl.md
+            value: ctrl.unsavedMd
           },
           on: {
             input(e) {
@@ -38,7 +38,11 @@ export function vApp(ctrl: Ctrl) {
         })
       ]),
       h('div.preview', {
-        hook: util.onInsert(el => {})
+        hook: util.onInsert(el => {
+          // ctrl.setEscsh(escsh(el, {
+          //   md: ctrl.md
+          // }));
+        })
       })
     ])
   ]);

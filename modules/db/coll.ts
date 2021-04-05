@@ -1,5 +1,5 @@
 
-export abstract class Coll {
+export abstract class Coll<A> {
 
   name: string
   
@@ -7,7 +7,9 @@ export abstract class Coll {
     this.name = name;
   }
 
-  abstract insert(doc: any): Fu<void>
-  abstract find(query: any): Fu<any>
+  abstract one(query: any): Fu<Maybe<A>>
+  abstract insert(doc: A): Fu<void>
+  abstract update(filter: any, update: any): Fu<void>
+  abstract find(query: any): Fu<Array<A>>
   
 }

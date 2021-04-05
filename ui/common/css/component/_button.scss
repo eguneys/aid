@@ -1,0 +1,53 @@
+.button {
+  @extend %nunito-fat, %button-shadow, %box-radius;
+
+  background: $c-primary;
+  text-transform: uppercase;
+  padding: 0.8em 1em;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+
+  @include transition;
+
+  &,
+  &:visited {
+    color: $c-primary-over;
+  }
+
+  &:not(.disabled):hover {
+    @extend %button-raised-shadow;
+
+    color: $c-primary-over;
+    background: lighten($c-primary, 7);
+  }
+
+  &:not(.disabled):focus {
+    @extend %focus-shadow;
+  }
+
+  &-green {
+    background: $c-secondary;
+
+    &:not(.disabled):hover {
+      background: lighten($c-secondary, 4);
+    }
+  }
+
+  &-red {
+    background: $c-error;
+
+    &:not(.disabled):hover {
+      background: lighten($c-error, 11);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  
+}

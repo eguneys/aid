@@ -1,6 +1,7 @@
 import BookApi from './bookapi';
 import { BookRepo } from './bookrepo';
 import * as chest from '../';
+import { kbt } from 'koob';
 
 export class Env {
 
@@ -13,9 +14,10 @@ export class Env {
     let bookDb = fire.db("book");
 
     this.bookRepo = new BookRepo(
-      bookDb.apply("book"),
-      bookDb.apply('chapter'),
-      bookDb.apply('section')
+      bookDb.apply<kbt.Book>("book"),
+      bookDb.apply<kbt.Chapter>('chapter'),
+      bookDb.apply<kbt.Section>('section'),
+      bookDb.apply<kbt.Content>('content')
     );
 
     this.pager = this.bookRepo;

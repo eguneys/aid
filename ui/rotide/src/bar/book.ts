@@ -1,6 +1,6 @@
 import { mapOfDefault, MapOfDefault } from 'uuu';
 import { kbt, kbr } from 'koob';
-import { BooksView, ChaptersView, SectionsView } from './types';
+import { BooksView, ChaptersView, SectionsView, SectionView } from './types';
 
 export type MapOfPromise<Key, A> = MapOfDefault<Key, Promise<A>>;
 
@@ -10,6 +10,7 @@ export default class SelectBookCache {
   books: Promise<BooksView>
   chapters: MapOfPromise<kbt.Book, ChaptersView>
   sections: MapOfPromise<kbt.Chapter, SectionsView>
+  section: MapOfPromise<kbt.Section, SectionView>
   
   constructor(kApi: kbr.GetApi) {
     this.kApi = kApi;
@@ -17,24 +18,60 @@ export default class SelectBookCache {
       .then(books => ({books}));
 
     this.chapters = mapOfDefault((book: kbt.Book) =>
-      kApi.chapters(book.id).then(chapters => ({
-        book,
-        chapters
-      })))();
+      Promise.all([kApi.chapters(book.id),
+                   kApi.contents(book.id)])
+        .then(([chapters, contents]) => ({
+          book,
+          chapters,
+          contents
+        })))();
 
     this.sections = mapOfDefault((chapter: kbt.Chapter) =>
-      this.books
-        .then(({books}) =>
-          books.find(_ => _.id === chapter.bookId) as kbt.Book)
-        .then(book =>
-          Promise.all([this.chapters.get(book),
-                       kApi.sections(chapter.id)])
-            .then(([{ book }, sections]) => ({
+      Promise.all([kApi.book(chapter.bookId),
+                   kApi.sections(chapter.id),
+                   kApi.contents(chapter.id)])
+        .then(([book, sections, contents]) => ({
+          book,
+          chapter,
+          sections,
+          contents
+        })))();
+
+
+    this.section = mapOfDefault((section: kbt.Section) =>
+      kApi.chapter(section.chapterId).then(
+        chapter =>
+          Promise.all([kApi.book(chapter.bookId),
+                       kApi.contents(section.id)])
+            .then(([book, contents]) => ({
               book,
               chapter,
-              sections
+              section,
+              contents
             }))))();
+
   }
+
+  newContentForBook(book: kbt.Book, name: string, content: string) {
+    return this.kApi.newContent(book.id, name, content).then(_ => {
+      this.chapters.get(book, true);
+      return _;
+    });
+  }
+
+  newContentForChapter(chapter: kbt.Chapter, name: string, content: string) {
+    return this.kApi.newContent(chapter.id, name, content).then(_ => {
+      this.sections.get(chapter, true);
+      return _;
+    });
+  }
+
+  newContentForSection(section: kbt.Section, name: string, content: string) {
+    return this.kApi.newContent(section.id, name, content).then(_ => {
+      this.section.get(section, true);
+      return _;
+    });
+  }  
 
   newBook(name: string) {
     return this.kApi.newBook(name).then(_ => {
@@ -44,20 +81,20 @@ export default class SelectBookCache {
     });
   }
 
-  newChapter(v: ChaptersView, name: string) {
-    return this.kApi.newChapter(v.book.id, name).then(_ => {
-      this.chapters.get(v.book, true);
+  newChapter(book: kbt.Book, name: string) {
+    return this.kApi.newChapter(book.id, name).then(_ => {
+      this.chapters.get(book, true);
       return this.vSections(_);
     });
   }
 
-  newSection(v: SectionsView, name: string) {
-    return this.kApi.newSection(v.chapter.id, name).then(_ => {
-      this.sections.get(v.chapter, true);
-      return _;
+  newSection(chapter: kbt.Chapter, name: string) {
+    return this.kApi.newSection(chapter.id, name).then(_ => {
+      this.sections.get(chapter, true);
+      return this.vSection(_);
     });
   }
-  
+    
   vBooks() {
     return this.books;
   }
@@ -68,5 +105,9 @@ export default class SelectBookCache {
 
   vSections(chapter: kbt.Chapter) {
     return this.sections.get(chapter);
+  }
+
+  vSection(section: kbt.Section) {
+    return this.section.get(section);
   }
 }

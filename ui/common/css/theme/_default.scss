@@ -21,8 +21,27 @@ $c-font-page: c-light($c-font, 37%);
 
 $c-primary: hsl(209, 77%, 46%);
 $c-primary-dim: c-dimmer($c-primary);
+$c-primary-over: #fff;
 
 $c-secondary: hsl(88, 62%, 37%);
+
+$c-accent: hsl(22, 100%, 42%);
+
+$c-brag: hsl(37, 74%, 48%);
+
+$c-red: hsl(0, 60%, 50%);
+$c-error: $c-red;
+$c-error-over: #fff;
+
+$c-good: $c-secondary;
+
+$c-warn: $c-brag;
+
+$c-bad: $c-error;
+$c-bad-dim: c-dimmer($c-bad);
+
+$c-fancy: hsl(294, 61%, 62%);
+$c-fancy-over: white;
 
 $c-link: $c-primary;
 $c-link-dim: $c-primary-dim;

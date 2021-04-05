@@ -11,11 +11,20 @@ export default class BookCtrl extends ChestCtrl {
     super(env);
   }
 
+
+  
+  async book(req: any, res: any) {
+    let ctx: any = await this.reqToCtx(req);
+    let { bookId } = req.params;
+    
+    this.env.book.pager.book(bookId).then((mbook: Maybe<kbt.Book>) =>
+      res.send(mbook));
+  }
+  
   async all(req: any, res: any) {
     let ctx: any = await this.reqToCtx(req);
     this.env.book.pager.all().then((books: Array<kbt.Book>) =>
       res.send(books));
-    //res.send(html.book.all([])(ctx));
   }
 
   async add(req: any, res: any) {
@@ -23,10 +32,19 @@ export default class BookCtrl extends ChestCtrl {
 
     e.fold(chest.book.form.book(req.body),
            _ => this.env.book.api.create(_)
-             .then(_ => res.send(_)),
+             .then(() => res.send(_)),
            err => res.send(err))
   }
 
+
+  async chapter(req: any, res: any) {
+    let ctx: any = await this.reqToCtx(req);
+    let { chapterId } = req.params;
+    
+    this.env.book.pager.chapter(chapterId).then((mchapter: Maybe<kbt.Chapter>) =>
+      res.send(mchapter));
+  }
+  
   
   async chapters(req: any, res: any) {
     let ctx: any = await this.reqToCtx(req);
@@ -44,7 +62,7 @@ export default class BookCtrl extends ChestCtrl {
 
     e.fold(chest.book.form.chapter(req.body),
            _ => this.env.book.api.createChapter(_)
-             .then(_ => res.send(_)),
+             .then(() => res.send(_)),
            err => res.send(err))
   }
 
@@ -63,8 +81,40 @@ export default class BookCtrl extends ChestCtrl {
 
     e.fold(chest.book.form.section(req.body),
            _ => this.env.book.api.createSection(_)
-             .then(_ => res.send(_)),
+             .then(() => res.send(_)),
            err => res.send(err))
   }
+
+  async contents(req: any, res: any) {
+    let ctx: any = await this.reqToCtx(req);
+
+    let { sourceId } = req.params;
+    
+    this.env.book.pager.contents(sourceId).then(contents => {
+      res.send(contents);
+    });
+  }
+
+  async addContent(req: any, res: any) {
+    let ctx: any = await this.reqToCtx(req);
+
+    e.fold(chest.book.form.content(req.body),
+           _ => this.env.book.api.createContent(_)
+             .then(() => res.send(_)),
+           err => res.send(err))
+  }
+
+  async updateContent(req: any, res: any) {
+    let ctx: any = await this.reqToCtx(req);
+
+    let { contentId } = req.params;
+    
+    e.fold(chest.book.form.updateContent(req.body),
+           _ => this.env.book.api.updateContent(contentId, _)
+             .then(() => res.send(_)),
+           err => res.send(err))
+  }
+
+
 
 }

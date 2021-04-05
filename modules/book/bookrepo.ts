@@ -4,28 +4,40 @@ import { Coll } from '../db/coll';
 
 export class BookRepo {
 
-  coll: Coll
-  chapterColl: Coll
-  sectionColl: Coll
+  coll: Coll<kbt.Book>
+  chapterColl: Coll<kbt.Chapter>
+  sectionColl: Coll<kbt.Section>
+  contentColl: Coll<kbt.Content>
 
-  constructor(coll: Coll,
-              chapterColl: Coll,
-              sectionColl: Coll) {
+  constructor(coll: Coll<kbt.Book>,
+              chapterColl: Coll<kbt.Chapter>,
+              sectionColl: Coll<kbt.Section>,
+              contentColl: Coll<kbt.Content>) {
     this.coll = coll;
     this.chapterColl = chapterColl;
     this.sectionColl = sectionColl;
+    this.contentColl = contentColl;
   }
   
   async insert(book: kbt.Book) {
     return this.coll.insert(book)
   }
 
+  async book(bookId: kbt.BookId) {
+    return this.coll.one({id: bookId});
+  }
+
+  async chapter(chapterId: kbt.ChapterId) {
+    return this.chapterColl.one({id: chapterId});
+  }
+  
+
   async all() {
     return this.coll
       .find({});
   }
 
-  async chapters(bookId: string) {
+  async chapters(bookId: kbt.BookId) {
     return this.chapterColl
       .find({bookId});
   }
@@ -34,7 +46,7 @@ export class BookRepo {
     return this.chapterColl.insert(chapter);
   }
 
-  async sections(chapterId: string) {
+  async sections(chapterId: kbt.ChapterId) {
     return this.sectionColl
       .find({chapterId});
   }
@@ -42,5 +54,18 @@ export class BookRepo {
   async insertSection(section: kbt.Section) {
     return this.sectionColl.insert(section);
   }
+
+  async contents(sourceId: kbt.SourceId) {
+    return this.contentColl
+      .find({sourceId});
+  }
+
+  async insertContent(content: kbt.Content) {
+    return this.contentColl.insert(content);
+  }
+
+  async updateContent(contentId: kbt.ContentId, update: kbt.UpdateContent) {
+    return this.contentColl.update({id: contentId }, update);
+  }  
   
 }

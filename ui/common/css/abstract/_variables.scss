@@ -1,8 +1,12 @@
 $font-path: '../font';
 $image-path: '../images';
 
+$box-radius-size: 3px;
+
 $site-header-tall-height: 60px;
 $site-header-short-height: 40px;
+
+$transition-duration: 150ms;
 
 $main-max-width: 1300px !default;
 
@@ -10,3 +14,4 @@ $main-margin: var(--main-margin);
 $site-header-height: var(--site-header-height);
 
 $site-header-margin: var(--site-header-margin);
+
