@@ -46,6 +46,7 @@ function vNameDialog(ctrl: Ctrl) {
           ctrl.closeNewBookDialog();
         }, ctrl.redraw)
       }, 'Cancel'),
+      h('div.separator'),
       h('div.button', {
         hook: util.bind('click', e => {
           return ctrl.submitNewBookDialog();

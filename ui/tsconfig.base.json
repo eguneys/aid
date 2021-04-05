@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "target": "es2017",
     "module": "es6",
-    "lib": ["DOM"]
+    "lib": ["DOM"],
+    "types": ["chest"]
   }
 }

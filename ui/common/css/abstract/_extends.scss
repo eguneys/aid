@@ -37,6 +37,10 @@
   box-shadow: 0 0 12px $c-font-dim;
 }
 
+%box-padding {
+  padding: 5vh var(--box-padding);
+}
+
 %ellipsis {
   @include ellipsis;
 }

@@ -1,5 +1,6 @@
 import { kbt } from 'koob';
 import { Coll } from '../db/coll';
+import { nextString } from '../common';
 
 
 export class BookRepo {
@@ -73,6 +74,15 @@ export class BookRepo {
 
   async insertContent(content: kbt.Content) {
     return this.contentColl.insert(content);
+  }
+
+  async insertContentDenormalized(update: kbt.UpdateContent, sourceId: kbt.SourceId) {
+    return this.contentColl.insert({
+      ...update,
+      sourceId,
+      name: 'default',
+      id: nextString(8)
+    });
   }
 
   async updateContent(contentId: kbt.ContentId, update: kbt.UpdateContent) {

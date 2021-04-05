@@ -83,10 +83,12 @@
   }
 
   .buttons {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
+    @extend %flex-between;
 
+    .separator {
+      flex: 0.2;
+    }
+    
     div {
       flex: 1;
     }

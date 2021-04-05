@@ -1,6 +1,12 @@
 body {
   --site-header-height: #{$site-header-short-height};
 
+  --site-header-margin: 0px;
+
+  &.header-margin {
+    --site-header-margin: 1em;
+  }
+  
   --main-margin: 0;
 
   @include breakpoint($mq-main-margin) {
@@ -17,4 +23,10 @@ body {
   grid-template-columns: $main-margin minmax(auto, var(--main-max-width)) $main-margin;
 
   margin-top: $site-header-margin;
+}
+
+main {
+  grid-area: main;
+
+  
 }

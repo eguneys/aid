@@ -48,6 +48,10 @@ $c-link: $c-primary;
 $c-link-dim: $c-primary-dim;
 $c-link-hover: c-clearer(saturate($c-primary, 100%), 35%);
 
+$c-bg-box: $c-bg-high;
+$c-bg-opaque: $c-bg-box;
+$c-bg-input: c-light($c-bg-page, 98%);
+
 $c-bg-popup: $c-bg-high;
 $c-popup: $c-font;
 
@@ -56,3 +60,11 @@ $c-border-page: hsl(0, 0%, 80%);
 
 $c-font-shadow: white;
 $text-shadow: 0 1px 0 $c-font-shadow;
+
+$c-page-input: $c-bg-low;
+
+$border-width: 1px;
+$border-style: solid;
+$border: $border-width $border-style $c-border;
+
+$box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);

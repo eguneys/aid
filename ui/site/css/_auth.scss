@@ -1,0 +1,30 @@
+#main-wrap {
+  min-height: calc(95vh - #{$site-header-outer-height} - 4em);
+}
+
+.auth {
+  width: 100%;
+  margin: auto;
+
+  @include breakpoint($mq-x-small) {
+    width: 40em;
+  }
+
+  .button {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .alternative {
+    margin-top: 2rem;
+    font-size: 1.2em;
+
+    @extend %flex-between;
+  }
+  
+  &-login {
+    @include breakpoint($mq-xx-small) {
+      width: 30em;
+    }
+  }
+}

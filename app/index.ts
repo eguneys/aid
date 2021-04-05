@@ -5,6 +5,9 @@ import EnvBoot from './env';
 import Configuration from './config';
 import wireCtrls from './wireCtrls';
 
+import cookieParser from 'cookie-parser';
+import cookieSession from 'cookie-session';
+
 export async function withApp(cb: (_: express.Application, __: () => void) => void) {
 
   const app = express();
@@ -18,6 +21,13 @@ export async function withApp(cb: (_: express.Application, __: () => void) => vo
     let router = routes(ctrls);
 
     app.use('/assets', express.static(path.join(__dirname, '../../public')));
+    app.use(cookieParser());
+    app.use(cookieSession({
+      name: 'rk2',
+      secret: 'lkajdf',
+      maxAge: 7 * 24 * 60 * 1000 // 1 week
+    }));
+    
     app.use(router);
     cb(app, () => {});
   });

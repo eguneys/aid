@@ -1,4 +1,4 @@
-import { kbt } from 'koob';
+import { kbt, kbu } from 'koob';
 import { BookRepo } from './bookrepo';
 import { e } from '../common';
 
@@ -28,6 +28,18 @@ export default class BookApi {
 
   updateContent(contentId: kbt.ContentId, update: kbt.UpdateContent) {
     return this.bookRepo.updateContent(contentId, update);
+  }
+
+  updateContentOrDefault(contentId: kbt.ContentId, update: kbt.UpdateContent, sourceId?: kbt.SourceId) {
+    if (contentId === 'default') {
+      if (sourceId) {
+        return this.bookRepo.insertContentDenormalized(update, sourceId);
+      } else {
+        return Promise.reject('No user id');
+      }
+    } else {
+      return this.updateContent(contentId, update);
+    }
   }
   
 }

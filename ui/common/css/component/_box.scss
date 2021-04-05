@@ -1,0 +1,25 @@
+.box {
+  @extend %box-shadow;
+
+  background: $c-bg-box;
+
+  @include fluid-size('--box-padding', 15px, 60px);
+
+  &-pad {
+    @extend %box-padding;
+
+    .box-top {
+      padding: 0 0 var(--box-padding) 0;
+    }
+  }
+
+  &__top {
+    
+  }
+}
+
+@include breakpoint($mq-main-margin) {
+  .box {
+    @include box-radius;
+  }
+}

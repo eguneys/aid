@@ -17,3 +17,15 @@ export class UserContext {
     this.isAuth = !!me;
   }
 }
+
+export class UserContextWrapper {
+  userContext: UserContext
+  me: Maybe<kbu.User>
+  req: any
+  
+  constructor(userContext: UserContext) {
+    this.userContext = userContext;
+    this.me = userContext.me;
+    this.req = userContext.req;
+  }
+}

@@ -15,3 +15,4 @@ $site-header-height: var(--site-header-height);
 
 $site-header-margin: var(--site-header-margin);
 
+$site-header-outer-height: calc(#{$site-header-height} + #{$site-header-margin});

@@ -1,3 +1,11 @@
 %box-radius {
   @include box-radius;
 }
+
+%box-shadow {
+  @include box-shadow;
+}
+
+%box-neat {
+  @extend %box-shadow, %box-radius;
+}

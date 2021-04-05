@@ -40,7 +40,9 @@ export default class Ctrl {
 
   saveContent() {
     return kApi.updateContent(this.content.id, this.unsavedMd).then(_ => {
-      if (_) {
+      if (_.err) {
+        chest.redirect('/auth');
+      } else {
         this.invalidateContent?.();
         this.loadContent(_, noop);
       }

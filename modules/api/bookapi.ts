@@ -1,5 +1,5 @@
 import * as chest from '../';
-import { kbt, kbu } from 'koob';
+import { kbt, kbu, kba } from 'koob';
 
 export default class BookApi {
 
@@ -9,11 +9,11 @@ export default class BookApi {
     this.bookRepo = bookRepo;
   }
 
-  editor(user: Maybe<kbu.User>): Promise<any> {
+  editor(user: Maybe<kbu.User>, sessionId: kba.SessionId): Promise<any> {
 
     const rContent = (content?: kbt.Content) => ({content});
 
-    return user ? this.bookRepo.contentBySourceId(user.id).then(rContent)
+    return sessionId ? this.bookRepo.contentBySourceId(sessionId).then(rContent)
       : Promise.resolve(rContent());
   }
   

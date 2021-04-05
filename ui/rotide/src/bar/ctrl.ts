@@ -152,6 +152,7 @@ export default class Ctrl {
             this.baseCtrl.loadContent(_, invalidation);
             this.isNewContentDialogOpen = false;
             this.isBarOpen = false;
+            this.vSelectBook = undefined;
           });
       }
     }

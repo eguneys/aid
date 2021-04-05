@@ -72,6 +72,7 @@ function vsSelectSections(ctrl: Ctrl, v: t.SectionsView) {
         h('i', '+'),
         'New Content'
       ]),
+      h('div.separator'),
       h('div.button', {
         hook: util.bind('click', e => {
           return ctrl.openNewBookDialog();
@@ -107,6 +108,7 @@ function vsSelectChapters(ctrl: Ctrl, v: t.ChaptersView) {
         h('i', '+'),
         'New Content'
       ]),
+      h('div.separator'),
       h('div.button', {
         hook: util.bind('click', e => {
           return ctrl.openNewBookDialog();

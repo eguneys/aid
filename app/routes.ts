@@ -6,6 +6,10 @@ let upload = multer();
 export default function routes(c: wireCtrls) {
   const router = express.Router();
 
+  router.get('/auth', c.auth.login.bind(c.auth));
+  router.get('/auth/guest', c.auth.guest.bind(c.auth));
+
+  
   router.get('/editor', c.site.editor.bind(c.site));
 
   router.get('/book/:bookId', c.book.book.bind(c.book));
