@@ -1,4 +1,5 @@
 [x] - embed board doesn't show last move for some plies
-[ ] - embed board doesn't show ply 0
+[x] - embed board doesn't show ply 0
+[ ] - csdm clear bounds on resize
 [ ] - notation doesn't show glyphs
 [ ] - add all glyphs

@@ -13,6 +13,10 @@ span.fen {
   display: none;
 }
 
+.move {
+  display: inline;
+}
+
 .move[data-error] {
   color: #ff2222;
 }

@@ -2,9 +2,9 @@ import { h } from 'snabbdom';
 import Ctrl from './ctrl';
 import throttle from 'common/throttle';
 import * as util from './util';
-import escsh from 'escsh';
 import { default as vBar } from './bar/view';
 import { default as vOverlay } from './bar/oview';
+import csdm from 'csdm';
 
 export default function view(ctrl: Ctrl) {
   return h('div.rotide', {
@@ -40,13 +40,15 @@ export function vApp(ctrl: Ctrl) {
           }
         })
       ]),
-      h('div.preview', {
-        hook: util.onInsert(el => {
-          // ctrl.setEscsh(escsh(el, {
-          //   md: ctrl.md
-          // }));
+      h('div.preview', [
+        h('div', {
+          hook: util.onInsert(el => {
+            ctrl.setCsApi(csdm(el, {
+              md: ctrl.unsavedMd
+            }));
+          })
         })
-      })
+      ])
     ])
   ]);
 }

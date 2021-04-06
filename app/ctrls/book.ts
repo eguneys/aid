@@ -110,7 +110,7 @@ export default class BookCtrl extends ChestCtrl {
 
     let { sessionId } = req.session;
     if (!sessionId) {
-      res.redirect('/auth');
+      res.send({redirect:'/auth'});
       return;
     }
 

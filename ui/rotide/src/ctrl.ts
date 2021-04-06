@@ -1,4 +1,4 @@
-import { api as EsApi } from 'escsh';
+import { api as CsApi } from 'csdm';
 import * as kApi from './xhr';
 import { defaultMd, defaultContent } from './fixtures';
 import { default as BarCtrl } from './bar/ctrl';
@@ -7,7 +7,7 @@ import { kbt } from 'koob';
 
 export default class Ctrl {
 
-  esApi!: EsApi
+  csApi!: CsApi
   invalidateContent: Invalidate = noop
   content: kbt.Content
   unsavedMd: string = defaultMd
@@ -35,13 +35,13 @@ export default class Ctrl {
 
   setUnsavedMd(value: string) {
     this.unsavedMd = value;
-    // this.esApi.md(this.unsavedMd);
+    this.csApi?.md(this.unsavedMd);
   }
 
   saveContent() {
     return kApi.updateContent(this.content.id, this.unsavedMd).then(_ => {
-      if (_.err) {
-        chest.redirect('/auth');
+      if (_.redirect) {
+        chest.redirect(_.redirect);
       } else {
         this.invalidateContent?.();
         this.loadContent(_, noop);
@@ -49,8 +49,8 @@ export default class Ctrl {
     });
   }
 
-  setEscsh(eApi: EsApi) {
-    this.esApi = eApi;
+  setCsApi(csApi: CsApi) {
+    this.csApi = csApi;
   }
   
 }
