@@ -1,4 +1,4 @@
-import { kbt, kbu } from 'koob';
+import { kbt, kbu, kba } from 'koob';
 import { BookRepo } from './bookrepo';
 import { e } from '../common';
 
@@ -40,6 +40,26 @@ export default class BookApi {
     } else {
       return this.updateContent(contentId, update);
     }
+  }
+
+  list(sessionId: kba.SessionId, me: Maybe<kbu.User>) {
+    return this.bookRepo.all().then(books =>
+      Promise.all(books.map(book =>
+        Promise.all([
+          this.bookRepo.contents(book.id),
+          this.bookRepo.chapters(book.id)
+        ]).then(([contents, chapters]) =>
+          Promise.all(chapters.map(chapter =>
+            Promise.all([
+              this.bookRepo.contents(chapter.id),
+              this.bookRepo.sections(chapter.id)
+            ]).then(([contents, sections]) =>
+              Promise.all(sections.map(section =>
+                this.bookRepo.contents(section.id).then(contents => [
+                  section, contents
+                ])))
+                .then(sections => [chapter, contents, sections]))))
+            .then(chapters => [book, contents, chapters])))));
   }
   
 }

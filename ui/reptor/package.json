@@ -1,0 +1,13 @@
+{
+  "name": "reptor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc-watch",
+    "build": "rm -rf lib && tsc",
+    "start": "webpack --watch",
+    "dev": "webpack",
+    "prod": "webpack --env=production"
+  },  
+  "license": "MIT"
+}

@@ -25,6 +25,7 @@ export const cssTag = (name: string) =>
 
 
 export const editorTag = () => jsModule('rotide');
+export const reptorTag = () => jsModule('reptor');
 
 export const embedJsUnsafe = (js: string) => (ctx: Context) => {
   let nonce = ctx.nonce ? ` nonce="${ctx.nonce}"`:'';

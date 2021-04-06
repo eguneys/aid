@@ -7,6 +7,7 @@ export default class wireCtrls {
   site: c.Site
   book: c.Book
   auth: c.Auth
+  repertoire: c.Repertoire
 
   constructor(_: EnvBoot) {
 
@@ -15,7 +16,7 @@ export default class wireCtrls {
     this.site = new c.Site(this.env);
     this.book = new c.Book(this.env);
     this.auth = new c.Auth(this.env);
-    
+    this.repertoire = new c.Repertoire(this.env);    
 
   }
   

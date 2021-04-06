@@ -31,6 +31,7 @@
     "ui/common",
     "ui/ateb",
     "ui/rotide",
+    "ui/reptor",
     "ui/site",
     "ui/@build/webpackProject",
     "ui/@types/uichest"
