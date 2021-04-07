@@ -8,6 +8,10 @@
     "start": "webpack --watch",
     "dev": "webpack",
     "prod": "webpack --env=production"
-  },  
+  },
+  "devDependencies": {
+    "@build/webpackProject": "1.0.0",
+    "@types/uichest": "1.0.0"
+  },
   "license": "MIT"
 }

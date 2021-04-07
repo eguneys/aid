@@ -8,6 +8,7 @@ import { VNode,
 
 import view from './view';
 import Ctrl from './ctrl';
+import { reptor } from 'options';
 
 const patch = init([
   propsModule,
@@ -16,7 +17,7 @@ const patch = init([
   styleModule,
   attributesModule]);
 
-export default function main($_: Element, opts: any) {
+export default function main($_: Element, opts: reptor.ReptorOptions) {
   
   let vnode: VNode, ctrl: Ctrl;
     

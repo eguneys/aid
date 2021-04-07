@@ -10,6 +10,20 @@ export default class ChestCtrl {
     this.env = env;
   }
 
+  open<A>(fua: Fu<A>, res: any) {
+    fua.then(_ => res.send(_));
+  }
+  
+  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => any = _ => _) {
+    fua.then(_ => {
+      if (_) {
+        res.send(op(_));
+      } else {
+        res.status(404).send({err: 'Resource not found' });
+      }
+    });
+  }
+
   async reqToCtx(req: any) {
     return this.restoreUser(req).then(u => {
       let ctx = new UserContext(req, u)

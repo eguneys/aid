@@ -1,9 +1,13 @@
 .rotide__app__editor {
 
-  display: flex;
+  .editor,
+  .preview {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+  }
 
   .editor {
-    flex: 1;
     background: #303030;
     border-right: 1px solid #000;
 
@@ -20,9 +24,12 @@
   }
 
   .preview {
-    flex: 1;
-    overflow-y: overlay;
-    overflow-x: hidden;
+
+    .csdm .content {
+      width: 50vw;
+      overflow-x: hidden;
+    }
+    
   }
   
 }

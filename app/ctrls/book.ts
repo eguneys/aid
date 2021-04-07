@@ -11,30 +11,25 @@ export default class BookCtrl extends ChestCtrl {
   constructor(env: Env) {
     super(env);
   }
-
-
   
   async book(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
     let { bookId } = req.params;
     
-    this.env.book.pager.book(bookId).then((mbook: Maybe<kbt.Book>) =>
-      res.send(mbook));
+    this.opFuResult(this.env.book.pager.book(bookId), res);
   }
   
   async all(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-    this.env.book.pager.all().then((books: Array<kbt.Book>) =>
-      res.send(books));
+    this.opFuResult(this.env.book.pager.all(), res);
   }
 
   async add(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
 
     e.fold(chest.book.form.book(req.body),
-           _ => this.env.book.api.create(_)
-             .then(() => res.send(_)),
-           err => res.send({err}))
+           _ => this.open(this.env.book.api.create(_).then(() => _), res),
+           err => res.status(400).send({err}))
   }
 
 
@@ -42,8 +37,7 @@ export default class BookCtrl extends ChestCtrl {
     let ctx: Context = await this.reqToCtx(req);
     let { chapterId } = req.params;
     
-    this.env.book.pager.chapter(chapterId).then((mchapter: Maybe<kbt.Chapter>) =>
-      res.send(mchapter));
+    this.opFuResult(this.env.book.pager.chapter(chapterId), res);
   }
   
   
@@ -52,9 +46,7 @@ export default class BookCtrl extends ChestCtrl {
 
     let { bookId } = req.params;
     
-    this.env.book.pager.chapters(bookId).then(chapters => {
-      res.send(chapters);
-    });
+    this.open(this.env.book.pager.chapters(bookId), res);
   }
 
   
@@ -62,9 +54,8 @@ export default class BookCtrl extends ChestCtrl {
     let ctx: Context = await this.reqToCtx(req);
 
     e.fold(chest.book.form.chapter(req.body),
-           _ => this.env.book.api.createChapter(_)
-             .then(() => res.send(_)),
-           err => res.send({err}))
+           _ => this.open(this.env.book.api.createChapter(_).then(() => _), res),
+           err => res.status(400).send({err}))
   }
 
   async sections(req: any, res: any) {
@@ -72,18 +63,15 @@ export default class BookCtrl extends ChestCtrl {
 
     let { chapterId } = req.params;
     
-    this.env.book.pager.sections(chapterId).then(sections => {
-      res.send(sections);
-    });
+    this.open(this.env.book.pager.sections(chapterId), res);
   }
 
   async addSection(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
 
     e.fold(chest.book.form.section(req.body),
-           _ => this.env.book.api.createSection(_)
-             .then(() => res.send(_)),
-           err => res.send({err}))
+           _ => this.open(this.env.book.api.createSection(_).then(() => _), res),
+           err => res.status(400).send({err}))
   }
 
   async contents(req: any, res: any) {
@@ -91,18 +79,14 @@ export default class BookCtrl extends ChestCtrl {
 
     let { sourceId } = req.params;
     
-    this.env.book.pager.contents(sourceId).then(contents => {
-      res.send(contents);
-    });
+    this.open(this.env.book.pager.contents(sourceId), res);
   }
 
   async addContent(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-
     e.fold(chest.book.form.content(req.body),
-           _ => this.env.book.api.createContent(_)
-             .then(() => res.send(_)),
-           err => res.send({err}))
+           _ => this.open(this.env.book.api.createContent(_).then(() => _), res),
+           err => res.status(400).send({err}))
   }
 
   async updateContent(req: any, res: any, next: any) {

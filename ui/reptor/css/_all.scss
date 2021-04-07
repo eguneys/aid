@@ -1,0 +1,18 @@
+.reptor__all {
+
+  .chapters,
+  .sections,
+  .contents {
+    margin-left: 1em;
+  }
+
+  .content {
+    a {
+      color: $c-secondary-dim;
+      &:hover {
+        color: $c-secondary;
+      }
+    }
+  }
+  
+}

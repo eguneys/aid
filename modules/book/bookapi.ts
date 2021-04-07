@@ -44,22 +44,50 @@ export default class BookApi {
 
   list(sessionId: kba.SessionId, me: Maybe<kbu.User>) {
     return this.bookRepo.all().then(books =>
-      Promise.all(books.map(book =>
-        Promise.all([
-          this.bookRepo.contents(book.id),
-          this.bookRepo.chapters(book.id)
-        ]).then(([contents, chapters]) =>
-          Promise.all(chapters.map(chapter =>
-            Promise.all([
-              this.bookRepo.contents(chapter.id),
-              this.bookRepo.sections(chapter.id)
-            ]).then(([contents, sections]) =>
-              Promise.all(sections.map(section =>
-                this.bookRepo.contents(section.id).then(contents => [
-                  section, contents
-                ])))
-                .then(sections => [chapter, contents, sections]))))
-            .then(chapters => [book, contents, chapters])))));
+      Promise.all(books.map(_ => this.bookm(_)))
+        .then(books => ({
+          books
+        })));
   }
+
+  bookm(book: kbt.Book) {
+    return this.bookRepo.chapters(book.id).then(chapters =>
+      Promise.all([
+        Promise.all(chapters.map(_ => this.chapterm(_))),
+        this.contentm(book.id)
+      ])
+        .then(([chapters, contents]) => ({
+          book,
+          chapters,
+          contents
+        })));
+
+  }
+
+  chapterm(chapter: kbt.Chapter) {
+    return this.bookRepo.sections(chapter.id).then(sections =>
+      Promise.all([
+        Promise.all(sections.map(_ => this.sectionm(_))),
+        this.contentm(chapter.id)
+      ])
+        .then(([sections, contents]) => ({
+          chapter,
+          sections,
+          contents
+        })));
+  }
+
+  sectionm(section: kbt.Section) {
+    return this.contentm(section.id).then(contents => ({
+      section,
+      contents
+    }));
+  }
+
+  contentm(sourceId: kbt.SourceId) {
+    return this.bookRepo.contents(sourceId);
+  }
+
+    
   
 }

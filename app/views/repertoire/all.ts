@@ -2,8 +2,9 @@ import tags from '../tags';
 import * as html from '../';
 import * as h from '../helper';
 import { Context } from '../../../modules/api';
+import { reptor } from 'options';
 
-export const all = (data: any) => (ctx: Context) => html.base.layout("Repertoire", [
+export const all = (data: reptor.ReptorData) => (ctx: Context) => html.base.layout("Repertoire", [
   tags.main({ class: 'reptor' }, [
     tags.h1({ }, ['Repertoire']),
     tags.div({ class: 'reptor__all' })

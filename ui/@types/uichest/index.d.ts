@@ -5,6 +5,8 @@ interface Chest {
 
 type RedirectTo = string | { url: string, cookie: Cookie };
 
+type Redraw = () => void;
+
 interface Cookie {
   name: string;
   value: string;

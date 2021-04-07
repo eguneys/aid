@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js install
+  /usr/bin/node /usr/share/yarn/bin/yarn.js build
 
 PATH: 
-  /home/eguneys/.local/bin:/home/eguneys/.yarn/bin:/home/eguneys/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/eguneys/bin:/home/eguneys/.local/bin:/home/eguneys/.yarn/bin:/home/eguneys/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/eguneys/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/eguneys/gems/bin:/home/eguneys/.rvm/bin:/home/eguneys/fp/scala/learn/activator-dist-1.3.6:/home/eguneys/bin:/home/eguneys/gems/bin:/home/eguneys/.rvm/bin:/home/eguneys/fp/scala/learn/activator-dist-1.3.6:/home/eguneys/bin:/home/eguneys/gems/bin:/home/eguneys/.rvm/bin:/home/eguneys/fp/scala/learn/activator-dist-1.3.6:/home/eguneys/bin
+  /home/eguneys/.local/bin:/home/eguneys/.yarn/bin:/home/eguneys/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/eguneys/bin:/home/eguneys/.local/bin:/home/eguneys/.yarn/bin:/home/eguneys/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/eguneys/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/eguneys/gems/bin:/home/eguneys/.rvm/bin:/home/eguneys/fp/scala/learn/activator-dist-1.3.6:/home/eguneys/bin:/home/eguneys/gems/bin:/home/eguneys/.rvm/bin:/home/eguneys/fp/scala/learn/activator-dist-1.3.6:/home/eguneys/bin
 
 Yarn version: 
   1.22.4
@@ -14,7 +14,12 @@ Platform:
   linux x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, stat '/home/eguneys/js/chest/node_modules/uuu'
+  SyntaxError: /home/eguneys/js/chest/package.json: Unexpected token } in JSON at position 668
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -30,25 +35,32 @@ npm manifest:
     },
     "devDependencies": {
       "@types/chest": "1.0.0",
+      "@types/cookie-parser": "^1.4.2",
+      "@types/cookie-session": "^2.0.42",
       "@types/express": "^4.17.11",
       "@types/multer": "^1.4.5",
       "tsc-watch": "^4.2.9",
       "typescript": "^4.2.3"
     },
     "dependencies": {
+      "cookie-parser": "^1.4.5",
+      "cookie-session": "^1.4.0",
       "express": "^5.0.0-alpha.8",
-      "multer": "^1.4.2"
+      "multer": "^1.4.2",
     },
     "workspaces": [
+      "shared/koobm",
+      "shared/options",
       "modules/koob",
       "@types/chest",
       "ui",
-      "ui/uuu",
       "ui/common",
       "ui/ateb",
       "ui/rotide",
+      "ui/reptor",
       "ui/site",
-      "ui/@build/webpackProject"
+      "ui/@build/webpackProject",
+      "ui/@types/uichest"
     ]
   }
 
@@ -100,6 +112,21 @@ Lockfile:
     integrity sha512-ePPA/JuI+X0vb+gSWlPKOY0NdNAie/rPUqX2GUPpbZwiKTkSPhjXWuee47E4MtE54QVzGCQMQkAL6JhV2E1+cQ==
     dependencies:
       "@types/node" "*"
+  
+  "@types/cookie-parser@^1.4.2":
+    version "1.4.2"
+    resolved "https://registry.yarnpkg.com/@types/cookie-parser/-/cookie-parser-1.4.2.tgz#e4d5c5ffda82b80672a88a4281aaceefb1bd9df5"
+    integrity sha512-uwcY8m6SDQqciHsqcKDGbo10GdasYsPCYkH3hVegj9qAah6pX5HivOnOuI3WYmyQMnOATV39zv/Ybs0bC/6iVg==
+    dependencies:
+      "@types/express" "*"
+  
+  "@types/cookie-session@^2.0.42":
+    version "2.0.42"
+    resolved "https://registry.yarnpkg.com/@types/cookie-session/-/cookie-session-2.0.42.tgz#a4126415491df806e4cc64f32afacd9918f42a3a"
+    integrity sha512-AuaDuL+MqgB6B28CzFIaRvJBsT4kpfdY0fBgG8WlycaXgEANLCn6wMUA6I6lb8ZOxVR+RXWknUcRPTLBxr+oOw==
+    dependencies:
+      "@types/express" "*"
+      "@types/keygrip" "*"
   
   "@types/eslint-scope@^3.7.0":
     version "3.7.0"
@@ -162,6 +189,11 @@ Lockfile:
     version "7.0.7"
     resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
     integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
+  
+  "@types/keygrip@*":
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/@types/keygrip/-/keygrip-1.0.2.tgz#513abfd256d7ad0bf1ee1873606317b33b1b2a72"
+    integrity sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw==
   
   "@types/mime@^1":
     version "1.3.2"
@@ -1098,6 +1130,23 @@ Lockfile:
     dependencies:
       safe-buffer "~5.1.1"
   
+  cookie-parser@^1.4.5:
+    version "1.4.5"
+    resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.5.tgz#3e572d4b7c0c80f9c61daf604e4336831b5d1d49"
+    integrity sha512-f13bPUj/gG/5mDr+xLmSxxDsB9DQiTIfhJS/sqjrmfAWiAN+x2O4i/XguTL9yDZ+/IFDanJ+5x7hC4CXT9Tdzw==
+    dependencies:
+      cookie "0.4.0"
+      cookie-signature "1.0.6"
+  
+  cookie-session@^1.4.0:
+    version "1.4.0"
+    resolved "https://registry.yarnpkg.com/cookie-session/-/cookie-session-1.4.0.tgz#c325aea685ceb9c8e4fd00b0313a46d547747380"
+    integrity sha512-0hhwD+BUIwMXQraiZP/J7VP2YFzqo6g4WqZlWHtEHQ22t0MeZZrNBSCxC1zcaLAs8ApT3BzAKizx9gW/AP9vNA==
+    dependencies:
+      cookies "0.8.0"
+      debug "2.6.9"
+      on-headers "~1.0.2"
+  
   cookie-signature@1.0.6:
     version "1.0.6"
     resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
@@ -1107,6 +1156,14 @@ Lockfile:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
     integrity sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
+  
+  cookies@0.8.0:
+    version "0.8.0"
+    resolved "https://registry.yarnpkg.com/cookies/-/cookies-0.8.0.tgz#1293ce4b391740a8406e3c9870e828c4b54f3f90"
+    integrity sha512-8aPsApQfebXnuI+537McwYsDtjVxGm8gTIzQI3FDW6t5t/DAhERxtnbEPN/8RX+uZthoz4eCOgloXaE5cYyNow==
+    dependencies:
+      depd "~2.0.0"
+      keygrip "~1.1.0"
   
   copy-descriptor@^0.1.0:
     version "0.1.1"
@@ -1297,6 +1354,11 @@ Lockfile:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
     integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
+  
+  depd@~2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/depd/-/depd-2.0.0.tgz#b696163cc757560d09cf22cc8fad1571b79e76df"
+    integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
   
   destroy@~1.0.4:
     version "1.0.4"
@@ -2888,6 +2950,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/just-debounce/-/just-debounce-1.1.0.tgz#2f81a3ad4121a76bc7cb45dbf704c0d76a8e5ddf"
     integrity sha512-qpcRocdkUmf+UTNBYx5w6dexX5J31AKK1OmPwH630a83DdVVUIngk55RSAiIGpQyoH0dlr872VHfPjnQnK1qDQ==
   
+  keygrip@~1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/keygrip/-/keygrip-1.1.0.tgz#871b1681d5e159c62a445b0c74b615e0917e7226"
+    integrity sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==
+    dependencies:
+      tsscmp "1.0.6"
+  
   killable@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
@@ -4348,6 +4417,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
     integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
   
+  snabbdom@^3.0.1:
+    version "3.0.1"
+    resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-3.0.1.tgz#9355339e7c970be7fcd54128ccde9ee57301f222"
+    integrity sha512-H4gKokDT1HPe3dlGyTihNw0NtEH9FxZy55MXp3ODM4O30NBRe+11veox1wf/CP9NfGcbStDM3BmO1DFC9/5wRw==
+  
   snapdragon-node@^2.0.1:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
@@ -4817,6 +4891,11 @@ Lockfile:
     version "2.1.0"
     resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
     integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
+  
+  tsscmp@1.0.6:
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/tsscmp/-/tsscmp-1.0.6.tgz#85b99583ac3589ec4bfef825b5000aa911d605eb"
+    integrity sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==
   
   type-is@^1.6.4, type-is@~1.6.17, type-is@~1.6.18:
     version "1.6.18"
