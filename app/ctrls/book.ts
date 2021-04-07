@@ -16,12 +16,12 @@ export default class BookCtrl extends ChestCtrl {
     let ctx: Context = await this.reqToCtx(req);
     let { bookId } = req.params;
     
-    this.opFuResult(this.env.book.pager.book(bookId), res);
+    this.opFuResult(this.env.book.pager.book(bookId), res)(ctx);
   }
   
   async all(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-    this.opFuResult(this.env.book.pager.all(), res);
+    this.opFuResult(this.env.book.pager.all(), res)(ctx);
   }
 
   async add(req: any, res: any) {
@@ -37,7 +37,7 @@ export default class BookCtrl extends ChestCtrl {
     let ctx: Context = await this.reqToCtx(req);
     let { chapterId } = req.params;
     
-    this.opFuResult(this.env.book.pager.chapter(chapterId), res);
+    this.opFuResult(this.env.book.pager.chapter(chapterId), res)(ctx);
   }
   
   

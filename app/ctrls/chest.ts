@@ -1,7 +1,9 @@
 import { Env } from '../env';
+import * as html from '../views';
 import { Context, PageData, PageDataAnon } from '../../modules/api';
 import { UserContext } from '../../modules/user';
 import { random as nonceRandom } from '../../modules/common';
+import * as chest from '../../modules';
 
 export default class ChestCtrl {
   env: Env
@@ -15,13 +17,23 @@ export default class ChestCtrl {
   }
   
   opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => any = _ => _) {
-    fua.then(_ => {
-      if (_) {
-        res.send(op(_));
-      } else {
-        res.status(404).send({err: 'Resource not found' });
-      }
-    });
+    return (ctx: Context) =>
+      fua.then(_ => {
+        if (_) {
+          res.send(op(_));
+        } else {
+          res.status(404).send(
+            this.negotiate(() => html.base.notFound()(ctx),
+                           () => ({err: 'Resource not found' }))(ctx));
+        }
+      });
+  }
+
+  negotiate(html: () => any, api: () => any) {
+    return (ctx: Context) => {
+      let v = chest.api.mobile.requestVersion(ctx.req)
+      return v ? api() : html();
+    }
   }
 
   async reqToCtx(req: any) {

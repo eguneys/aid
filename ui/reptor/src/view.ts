@@ -14,7 +14,11 @@ export function vChapter(ctrl: Ctrl, chapter: kbt.Chapter) {
 }
 
 export function vContentm(ctrl: Ctrl, contentm: kbm.ContentM) {
-  return h('div.content', [h('a', contentm.name)]);
+  return h('div.content', [h('a', {
+    props: {
+      href: `/c/${contentm.id}`
+    }
+  }, contentm.name)]);
 }
 
 export function vContents(ctrl: Ctrl, contents: Array<kbm.ContentM>) {

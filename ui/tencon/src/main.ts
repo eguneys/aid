@@ -6,17 +6,16 @@ import { VNode,
 
 import view from './view';
 import Ctrl from './ctrl';
-import { reptor } from 'options';
 
 const patch = init([
   propsModule,
   classModule,
   attributesModule]);
 
-export default function main($_: Element, opts: reptor.ReptorOptions) {
-  
+export default function main($_: Element, opts: any) {
+
   let vnode: VNode, ctrl: Ctrl;
-    
+  
   function redraw() {
     vnode = patch(vnode, view(ctrl));
   }
@@ -24,4 +23,6 @@ export default function main($_: Element, opts: reptor.ReptorOptions) {
   ctrl = new Ctrl(opts, redraw);
   
   vnode = patch($_, view(ctrl));
+
+  
 }

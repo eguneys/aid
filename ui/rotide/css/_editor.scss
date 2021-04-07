@@ -27,8 +27,10 @@
 
     .csdm .content {
       width: 50vw;
+      height: calc(100vh - var(--site-header-height));
       overflow-x: hidden;
     }
+    
     
   }
   

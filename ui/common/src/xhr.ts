@@ -1,5 +1,5 @@
 const jsonHeader = {
-  Accept: 'application/json'
+  Accept: 'application/vnd.chest.v1+json'
 };
 
 export const defaultInit: RequestInit = {

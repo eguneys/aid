@@ -1,0 +1,8 @@
+.tencon {
+  @extend %flex-column;
+  height: calc(100vh - var(--site-header-height));
+  
+  &__app {
+    flex-grow: 1;
+  }
+}

@@ -32,6 +32,7 @@
     "ui",
     "ui/common",
     "ui/ateb",
+    "ui/tencon",
     "ui/rotide",
     "ui/reptor",
     "ui/site",

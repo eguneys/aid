@@ -10,6 +10,7 @@ export default function routes(c: wireCtrls) {
   router.get('/auth/guest', c.auth.guest.bind(c.auth));
 
   router.get('/repertoire', c.repertoire.all.bind(c.repertoire));
+  router.get('/c/:contentId', c.content.show.bind(c.content));
 
   
   router.get('/editor', c.site.editor.bind(c.site));

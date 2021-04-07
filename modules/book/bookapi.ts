@@ -54,7 +54,7 @@ export default class BookApi {
     return this.bookRepo.chapters(book.id).then(chapters =>
       Promise.all([
         Promise.all(chapters.map(_ => this.chapterm(_))),
-        this.contentm(book.id)
+        this.contentsm(book.id)
       ])
         .then(([chapters, contents]) => ({
           book,
@@ -68,7 +68,7 @@ export default class BookApi {
     return this.bookRepo.sections(chapter.id).then(sections =>
       Promise.all([
         Promise.all(sections.map(_ => this.sectionm(_))),
-        this.contentm(chapter.id)
+        this.contentsm(chapter.id)
       ])
         .then(([sections, contents]) => ({
           chapter,
@@ -78,16 +78,18 @@ export default class BookApi {
   }
 
   sectionm(section: kbt.Section) {
-    return this.contentm(section.id).then(contents => ({
+    return this.contentsm(section.id).then(contents => ({
       section,
       contents
     }));
   }
 
-  contentm(sourceId: kbt.SourceId) {
+  contentsm(sourceId: kbt.SourceId) {
     return this.bookRepo.contents(sourceId);
   }
 
-    
-  
+  contentm(contentId: kbt.ContentId) {
+    return this.bookRepo.content(contentId);
+  }
+
 }
