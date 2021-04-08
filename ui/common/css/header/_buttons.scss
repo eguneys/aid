@@ -1,0 +1,12 @@
+.site-buttons {
+  @extend %flex-center-nowrap;
+
+  .signin {
+    margin: 0 1rem;
+  }
+
+  #user_tag {
+    padding-right: 1rem;
+    white-space: nowrap;
+  }
+}

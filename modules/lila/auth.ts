@@ -1,7 +1,7 @@
 import oauth from 'simple-oauth2';
 import fetch from 'node-fetch';
 
-export type LiAuthUser = {
+export type LiAuth = {
   username: string,
   token: string
 }

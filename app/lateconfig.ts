@@ -1,4 +1,5 @@
-import config from '../conf/prod';
+import prodConfig from '../conf/late_prod';
+import devConfig from '../conf/late_dev';
 import Configuration from './config';
 import * as chest from '../modules';
 import { Coll } from '../modules/db';
@@ -18,10 +19,13 @@ export default class LateConfigEnv {
 
   project: string
   config!: LateConfig
+  template: LateConfig
 
   constructor(config: Configuration,
               db: chest.db.Db) {
 
+    this.template = config.mode === 'production' ? prodConfig : devConfig;
+    
     this.project = config.net.project;
     this.coll = db.apply('env');
     
@@ -42,8 +46,8 @@ export default class LateConfigEnv {
   }
 
   async createConfig() {
-    return this.coll.insert(config)
-      .then(_ => config);
+    return this.coll.insert(this.template)
+      .then(_ => this.template);
   }
   
 }

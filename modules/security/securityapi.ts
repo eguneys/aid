@@ -14,6 +14,12 @@ export default class SecurityApi {
     this.store = store;
   }
 
+  saveSession(user: kbu.User): Fu<kba.SessionId> {
+    let sessionId: kba.SessionId = nextString(8);
+    return this.store.save(sessionId, user.id)
+      .then(_ => sessionId);
+  }
+
   anonymousSessionId(): Fu<kba.SessionId> {
     let sessionId: kba.SessionId = nextString(8);
     return this.store.saveAnon(sessionId).then(_ => sessionId);

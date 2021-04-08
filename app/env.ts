@@ -9,14 +9,17 @@ export class Env {
   net: NetConfig
   book: chest.book.Env
   api: chest.api.Env
+  user: chest.user.Env
   security: chest.security.Env
   
   constructor(net: NetConfig,
               api: chest.api.Env,
+              user: chest.user.Env,
               book: chest.book.Env,
               security: chest.security.Env) {
     this.net = net;
     this.api = api;
+    this.user = user;
     this.book = book;
     this.security = security;
   }
@@ -60,6 +63,7 @@ export default class EnvBoot {
 
     this.env = new Env(config.net,
                        api,
+                       user,
                        book,
                        security);
 

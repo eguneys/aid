@@ -2,4 +2,4 @@ node_modules/
 lib/
 public/css/
 public/compiled/
-conf/prod.ts
+conf/late_prod.ts

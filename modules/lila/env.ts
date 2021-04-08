@@ -10,8 +10,8 @@ export class Env {
               lateConfig: LateConfigEnv) {
 
     let { lila_oauth: { client_id, client_secret } } = lateConfig.config;
-    
-    this.auth = new Auth(`${config.net.domain}/callback`,
+
+    this.auth = new Auth(`${config.net.protocol + config.net.domain}/callback`,
                          client_id,
                          client_secret);
     

@@ -4,6 +4,12 @@
   align-items: center;
 }
 
+%flex-center-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
 %flex-between {
   display: flex;
   flex-flow: row wrap;

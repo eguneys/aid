@@ -1,9 +1,10 @@
-import { default as EnvBoot, Env } from './env';
+import { default as EnvBoot, Env, EnvAwait } from './env';
 import * as c from './ctrls';
 
 export default class wireCtrls {
 
   env: Env
+  envAwait: EnvAwait
   auth: c.Auth
   site: c.Site
   book: c.Book
@@ -13,9 +14,11 @@ export default class wireCtrls {
   constructor(_: EnvBoot) {
 
     this.env = _.env;
+    this.envAwait = _.envAwait;
 
     this.site = new c.Site(this.env);
-    this.auth = new c.Auth(this.env);
+    this.auth = new c.Auth(this.env,
+                           this.envAwait);
     this.book = new c.Book(this.env);
     this.content = new c.Content(this.env);
     this.repertoire = new c.Repertoire(this.env);    

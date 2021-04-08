@@ -1,14 +1,22 @@
 import { Coll } from '../db';
-import { kba } from 'koob';
+import { kba, kbu } from 'koob';
 
 export default class Store {
 
-  coll: Coll<any>
+  coll: Coll<kba.Session>
   
-  constructor(coll: Coll<any>) {
+  constructor(coll: Coll<kba.Session>) {
     this.coll = coll;
   }
 
+  save(sessionId: kba.SessionId, userId: kbu.UserId) {
+    return this.coll.insert({
+      id: sessionId,
+      date: Date.now(),
+      userId
+    });
+  }
+  
   saveAnon(sessionId: kba.SessionId) {
     return this.coll.insert({
       id: sessionId,
@@ -18,7 +26,7 @@ export default class Store {
 
   authInfo(sessionId: kba.SessionId) {
     return this.coll.one({id: sessionId})
-      .then(_ => _?.user);
+      .then(_ => _?.userId);
   }
   
 }

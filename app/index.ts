@@ -21,7 +21,7 @@ export async function withApp(cb: (_: express.Application, __: () => void) => vo
     let router = routes(ctrls);
 
     let { config: { cookie_secret } } = boot.envAwait.config;
-    
+
     app.use('/assets', express.static(path.join(__dirname, '../../public')));
     app.use(cookieParser());
     app.use(cookieSession({
