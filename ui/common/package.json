@@ -5,8 +5,8 @@
   "typings": "./index",
   "scripts": {
     "compile": "tsc",
-    "dev": "yarn run compile",
-    "prod": "yarn run compile"
+    "dev": "rm lib -rf && yarn run compile",
+    "prod": "rm lib -rf && yarn run compile"
   },
   "license": "MIT",
   "devDependencies": {

@@ -21,7 +21,12 @@ export const json = (url: string, init: RequestInit = {}): Promise<any> =>
     ...init
   }).then(res => {
     if (res.ok) return res.json();
-    throw res.statusText;
+    throw res.json().then(_ => {
+      if (_.redirect) {
+        chest.redirect(_.redirect);
+      }
+      return _;
+    });
   });
         
 

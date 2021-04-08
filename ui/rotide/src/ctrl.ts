@@ -38,6 +38,10 @@ export default class Ctrl {
     this.csApi?.md(this.unsavedMd);
   }
 
+  saveFailed() {
+    console.log('save failed');
+  }
+
   saveContent() {
     return kApi.updateContent(this.content.id, this.unsavedMd).then(_ => {
       if (_.redirect) {
@@ -46,7 +50,7 @@ export default class Ctrl {
         this.invalidateContent?.();
         this.loadContent(_, noop);
       }
-    });
+    }).catch(() => this.saveFailed());
   }
 
   setCsApi(csApi: CsApi) {

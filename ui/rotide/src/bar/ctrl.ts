@@ -22,6 +22,14 @@ export default class Ctrl {
     this.sbCache = new SelectBookCache(kApi);
   }
 
+  fetchFailed() {
+    console.log('fail');
+  }
+
+  postFailed() {
+    console.log('post fail');
+  }
+
   close() {
     if (this.isNewContentDialogOpen) {
       this.isNewContentDialogOpen = false;
@@ -88,6 +96,30 @@ export default class Ctrl {
     this.isNewDialogOpen = false;
   }
 
+  setVSelectBook(_?: t.SelectBookView) {
+    if (!_) {
+      this.postFailed();
+    }
+    this.vSelectBook = _;
+    this.isNewDialogOpen = false;
+  }
+
+  loadContent(_?: kbt.Content) {
+    if (!this.vSelectBook) {
+      return;
+    }
+
+    let invalidation = this.sbvInvalidation(this.vSelectBook);
+    if (_) {
+      this.baseCtrl.loadContent(_, invalidation);
+    } else {
+      this.fetchFailed();
+    }
+    this.isNewContentDialogOpen = false;
+    this.isBarOpen = false;
+    this.vSelectBook = undefined;
+  }
+
   submitNewBookDialog() {
     if (this.nameSelectBook) {
 
@@ -96,64 +128,34 @@ export default class Ctrl {
         return;
       }
 
-      let invalidation = this.sbvInvalidation(vSelectBook);
-
       if (t.isBooksView(vSelectBook)) {
         return this.sbCache
-          .newBook(this.nameSelectBook).then(_ => {
-          this.vSelectBook = _;
-          this.isNewDialogOpen = false;
-        });
+          .newBook(this.nameSelectBook).then(_ => this.setVSelectBook(_));
       } else if (t.isChaptersView(vSelectBook)) {
         if (this.isNewContentDialogOpen) {
           let { book } = vSelectBook;
           return this.sbCache
             .newContentForBook(book, this.nameSelectBook, 'content')
-            .then(_ => {
-              this.baseCtrl.loadContent(_, invalidation);
-              this.isBarOpen = false;
-              this.isNewContentDialogOpen = false;
-              this.vSelectBook = undefined;
-              // this.sbCache.vChapters(book).then(_ => {
-              //   this.vSelectBook = _;
-              // });
-            });
+            .then(_ => this.loadContent(_));
         }
         return this.sbCache
-          .newChapter(vSelectBook.book, this.nameSelectBook).then(_ => {
-          this.vSelectBook = _;
-          this.isNewDialogOpen = false;
-        });
+          .newChapter(vSelectBook.book, this.nameSelectBook)
+          .then(_ => this.setVSelectBook(_));
       } else if (t.isSectionsView(vSelectBook)) {
         if (this.isNewContentDialogOpen) {
           let { chapter } = vSelectBook;
           return this.sbCache
             .newContentForChapter(chapter, this.nameSelectBook, 'content')
-            .then(_ => {
-              this.baseCtrl.loadContent(_, invalidation);
-              this.isNewContentDialogOpen = false;
-              this.isBarOpen = false;
-              this.vSelectBook = undefined;
-              // this.sbCache.vSections(chapter).then(_ => {
-              //   this.vSelectBook = _;
-              // });
-            });
+            .then(_ => this.loadContent(_));
         }
         return this.sbCache
-          .newSection(vSelectBook.chapter, this.nameSelectBook).then(_ => {
-            this.vSelectBook = _;
-            this.isNewDialogOpen = false;
-          });
+          .newSection(vSelectBook.chapter, this.nameSelectBook)
+          .then(_ => this.setVSelectBook(_));
       } else if (t.isSectionView(vSelectBook)) {
         let { section } = vSelectBook;
         return this.sbCache
           .newContentForSection(section, this.nameSelectBook, 'content')
-          .then(_ => {
-            this.baseCtrl.loadContent(_, invalidation);
-            this.isNewContentDialogOpen = false;
-            this.isBarOpen = false;
-            this.vSelectBook = undefined;
-          });
+          .then(_ => this.loadContent(_));
       }
     }
   }

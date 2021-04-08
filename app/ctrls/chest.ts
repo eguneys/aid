@@ -4,12 +4,25 @@ import { Context, PageData, PageDataAnon } from '../../modules/api';
 import { UserContext } from '../../modules/user';
 import { random as nonceRandom } from '../../modules/common';
 import * as chest from '../../modules';
+import { kba } from 'koob';
 
 export default class ChestCtrl {
   env: Env
 
   constructor(env: Env) {
     this.env = env;
+  }
+
+  authSession(req: any, res: any, op: (sessionId: kba.SessionId) => void) {
+    return (ctx: Context) => {
+      let { sessionId } = req.session;
+      if (!sessionId) {
+        this.negotiate(() => res.redirect(401, '/auth'),
+                       () => res.status(401).send({redirect:'/auth'}))(ctx);
+      } else {
+        op(sessionId);
+      }
+    }
   }
 
   open<A>(fua: Fu<A>, res: any) {

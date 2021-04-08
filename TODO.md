@@ -7,9 +7,12 @@
 ## Feature
     [ ] endgame progress
     [ ] opening progress tree !top
-    [ ] navigation links
-    [ ] landing page
-    [ ] about page
+    [ ] navigation
+    [ ] practice
+    [ ] editor
+    [ ] repertoire
+    [ ] landing
+    [ ] about
     [ ] link content to source
     [ ] link sibling contents
     [ ] filter books for session
@@ -41,11 +44,16 @@
        - [ ] content to editor
        - [ ] content to source
        - [ ] sibling contents
-    2. [ ] filter books for session
-       - [ ] user books
-       - [ ] featured books
-       - [ ] public books
-    2a. [ ] security
+    2. [ ] repertoire
+       - [ ] list
+         - [ ] user books
+         - [ ] featured books
+         - [ ] public books
+       - [ ] remove
+       - [ ] edit
+       - [ ] view
+       - [ ] practice
+    2b. [ ] security
         - [ ] rate limit
         - [ ] length constraint
         - [ ] xss

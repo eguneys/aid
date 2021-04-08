@@ -27,9 +27,12 @@ export default class BookCtrl extends ChestCtrl {
   async add(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
 
-    e.fold(chest.book.form.book(req.body),
-           _ => this.open(this.env.book.api.create(_).then(() => _), res),
-           err => res.status(400).send({err}))
+    this.authSession(req, res, sessionId =>
+      e.fold(chest.book.form.book(req.body),
+             _ => this.open(this.env.book.api
+               .createBySessionId(sessionId, _)
+               .then(() => _), res),
+             err => res.status(400).send({err})))(ctx);
   }
 
 
@@ -92,19 +95,14 @@ export default class BookCtrl extends ChestCtrl {
   async updateContent(req: any, res: any, next: any) {
     let ctx: Context = await this.reqToCtx(req);
 
-    let { sessionId } = req.session;
-    if (!sessionId) {
-      res.send({redirect:'/auth'});
-      return;
-    }
-
     let { contentId } = req.params;
 
-    e.fold(chest.book.form.updateContent(req.body),
-           _ => this.env.book.api.updateContentOrDefault(contentId, _, sessionId)
-             .then(() => res.send(_))
-             .catch(err => res.send({err})),
-           err => res.send({err}))
+    this.authSession(req, res, sessionId =>
+      e.fold(chest.book.form.updateContent(req.body),
+             _ => this.env.book.api.updateContentOrDefault(contentId, _, sessionId)
+               .then(() => res.send(_))
+               .catch(err => res.send({err})),
+             err => res.send({err})))(ctx);
   }
 
 

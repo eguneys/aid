@@ -4,19 +4,25 @@ import { BooksView, ChaptersView, SectionsView, SectionView } from './types';
 
 export type MapOfPromise<Key, A> = MapOfDefault<Key, Promise<A>>;
 
+function handleRejection(res: any) {
+  return undefined;
+}
+
 export default class SelectBookCache {
 
   kApi: kbr.GetApi;
-  books: Promise<BooksView>
-  chapters: MapOfPromise<kbt.Book, ChaptersView>
-  sections: MapOfPromise<kbt.Chapter, SectionsView>
-  section: MapOfPromise<kbt.Section, SectionView>
+  books: Promise<Maybe<BooksView>>
+  chapters: MapOfPromise<kbt.Book, Maybe<ChaptersView>>
+  sections: MapOfPromise<kbt.Chapter, Maybe<SectionsView>>
+  section: MapOfPromise<kbt.Section, Maybe<SectionView>>
   
   constructor(kApi: kbr.GetApi) {
     this.kApi = kApi;
-    this.books = kApi.books()
-      .then(books => ({books}));
 
+    this.books = kApi.books()
+      .then(books => ({books}))
+      .catch(handleRejection);
+    
     this.chapters = mapOfDefault((book: kbt.Book) =>
       Promise.all([kApi.chapters(book.id),
                    kApi.contents(book.id)])
@@ -24,7 +30,7 @@ export default class SelectBookCache {
           book,
           chapters,
           contents
-        })))();
+        })).catch(handleRejection))();
 
     this.sections = mapOfDefault((chapter: kbt.Chapter) =>
       Promise.all([kApi.book(chapter.bookId),
@@ -35,7 +41,7 @@ export default class SelectBookCache {
           chapter,
           sections,
           contents
-        })))();
+        })).catch(handleRejection))();
 
 
     this.section = mapOfDefault((section: kbt.Section) =>
@@ -49,50 +55,55 @@ export default class SelectBookCache {
               section,
               contents
             }))))();
+  }
 
+
+  fetchBooks() {
+    this.books = this.kApi.books()
+      .then(books => ({books}))
+      .catch(handleRejection);
   }
 
   newContentForBook(book: kbt.Book, name: string, content: string) {
     return this.kApi.newContent(book.id, name, content).then(_ => {
       this.chapters.get(book, true);
       return _;
-    });
+    }).catch(handleRejection);
   }
 
   newContentForChapter(chapter: kbt.Chapter, name: string, content: string) {
     return this.kApi.newContent(chapter.id, name, content).then(_ => {
       this.sections.get(chapter, true);
       return _;
-    });
+    }).catch(handleRejection);
   }
 
   newContentForSection(section: kbt.Section, name: string, content: string) {
     return this.kApi.newContent(section.id, name, content).then(_ => {
       this.section.get(section, true);
       return _;
-    });
+    }).catch(handleRejection);
   }  
 
   newBook(name: string) {
     return this.kApi.newBook(name).then(_ => {
-      this.books = this.kApi.books()
-        .then(books => ({books}));
+      this.fetchBooks();
       return this.vChapters(_);
-    });
+    }).catch(handleRejection);
   }
 
   newChapter(book: kbt.Book, name: string) {
     return this.kApi.newChapter(book.id, name).then(_ => {
       this.chapters.get(book, true);
       return this.vSections(_);
-    });
+    }).catch(handleRejection);
   }
 
   newSection(chapter: kbt.Chapter, name: string) {
     return this.kApi.newSection(chapter.id, name).then(_ => {
       this.sections.get(chapter, true);
       return this.vSection(_);
-    });
+    }).catch(handleRejection);
   }
     
   vBooks() {

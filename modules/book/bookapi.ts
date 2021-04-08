@@ -10,8 +10,10 @@ export default class BookApi {
     this.bookRepo = bookRepo;
   }
 
-  create(book: kbt.Book) {
-    return this.bookRepo.insert(book);
+  createBySessionId(sessionId: kba.SessionId, book: kbt.Book) {
+    return this.bookRepo.insert(book)
+      .then(() => this.bookRepo.insertSessboo({ sessionId,
+                                               bookId: book.id }));
   }
 
   createChapter(chapter: kbt.Chapter) {
@@ -43,7 +45,7 @@ export default class BookApi {
   }
 
   list(sessionId: kba.SessionId, me: Maybe<kbu.User>) {
-    return this.bookRepo.all().then(books =>
+    return this.bookRepo.allBySessionId(sessionId).then(books =>
       Promise.all(books.map(_ => this.bookm(_)))
         .then(books => ({
           books

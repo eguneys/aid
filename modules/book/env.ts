@@ -1,7 +1,7 @@
 import BookApi from './bookapi';
 import { BookRepo } from './bookrepo';
 import * as chest from '../';
-import { kbt } from 'koob';
+import { kbt, kblr } from 'koob';
 
 export class Env {
 
@@ -17,7 +17,8 @@ export class Env {
       bookDb.apply<kbt.Book>("book"),
       bookDb.apply<kbt.Chapter>('chapter'),
       bookDb.apply<kbt.Section>('section'),
-      bookDb.apply<kbt.Content>('content')
+      bookDb.apply<kbt.Content>('content'),
+      bookDb.apply<kblr.SessionBook>('sesboonk'),
     );
 
     this.pager = this.bookRepo;
