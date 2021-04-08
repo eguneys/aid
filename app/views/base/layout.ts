@@ -39,12 +39,38 @@ export function layout(title: string, body: string[], params: LayoutParams) {
     ]);
 };
 
+function linkTitle(url: string, name: string) {
+  return tags.a({ href: url }, [name]);
+}
+
+function topnav() {
+  return tags.nav({ id: 'topnav', cls: 'hover' }, [
+    tags.section(
+      linkTitle('/', tags.frag([tags.span({ cls: 'home'}, ['home']),
+                                tags.span({ cls: 'domain'}, ['chessishard.com'])]))
+    ),
+    tags.section(
+      linkTitle('/repertoire', 'Repertoire')
+    ),
+    tags.section(
+      linkTitle('/editor', 'Editor')
+    )
+  ]);
+}
+
+const topnavToggle = `
+<input type="checkbox" id="tn-tg" class="topnav-toggle" autocomplete="off">
+<label for="tn-tg" class="hbg"><span class="hbg__in"></span></label>
+`.trim();
+
 function siteHeader() {
   return tags.header({ id: 'top' }, [
     tags.div({ cls: 'site-title-nav' }, [
+      topnavToggle,
       tags.h1({ cls: 'site-title' }, [
         tags.a({ href: '/' }, ['Chess Is Hard'])
-      ])
+      ]),
+      topnav()
     ])
   ]);
 }

@@ -1,0 +1,35 @@
+@include breakpoint($mq-topnav-visible) {
+  .topnav-toggle {
+    display: none;
+  }
+
+  #topnav {
+    --nav-section: 26px;
+
+    @include breakpoint($mq-site-header-tall) {
+      --nav-section: 48px;
+    }
+    
+    display: flex;
+
+    section {
+      position: relative;
+      height: var(--nav-section);
+
+      > a {
+        color: $c-font-page;
+        text-shadow: $text-shadow;
+        display: block;
+        height: var(--nav-section);
+        line-height: $site-header-height;
+        padding: 0 0.7rem;
+        text-transform: uppercase;
+        border-left: 2px solid transparent;
+      }
+
+      .domain {
+        display: none;
+      }
+    }
+  }
+}

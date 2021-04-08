@@ -1,0 +1,7 @@
+$z-indexes: (
+  'topnav': 110
+);
+
+@function z($layer) {
+  @return map-get($z-indexes, $layer);
+}

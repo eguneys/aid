@@ -3,5 +3,15 @@
 $mq-xx-small: min-width 500px;
 $mq-x-small: min-width 600px;
 $mq-small: min-width 800px;
+$mq-medium: min-width 980px;
+
+$mq-not-medium: max-width 979px;
+
+$mq-tall: min-height 600px;
 
 $mq-main-margin: $mq-small;
+
+$mq-topnav-visible: $mq-medium;
+$mq-topnav-hidden: $mq-not-medium;
+
+$mq-site-header-tall: $mq-tall;

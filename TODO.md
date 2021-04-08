@@ -15,6 +15,7 @@
     [ ] filter books for session
     [ ] lichess authentication
     [ ] database
+    [ ] security
     [ ] production build
     [ ] deploy
     [ ] lichess bot !openingsexercise
@@ -28,21 +29,41 @@
 
 # Schedule
 
-    [ ] navigation links
-    [ ] filter books for session
-    [ ] database
-    [ ] glyphs
-    [ ] write King's Gambit
-    [ ] opening progress tree !top
-    [ ] lichess bot !openingsexercise
-    [ ] link content to source
-    [ ] link sibling contents
-    [ ] spoiler lines
-    [ ] write DEM
-    [ ] endgame progress
-    [ ] lichess authentication
-    [ ] landing page
-    [ ] about page
-    [ ] production build
-    [ ] deploy
-    [ ] ai !caykahve
+    0. [ ] head
+       - [ ] favicon
+       - [ ] meta viewport
+       - [ ] top comment
+       - [ ] open graph
+       - [ ] nonce
+    1. [ ] navigation
+       - [x] menu
+       - [ ] editor to content
+       - [ ] content to editor
+       - [ ] content to source
+       - [ ] sibling contents
+    2. [ ] filter books for session
+       - [ ] user books
+       - [ ] featured books
+       - [ ] public books
+    2a. [ ] security
+        - [ ] rate limit
+        - [ ] length constraint
+        - [ ] xss
+    3. [ ] database
+    4. [ ] glyphs
+    5. [ ] write King's Gambit
+    6. [ ] opening progress tree !top
+    7. [ ] lichess bot !openingsexercise
+    10. [ ] spoiler lines
+    11. [ ] write DEM
+    12. [ ] endgame progress
+    13. [ ] lichess authentication
+    14. [ ] landing page
+    15. [ ] about page
+    16. [ ] production build
+    17. [ ] deploy
+    18. [ ] ai !caykahve
+
+# Progress
+
+    

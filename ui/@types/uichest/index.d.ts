@@ -1,4 +1,5 @@
 interface Chest {
+  load: Promise<void> 
   redirect(o: RedirectTo): void;
   reload(): void;
 }
