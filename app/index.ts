@@ -20,16 +20,21 @@ export async function withApp(cb: (_: express.Application, __: () => void) => vo
     let ctrls = new wireCtrls(boot);
     let router = routes(ctrls);
 
+    let { config: { cookie_secret } } = boot.envAwait.config;
+    
     app.use('/assets', express.static(path.join(__dirname, '../../public')));
     app.use(cookieParser());
     app.use(cookieSession({
       name: 'rk2',
-      secret: 'lkajdf',
+      secret: cookie_secret,
       maxAge: 7 * 24 * 60 * 1000 // 1 week
     }));
     
     app.use(router);
     cb(app, () => {});
+  }).catch(e => {
+    console.log(`[Failed boot] `, e);
+    process.exit(1);
   });
 
 }

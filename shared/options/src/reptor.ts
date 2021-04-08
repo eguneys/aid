@@ -5,5 +5,6 @@ export type ReptorOptions = {
 }
 
 export type ReptorData = {
-  books: Array<kbm.BookM>
+  books: Array<kbm.BookM>,
+  featured: Array<kbm.BookM>
 }

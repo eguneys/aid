@@ -46,7 +46,7 @@
        - [ ] sibling contents
     2. [ ] repertoire
        - [ ] list
-         - [ ] user books
+         - [x] user books
          - [ ] featured books
          - [ ] public books
        - [ ] remove

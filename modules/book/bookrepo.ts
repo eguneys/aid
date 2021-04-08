@@ -1,4 +1,4 @@
-import { kbt, kba, kblr } from 'koob';
+import { kbto, kbt, kba, kblr } from 'koob';
 import { Coll } from '../db/coll';
 import { nextString } from '../common';
 
@@ -10,17 +10,24 @@ export class BookRepo {
   sectionColl: Coll<kbt.Section>
   contentColl: Coll<kbt.Content>
   relColl: Coll<kblr.SessionBook>
+  collOptions: Coll<kbto.BookOptions>
 
   constructor(coll: Coll<kbt.Book>,
               chapterColl: Coll<kbt.Chapter>,
               sectionColl: Coll<kbt.Section>,
               contentColl: Coll<kbt.Content>,
-              relColl: Coll<kblr.SessionBook>) {
+              relColl: Coll<kblr.SessionBook>,
+              collOptions: Coll<kbto.BookOptions>) {
     this.coll = coll;
     this.chapterColl = chapterColl;
     this.sectionColl = sectionColl;
     this.contentColl = contentColl;
     this.relColl = relColl;
+    this.collOptions = collOptions;
+  }
+
+  async insertOptions(options: kbto.BookOptions) {
+    this.collOptions.insert(options);
   }
   
   async insert(book: kbt.Book) {
@@ -51,6 +58,15 @@ export class BookRepo {
     return this.relColl.find({sessionId}).then(_ =>
       Promise.all(_.map(_ => this.coll.find({ id: _.bookId })))
         .then(_ => _.flat()));
+  }
+
+  async allFeatured() {
+    return this.collOptions
+      .find({featured: true})
+      .then(_ =>
+        Promise.all(_.map(_ => this.coll.find({ id: _.bookId }))))
+      .then(_ => _.flat());
+                                                        
   }
   
   async all() {

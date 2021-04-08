@@ -46,10 +46,12 @@ export default class BookApi {
 
   list(sessionId: kba.SessionId, me: Maybe<kbu.User>) {
     return this.bookRepo.allBySessionId(sessionId).then(books =>
-      Promise.all(books.map(_ => this.bookm(_)))
-        .then(books => ({
-          books
-        })));
+      Promise.all(books.map(_ => this.bookm(_))));
+  }
+
+  featured() {
+    return this.bookRepo.allFeatured().then(books =>
+      Promise.all(books.map(_ => this.bookm(_))));
   }
 
   bookm(book: kbt.Book) {
