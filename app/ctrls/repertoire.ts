@@ -12,8 +12,9 @@ export default class Repertoire extends ChestCtrl {
     let ctx: any = await this.reqToCtx(req);
 
     let { sessionId } = req.session;
-
-    Promise.all([this.env.book.api.list(sessionId, ctx.me),
+    Promise.all([sessionId?
+      this.env.book.api.list(sessionId, ctx.me):
+      Promise.resolve([]),
                  this.env.book.api.featured()]).then(([books, featured]) =>
                    res.send(html.repertoire.all({ books, featured })(ctx)));
   }

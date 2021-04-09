@@ -10,6 +10,7 @@ export default function routes(c: wireCtrls) {
   router.get('/auth/guest', c.auth.guest.bind(c.auth));
   router.get('/auth/lichess', c.auth.lichess.bind(c.auth));
   router.get('/callback', c.auth.callback.bind(c.auth));
+  router.get('/logout', c.auth.logout.bind(c.auth));
 
   router.get('/repertoire', c.repertoire.all.bind(c.repertoire));
   router.get('/c/:contentId', c.content.show.bind(c.content));

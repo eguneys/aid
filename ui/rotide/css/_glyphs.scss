@@ -1,0 +1,27 @@
+.popup.glyphs {
+  width: 40%;
+  aspect-ratio: 1/1;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: $c-bg-low;
+  box-shadow: $box-shadow;
+
+  .group {
+    @extend %flex-center;
+    margin: 0.1em;
+
+    span {
+      cursor: pointer;
+      width: 2em;
+      aspect-ratio: 1/1;
+      padding: 0.2em;
+      border-radius: 2px;
+      text-align: center;
+      &:hover {
+        color: $c-bg-page;
+        background: $c-font;
+      }
+    }
+  }
+}

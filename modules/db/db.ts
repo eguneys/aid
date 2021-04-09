@@ -1,6 +1,6 @@
-import { MemCol } from './memcoll';
+import { Coll, WithId } from './coll';
 
-export default class Db {
+export default abstract class Db {
 
   dbName: string
   prefix: string
@@ -10,7 +10,5 @@ export default class Db {
     this.prefix = prefix;
   }
 
-  apply<A>(name: string) {
-    return new MemCol<A>(name);
-  }
+  abstract apply<A extends WithId>(name: string): Coll<A>
 }

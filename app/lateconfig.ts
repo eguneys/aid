@@ -5,6 +5,7 @@ import * as chest from '../modules';
 import { Coll } from '../modules/db';
 
 export type LateConfig = {
+  id: string,
   project: string,
   cookie_secret: string,
   lila_oauth: {

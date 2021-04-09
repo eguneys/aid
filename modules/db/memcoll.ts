@@ -1,4 +1,4 @@
-import { Coll } from './coll';
+import { WithId, Coll } from './coll';
 
 const fUpdate = (update: any) => (_: any) => {
   for (let key of Object.keys(update)) {
@@ -15,12 +15,12 @@ const fFind = (query: any) => (_: any) => {
   return true;
 }
 
-export class MemCol<A> extends Coll<A> {
-  
+export class MemCol<A extends WithId> extends Coll<A> {
+
   data: Array<A>
 
   constructor(name: string) {
-    super(name);
+    super();
 
     this.data = [];
   }
@@ -39,11 +39,11 @@ export class MemCol<A> extends Coll<A> {
       .then(() => {})
   }
 
-  update(filter: any, update: any) {
+  update(id: string, update: any) {
     let _update = fUpdate(update);
     return Promise.resolve()
       .then(() =>
-        this.data.filter(fFind(filter)).forEach(_update))
+        this.data.filter(fFind({id})).forEach(_update))
       .then(() => {});
   }
   

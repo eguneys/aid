@@ -15,6 +15,14 @@ export default class AuthCtrl extends ChestCtrl {
     this.env2 = env2;
   }
 
+  async logout(req: any, res: any) {
+    let ctx: Context = await this.reqToCtx(req);
+
+    req.session.sessionId = undefined;
+
+    res.redirect('/auth');
+  }
+  
   async login(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
 

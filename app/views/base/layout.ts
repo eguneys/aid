@@ -17,12 +17,12 @@ const pieceSprite = () =>
 
 const dasher = (me: kbu.User) =>
   tags.div({ cls: 'dasher' }, [
-    tags.a({ id: 'user_tag', href: '/' }, [me.username])
+    tags.a({ id: 'user_tag', href: '/logout' }, [me.username])
   ])
 
 const guestDasher = () =>
   tags.div({ cls: 'dasher' }, [
-    tags.a({ id: 'user_tag', href: '/' }, ['Guest'])
+    tags.a({ id: 'user_tag', href: '/logout' }, ['Guest'])
   ]);
 
 const anonDasher = () => `

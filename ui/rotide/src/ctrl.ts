@@ -5,6 +5,13 @@ import { default as BarCtrl } from './bar/ctrl';
 import { noop, Invalidate, Redraw, RotideOpts } from './types';
 import { kbt } from 'koob';
 
+function insertAtCursor ($input: HTMLTextAreaElement, textToInsert: string) {
+  // make sure we have focus in the right input
+  $input.focus();
+  // and just run the command
+  document.execCommand('insertText', false /*no UI*/, textToInsert);
+}
+
 export default class Ctrl {
 
   csApi!: CsApi
@@ -13,6 +20,9 @@ export default class Ctrl {
   unsavedMd: string = defaultMd
   barCtrl: BarCtrl
   redraw: Redraw
+  $editor!: Element
+
+  isGlyphsOpen: boolean = false
   
   constructor(opts: RotideOpts, redraw: Redraw) {
     this.redraw = redraw;
@@ -55,6 +65,19 @@ export default class Ctrl {
 
   setCsApi(csApi: CsApi) {
     this.csApi = csApi;
+  }
+
+  set$Editor($editor: Element) {
+    this.$editor = $editor;
+  }
+
+  toggleGlyphs() {
+    this.isGlyphsOpen = !this.isGlyphsOpen;
+  }
+
+  addGlyph(symbol: string) {
+    insertAtCursor(this.$editor as HTMLTextAreaElement, symbol);
+    this.isGlyphsOpen = false;
   }
   
 }

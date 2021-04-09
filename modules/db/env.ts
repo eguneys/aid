@@ -1,4 +1,5 @@
-import Db from './db';
+import FireDb from './firedb';
+import MemDb from './memdb';
 import Configuration from '../../app/config';
 
 export class Env {
@@ -6,11 +7,11 @@ export class Env {
   collPrefix: string
 
   constructor(config: Configuration) {
-    this.collPrefix = config.mode === 'development' ? 'dev-' : '';
+    this.collPrefix = config.mode === 'development' ? 'dev' : '';
   }
 
   db(name: string) {
-    return new Db(name, this.collPrefix);
+    return new FireDb(name, this.collPrefix);
   }
   
 }

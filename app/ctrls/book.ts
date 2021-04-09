@@ -21,7 +21,8 @@ export default class BookCtrl extends ChestCtrl {
   
   async all(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-    this.opFuResult(this.env.book.pager.all(), res)(ctx);
+    this.authSession(req, res, sessionId =>
+      this.open(this.env.book.pager.allBySessionId(sessionId), res))(ctx);
   }
 
   async add(req: any, res: any) {
@@ -87,9 +88,10 @@ export default class BookCtrl extends ChestCtrl {
 
   async addContent(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-    e.fold(chest.book.form.content(req.body),
-           _ => this.open(this.env.book.api.createContent(_).then(() => _), res),
-           err => res.status(400).send({err}))
+    this.authSession(req, res, sessionId =>
+      e.fold(chest.book.form.content(req.body),
+             _ => this.open(this.env.book.api.createContent(_).then(() => _), res),
+             err => res.status(400).send({err})))(ctx);
   }
 
   async updateContent(req: any, res: any, next: any) {

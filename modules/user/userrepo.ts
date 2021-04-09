@@ -22,6 +22,7 @@ export default class UserRepo {
     };
 
     let liuser = {
+      id: user.id,
       userId: user.id,
       auth: liauth
     }

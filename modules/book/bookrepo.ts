@@ -55,9 +55,10 @@ export class BookRepo {
   }
 
   async allBySessionId(sessionId: kba.SessionId) {
-    return this.relColl.find({sessionId}).then(_ =>
-      Promise.all(_.map(_ => this.coll.find({ id: _.bookId })))
-        .then(_ => _.flat()));
+    return this.relColl.find({sessionId}).then(_ => {
+      return Promise.all(_.map(_ => this.coll.find({ id: _.bookId })))
+        .then(_ => _.flat())
+    });
   }
 
   async allFeatured() {
@@ -111,7 +112,7 @@ export class BookRepo {
   }
 
   async updateContent(contentId: kbt.ContentId, update: kbt.UpdateContent) {
-    return this.contentColl.update({id: contentId }, update);
+    return this.contentColl.update(contentId, update);
   }
 
   async insertSessboo(sessBoo: kblr.SessionBook) {

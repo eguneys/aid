@@ -12,8 +12,9 @@ export default class BookApi {
 
   createBySessionId(sessionId: kba.SessionId, book: kbt.Book) {
     return this.bookRepo.insert(book)
-      .then(() => this.bookRepo.insertSessboo({ sessionId,
-                                               bookId: book.id }));
+      .then(() => this.bookRepo.insertSessboo({ id: sessionId,
+                                                sessionId,
+                                                bookId: book.id }));
   }
 
   createChapter(chapter: kbt.Chapter) {

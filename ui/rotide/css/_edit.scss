@@ -1,0 +1,22 @@
+.editor {
+  position: relative;
+  
+  .edit {
+    padding: 0.2em;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    span {
+      padding: 0.2em;
+      cursor: pointer;
+      border-radius: 3px;
+      &:hover {
+        color: $c-secondary;
+        box-shadow: $box-shadow;
+      }
+    }
+  }
+}
+
+@import 'glyphs';

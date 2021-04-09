@@ -57,7 +57,10 @@
         - [ ] rate limit
         - [ ] length constraint
         - [ ] xss
-    3. [ ] database
+        - [ ] cleanup
+    2c. [ ] spinner
+        - [ ] double request
+    3. [x] database
     4. [ ] glyphs
     5. [ ] write King's Gambit
     6. [ ] opening progress tree !top
