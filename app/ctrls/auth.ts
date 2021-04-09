@@ -55,7 +55,7 @@ export default class AuthCtrl extends ChestCtrl {
     this.env2.lila.auth
       .exchangeCode(req.query.code)
       .then(user =>
-        this.env.user.api.save(user).then(_ =>
+        this.env.user.api.getOrCreate(user).then(_ =>
           this.env.security.api.saveSession(_).then(sessionId => {
             req.session.sessionId = sessionId;
             res.redirect('/');

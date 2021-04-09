@@ -10,11 +10,14 @@ export default class BookApi {
     this.bookRepo = bookRepo;
   }
 
-  createBySessionId(sessionId: kba.SessionId, book: kbt.Book) {
-    return this.bookRepo.insert(book)
-      .then(() => this.bookRepo.insertSessboo({ id: sessionId,
-                                                sessionId,
-                                                bookId: book.id }));
+  async createBySessionOrUser(sessionId: kba.SessionId, userId: Maybe<kbu.UserId>, book: kbt.Book) {
+    await this.bookRepo.insert(book)
+    
+    await this.bookRepo.insertSessboo(sessionId, userId, book.id);
+  }
+
+  async delete(bookId: kbt.BookId) {
+    await this.bookRepo.delete(bookId);
   }
 
   createChapter(chapter: kbt.Chapter) {
@@ -46,7 +49,7 @@ export default class BookApi {
   }
 
   list(sessionId: kba.SessionId, me: Maybe<kbu.User>) {
-    return this.bookRepo.allBySessionId(sessionId).then(books =>
+    return this.bookRepo.allBySessionId(sessionId, me?.id).then(books =>
       Promise.all(books.map(_ => this.bookm(_))));
   }
 

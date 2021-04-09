@@ -17,7 +17,7 @@ export default class FireDb extends Db {
   apply<A extends WithId>(name: string) {
     return new FireColl<A>(
       this.firestore
-        .collection(`${this.prefix}.${this.dbName}.${name}`));
+        .collection(`${this.prefix}/${this.dbName}/${name}`));
   }
 
 }

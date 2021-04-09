@@ -28,6 +28,10 @@ export default class SecurityApi {
   restoreUser(req: any): Fu<Maybe<kbu.User>> {
     let { sessionId } = req.session;
 
+    if (!sessionId) {
+      return Promise.resolve(undefined);
+    }
+    
     return this.store.authInfo(sessionId).then(userId =>
       userId ? this.userRepo.byId(userId)
       : Promise.resolve(undefined));

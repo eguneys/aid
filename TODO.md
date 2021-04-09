@@ -46,7 +46,7 @@
        - [ ] sibling contents
     2. [ ] repertoire
        - [ ] list
-         - [x] user books
+         - [+] user books
          - [ ] featured books
          - [ ] public books
        - [ ] remove
@@ -61,6 +61,8 @@
     2c. [ ] spinner
         - [ ] double request
     3. [x] database
+    13. [ ] lichess authentication
+        - [ ] existing user
     4. [ ] glyphs
     5. [ ] write King's Gambit
     6. [ ] opening progress tree !top
@@ -68,7 +70,6 @@
     10. [ ] spoiler lines
     11. [ ] write DEM
     12. [ ] endgame progress
-    13. [ ] lichess authentication
     14. [ ] landing page
     15. [ ] about page
     16. [ ] production build

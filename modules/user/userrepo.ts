@@ -39,5 +39,9 @@ export default class UserRepo {
   byId(id: kbu.UserId) {
     return this.coll.one({id});
   }
+
+  byUsername(username: string) {
+    return this.coll.one({username});
+  }
   
 }

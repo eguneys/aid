@@ -1,4 +1,4 @@
-import { kbto, kbt, kba, kblr } from 'koob';
+import { kbto, kbt, kba, kbu, kblr } from 'koob';
 import { Coll } from '../db/coll';
 import { nextString } from '../common';
 
@@ -34,6 +34,10 @@ export class BookRepo {
     return this.coll.insert(book)
   }
 
+  async delete(bookId: kbt.BookId) {
+    return this.coll.delete(bookId);
+  }
+
   async book(bookId: kbt.BookId) {
     return this.coll.one({id: bookId});
   }
@@ -54,8 +58,9 @@ export class BookRepo {
     return this.contentColl.one({ sourceId });
   }
 
-  async allBySessionId(sessionId: kba.SessionId) {
-    return this.relColl.find({sessionId}).then(_ => {
+  async allBySessionId(sessionId: kba.SessionId, userId: Maybe<kbu.UserId>) {
+    let userOrSession = userId ? {userId}: {sessionId};
+    return this.relColl.find(userOrSession).then(_ => {
       return Promise.all(_.map(_ => this.coll.find({ id: _.bookId })))
         .then(_ => _.flat())
     });
@@ -115,8 +120,13 @@ export class BookRepo {
     return this.contentColl.update(contentId, update);
   }
 
-  async insertSessboo(sessBoo: kblr.SessionBook) {
-    return this.relColl.insert(sessBoo);
+  async insertSessboo(sessionId: kba.SessionId, userId: Maybe<kbu.UserId>, bookId: kbt.BookId) {
+    return this.relColl.insert({
+      id: nextString(8),
+      sessionId,
+      userId,
+      bookId
+    });
   }
   
 }

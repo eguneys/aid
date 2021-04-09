@@ -1,6 +1,16 @@
 import { kbt } from 'koob';
 import { e, nextString } from '../common';
 
+export function bookId(body: any): e.Either<kbt.BookId, string> {
+  let { id } = body;
+
+  if (id.length !== 8) {
+    return e.right('Invalid book id');
+  } else {
+    return e.left(id);
+  }
+}
+
 export function book(body: any): e.Either<kbt.Book, string> {
   let { name } = body;
 

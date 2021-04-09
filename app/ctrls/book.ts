@@ -22,7 +22,7 @@ export default class BookCtrl extends ChestCtrl {
   async all(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
     this.authSession(req, res, sessionId =>
-      this.open(this.env.book.pager.allBySessionId(sessionId), res))(ctx);
+      this.open(this.env.book.pager.allBySessionId(sessionId, ctx.me?.id), res))(ctx);
   }
 
   async add(req: any, res: any) {
@@ -31,10 +31,23 @@ export default class BookCtrl extends ChestCtrl {
     this.authSession(req, res, sessionId =>
       e.fold(chest.book.form.book(req.body),
              _ => this.open(this.env.book.api
-               .createBySessionId(sessionId, _)
+               .createBySessionOrUser(sessionId, ctx.me?.id, _)
                .then(() => _), res),
              err => res.status(400).send({err})))(ctx);
   }
+
+  async delete(req: any, res: any) {
+    let ctx: Context = await this.reqToCtx(req);
+
+    this.authSession(req, res, sessionId =>
+      e.fold(chest.book.form.bookId(req.body),
+             _ => this.ok(this.env.book.api
+               .delete(_), res),
+             err => res.status(400).send({err})))(ctx);
+  }
+
+
+  
 
 
   async chapter(req: any, res: any) {
@@ -57,9 +70,10 @@ export default class BookCtrl extends ChestCtrl {
   async addChapter(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
 
-    e.fold(chest.book.form.chapter(req.body),
-           _ => this.open(this.env.book.api.createChapter(_).then(() => _), res),
-           err => res.status(400).send({err}))
+    this.authSession(req, res, sessionId =>
+      e.fold(chest.book.form.chapter(req.body),
+             _ => this.open(this.env.book.api.createChapter(_).then(() => _), res),
+             err => res.status(400).send({err})))(ctx);
   }
 
   async sections(req: any, res: any) {
@@ -73,10 +87,25 @@ export default class BookCtrl extends ChestCtrl {
   async addSection(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
 
-    e.fold(chest.book.form.section(req.body),
-           _ => this.open(this.env.book.api.createSection(_).then(() => _), res),
-           err => res.status(400).send({err}))
+    this.authSession(req, res, sessionId =>
+      e.fold(chest.book.form.section(req.body),
+             _ => this.open(this.env.book.api.createSection(_).then(() => _), res),
+             err => res.status(400).send({err})))(ctx);
   }
+
+  async section(req: any, res: any) {
+    let ctx: Context = await this.reqToCtx(req);
+    let { sectionId } = req.params;
+    
+    this.opFuResult(this.env.book.pager.section(sectionId), res)(ctx);
+  }
+
+  async content(req: any, res: any) {
+    let ctx: Context = await this.reqToCtx(req);
+    let { contentId } = req.params;
+    
+    this.opFuResult(this.env.book.pager.content(contentId), res)(ctx);
+  }  
 
   async contents(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);

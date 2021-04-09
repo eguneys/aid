@@ -9,8 +9,10 @@ export default class UserApi {
     this.repo = repo;
   }
 
-  save(liauth: LiAuth) {
-    return this.repo.createUserFromLichess(liauth);
+  async getOrCreate(liauth: LiAuth) {
+    let user = await this.repo.byUsername(liauth.username)
+
+    return user || this.repo.createUserFromLichess(liauth);
   }
   
 }

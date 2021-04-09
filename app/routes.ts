@@ -21,13 +21,17 @@ export default function routes(c: wireCtrls) {
   router.get('/book/:bookId', c.book.book.bind(c.book));
   router.get('/books', c.book.all.bind(c.book));
   router.post('/books', upload.none(), c.book.add.bind(c.book));
+  router.delete('/books', upload.none(), c.book.delete.bind(c.book));
 
   router.get('/chapter/:chapterId', c.book.chapter.bind(c.book));
   router.get('/chapters/:bookId', c.book.chapters.bind(c.book));
   router.post('/chapters', upload.none(), c.book.addChapter.bind(c.book));
+
+  router.get('/section/:sectionId', c.book.section.bind(c.book));
   router.get('/sections/:chapterId', c.book.sections.bind(c.book));
   router.post('/sections', upload.none(), c.book.addSection.bind(c.book));
 
+  router.get('/content/:contentId', c.book.content.bind(c.book));
   router.get('/contents/:sourceId', c.book.contents.bind(c.book));
   router.post('/contents', upload.none(), c.book.addContent.bind(c.book));
   router.post('/contents/:contentId', upload.none(), c.book.updateContent.bind(c.book));

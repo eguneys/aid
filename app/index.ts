@@ -27,6 +27,7 @@ export async function withApp(cb: (_: express.Application, __: () => void) => vo
     app.use(cookieSession({
       name: 'rk2',
       secret: cookie_secret,
+      signed: false,
       maxAge: 7 * 24 * 60 * 1000 // 1 week
     }));
     

@@ -15,7 +15,7 @@ export default class ChestCtrl {
 
   authSession(req: any, res: any, op: (sessionId: kba.SessionId) => void) {
     return (ctx: Context) => {
-      let { sessionId } = req.session;
+      let { sessionId } = ctx;
       if (!sessionId) {
         this.negotiate(() => res.redirect(401, '/auth'),
                        () => res.status(401).send({redirect:'/auth'}))(ctx);
@@ -27,6 +27,10 @@ export default class ChestCtrl {
 
   open<A>(fua: Fu<A>, res: any) {
     fua.then(_ => res.send(_));
+  }
+
+  ok(fua: Fu<void>, res: any) {
+    fua.then(() => res.send({ok: true}));
   }
   
   opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => any = _ => _) {
