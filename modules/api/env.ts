@@ -9,7 +9,8 @@ export class Env {
   constructor(bookEnv: chest.book.Env) {
     this.bookEnv = bookEnv;
     
-    this.bookApi = new BookApi(this.bookEnv.bookRepo);
+    this.bookApi = new BookApi(this.bookEnv.bookRepo,
+                               this.bookEnv.miscRepo);
   }
   
 }

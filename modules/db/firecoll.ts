@@ -61,6 +61,12 @@ export default class FireCol<A extends WithId> extends Coll<A> {
       .then(() => {});
   }
 
+  set(id: string, _: A) {
+    return this.coll
+      .doc(_.id).set(delUndefined(_))
+      .then(() => {});
+  }
+
   delete(id: string) {
     return this.coll
       .doc(id).delete()

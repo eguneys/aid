@@ -39,6 +39,10 @@ export class MemCol<A extends WithId> extends Coll<A> {
       .then(() => {})
   }
 
+  set(id: string, update: any) {
+    return Promise.reject('not implemented');
+  }
+
   delete(id: string) {
     return Promise.resolve()
       .then(() => this.data = this.data.filter(_ => _.id !== id))

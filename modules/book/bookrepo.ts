@@ -1,4 +1,4 @@
-import { kbto, kbt, kba, kbu, kblr } from 'koob';
+import { kbte, kbt, kba, kbu, kblr } from 'koob';
 import { Coll } from '../db/coll';
 import { nextString } from '../common';
 
@@ -10,14 +10,14 @@ export class BookRepo {
   sectionColl: Coll<kbt.Section>
   contentColl: Coll<kbt.Content>
   relColl: Coll<kblr.SessionBook>
-  collOptions: Coll<kbto.BookOptions>
+  collOptions: Coll<kbte.BookOptions>
 
   constructor(coll: Coll<kbt.Book>,
               chapterColl: Coll<kbt.Chapter>,
               sectionColl: Coll<kbt.Section>,
               contentColl: Coll<kbt.Content>,
               relColl: Coll<kblr.SessionBook>,
-              collOptions: Coll<kbto.BookOptions>) {
+              collOptions: Coll<kbte.BookOptions>) {
     this.coll = coll;
     this.chapterColl = chapterColl;
     this.sectionColl = sectionColl;
@@ -26,7 +26,7 @@ export class BookRepo {
     this.collOptions = collOptions;
   }
 
-  async insertOptions(options: kbto.BookOptions) {
+  async insertOptions(options: kbte.BookOptions) {
     this.collOptions.insert(options);
   }
   
@@ -108,12 +108,15 @@ export class BookRepo {
   }
 
   async insertContentDenormalized(update: kbt.UpdateContent, sourceId: kbt.SourceId) {
-    return this.contentColl.insert({
+    let content = {
       ...update,
       sourceId,
       name: 'default',
       id: nextString(8)
-    });
+    };
+    
+    await this.contentColl.insert(content);
+    return content;
   }
 
   async updateContent(contentId: kbt.ContentId, update: kbt.UpdateContent) {

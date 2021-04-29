@@ -1,13 +1,17 @@
 import { kbt, kbu, kba } from 'koob';
 import { BookRepo } from './bookrepo';
+import { MiscRepo } from './miscrepo';
 import { e } from '../common';
 
 export default class BookApi {
 
   bookRepo: BookRepo
+  miscRepo: MiscRepo
   
-  constructor(bookRepo: BookRepo) {
+  constructor(bookRepo: BookRepo,
+              miscRepo: MiscRepo) {
     this.bookRepo = bookRepo;
+    this.miscRepo = miscRepo;
   }
 
   async createBySessionOrUser(sessionId: kba.SessionId, userId: Maybe<kbu.UserId>, book: kbt.Book) {
@@ -32,20 +36,19 @@ export default class BookApi {
     return this.bookRepo.insertContent(content);
   }
 
-  updateContent(contentId: kbt.ContentId, update: kbt.UpdateContent) {
+  async updateContent(sessionId: kba.SessionId, contentId: kbt.ContentId, update: kbt.UpdateContent) {
+    await this.miscRepo.upsert(sessionId, contentId);
     return this.bookRepo.updateContent(contentId, update);
   }
 
-  updateContentOrDefault(contentId: kbt.ContentId, update: kbt.UpdateContent, sourceId?: kbt.SourceId) {
+  async updateContentOrDefault(sessionId: kba.SessionId, contentId: kbt.ContentId, update: kbt.UpdateContent) {
     if (contentId === 'default') {
-      if (sourceId) {
-        return this.bookRepo.insertContentDenormalized(update, sourceId);
-      } else {
-        return Promise.reject('No user id');
-      }
+      return this.bookRepo.insertContentDenormalized(update, sessionId);
     } else {
-      return this.updateContent(contentId, update);
+      await this.updateContent(sessionId, contentId, update);
     }
+
+    return this.bookRepo.content(contentId);
   }
 
   list(sessionId: kba.SessionId, me: Maybe<kbu.User>) {

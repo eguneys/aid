@@ -1,0 +1,47 @@
+#!/bin/bash -ea
+
+target=${1-prod}
+mode=${2-build} #build | css
+
+echo "building ui modules with target=$target"
+
+echo "node: $(node --version)"
+echo "yarn: $(yarn --version)"
+
+cd "$(git rev-parse --show-toplevel)"
+
+ls -l node_odules ui/node_modules ui/*/node_modules | grep /yarn/link/ || true
+
+mkdir -p public/compiled
+
+apps1="common"
+apps2="site rotide tencon"
+
+yarn install --non-interactive
+
+build() {
+  echo
+  echo "### ui/$@ ###"
+  set -ev
+
+  if [[ $1 == "css" ]]; then
+     cd ui
+     yarn run gulp $target
+  else
+     cd ui/$1
+     yarn run $target
+  fi
+}
+
+if [ $mode == "css" ]; then
+   (build css)
+else
+  if type -p parallel; then
+     set -x
+     parallel --gnu build ::: $apps1
+     parallel --gnu build ::: $apps2
+  else
+    echo "For faster build, install GNU parallel."
+    for app in $apps1 $apps2; do (build $app); done
+  fi
+fi

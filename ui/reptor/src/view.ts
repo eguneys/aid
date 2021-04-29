@@ -35,8 +35,8 @@ export function vChapterm(ctrl: Ctrl, { chapter, sections, contents }: kbm.Chapt
 
 export function vSectionm(ctrl: Ctrl, { section, contents }: kbm.SectionM) {
   return h('div.sectionm', [
-    vContents(ctrl, contents),
-    vSection(ctrl, section)
+    vSection(ctrl, section),
+    vContents(ctrl, contents)
   ]);
 }
 

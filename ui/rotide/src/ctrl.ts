@@ -54,7 +54,9 @@ export default class Ctrl {
 
   saveContent() {
     return kApi.updateContent(this.content.id, this.unsavedMd).then(_ => {
-      if (_.redirect) {
+      if (_.err) {
+        console.log(_.err);
+      } else if (_.redirect) {
         chest.redirect(_.redirect);
       } else {
         this.invalidateContent?.();

@@ -130,8 +130,8 @@ export default class BookCtrl extends ChestCtrl {
 
     this.authSession(req, res, sessionId =>
       e.fold(chest.book.form.updateContent(req.body),
-             _ => this.env.book.api.updateContentOrDefault(contentId, _, sessionId)
-               .then(() => res.send(_))
+             _ => this.env.book.api.updateContentOrDefault(sessionId, contentId, _)
+               .then(_ => res.send(_))
                .catch(err => res.send({err})),
              err => res.send({err})))(ctx);
   }
