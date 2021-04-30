@@ -17,14 +17,4 @@ export default class Site extends ChestCtrl {
       next();
     }
   }
-
-  async editor(req: any, res: any) {
-    let ctx: any = await this.reqToCtx(req);
-
-    let { sessionId } = req.session;
-
-    this.env.api.bookApi.editor(ctx.me, sessionId).then(data =>    
-      res.send(html.site.editor(data)(ctx)));
-  }
-
 }

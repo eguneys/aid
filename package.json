@@ -33,17 +33,11 @@
     "simple-oauth2": "^4.2.0"
   },
   "workspaces": [
-    "shared/koobm",
     "shared/options",
     "shared/common",
-    "modules/koob",
     "@types/chest",
     "ui",
     "ui/common",
-    "ui/ateb",
-    "ui/tencon",
-    "ui/rotide",
-    "ui/reptor",
     "ui/site",
     "ui/@build/webpackProject",
     "ui/@types/uichest"

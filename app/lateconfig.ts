@@ -3,9 +3,9 @@ import devConfig from '../conf/late_dev';
 import Configuration from './config';
 import * as chest from '../modules';
 import { Coll } from '../modules/db';
+import { BSONId, DocId, defaultBsonHandler } from '../modules/db/bson';
 
-export type LateConfig = {
-  id: string,
+export type LateConfig = DocId & {
   project: string,
   cookie_secret: string,
   lila_oauth: {

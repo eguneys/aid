@@ -1,30 +1,31 @@
 import { Coll } from '../db';
-import { kba, kbu } from 'koob';
+import Session, { SessionId } from './session';
+import { UserId } from '../user/user';
 
 export default class Store {
 
-  coll: Coll<kba.Session>
+  coll: Coll<Session>
   
-  constructor(coll: Coll<kba.Session>) {
+  constructor(coll: Coll<Session>) {
     this.coll = coll;
   }
 
-  save(sessionId: kba.SessionId, userId: kbu.UserId) {
-    return this.coll.insert({
+  save(sessionId: SessionId, userId: UserId) {
+    return this.coll.insert(Session.make({
       id: sessionId,
-      date: Date.now(),
+      createdAt: Date.now(),
       userId
-    });
+    }));
   }
   
-  saveAnon(sessionId: kba.SessionId) {
-    return this.coll.insert({
+  saveAnon(sessionId: SessionId) {
+    return this.coll.insert(Session.make({
       id: sessionId,
-      date: Date.now()
-    });
+      createdAt: Date.now()
+    }));
   }
 
-  authInfo(sessionId: kba.SessionId) {
+  authInfo(sessionId: SessionId) {
     return this.coll.one({id: sessionId})
       .then(_ => _?.userId);
   }

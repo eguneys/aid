@@ -1,6 +1,7 @@
 import Store from './store';
 import { UserRepo } from '../user';
-import { kbu, kba } from 'koob';
+import User, { UserId } from '../user/user';
+import Session, { SessionId } from './session';
 import { nextString } from '../common';
 
 export default class SecurityApi {
@@ -14,18 +15,18 @@ export default class SecurityApi {
     this.store = store;
   }
 
-  saveSession(user: kbu.User): Fu<kba.SessionId> {
-    let sessionId: kba.SessionId = nextString(8);
+  saveSession(user: User): Fu<SessionId> {
+    let sessionId: SessionId = nextString(8);
     return this.store.save(sessionId, user.id)
       .then(_ => sessionId);
   }
 
-  anonymousSessionId(): Fu<kba.SessionId> {
-    let sessionId: kba.SessionId = nextString(8);
+  anonymousSessionId(): Fu<SessionId> {
+    let sessionId: SessionId = nextString(8);
     return this.store.saveAnon(sessionId).then(_ => sessionId);
   }
 
-  restoreUser(req: any): Fu<Maybe<kbu.User>> {
+  restoreUser(req: any): Fu<Maybe<User>> {
     let { sessionId } = req.session;
 
     if (!sessionId) {

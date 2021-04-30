@@ -3,7 +3,8 @@ import { CollectionReference,
          Query,
          QuerySnapshot,
          QueryDocumentSnapshot } from '@google-cloud/firestore';
-import { Coll, WithId } from './coll';
+import { Coll } from './coll';
+import { BSONId, DocId } from './bson';
 
 const fQuery = (query: any) => (coll: CollectionReference) => {
   let _query: CollectionReference | Query = coll;
@@ -15,21 +16,21 @@ const fQuery = (query: any) => (coll: CollectionReference) => {
   return _query;
 };
 
-export default class FireCol<A extends WithId> extends Coll<A> {
+export default class FireCol<A> extends Coll<A> {
 
   coll: CollectionReference
   
-  constructor(coll: CollectionReference) {
-    super();
+  constructor(coll: CollectionReference, bson: BSONId<A>) {
+    super(bson);
 
     this.coll = coll;
   }
 
   $doc(doc: DocumentSnapshot): A {
-    return {
+    return this.read({
       id: doc.id,
       ...doc.data()
-    } as A;
+    })!;
   }
 
   byId(id: string) {
@@ -56,14 +57,16 @@ export default class FireCol<A extends WithId> extends Coll<A> {
   }
 
   insert(_: A) {
+    let doc = this.write(_)!;
     return this.coll
-      .doc(_.id).set(delUndefined(_))
+      .doc(doc.id).set(doc)
       .then(() => {});
   }
 
   set(id: string, _: A) {
+    let doc = this.write(_)!;
     return this.coll
-      .doc(_.id).set(delUndefined(_))
+      .doc(doc.id).set(doc)
       .then(() => {});
   }
 

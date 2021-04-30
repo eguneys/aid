@@ -4,7 +4,7 @@ import { Context, PageData, PageDataAnon } from '../../modules/api';
 import { UserContext } from '../../modules/user';
 import { random as nonceRandom } from '../../modules/common';
 import * as chest from '../../modules';
-import { kba } from 'koob';
+import { SessionId } from '../../modules/security/session';
 
 export default class ChestCtrl {
   env: Env
@@ -13,7 +13,7 @@ export default class ChestCtrl {
     this.env = env;
   }
 
-  authSession(req: any, res: any, op: (sessionId: kba.SessionId) => void) {
+  authSession(req: any, res: any, op: (sessionId: SessionId) => void) {
     return (ctx: Context) => {
       let { sessionId } = ctx;
       if (!sessionId) {

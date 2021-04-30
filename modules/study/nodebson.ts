@@ -2,11 +2,7 @@ import { Node, NodeRoot, NodeChildren } from './node';
 import { nt, uc, uci } from 'tschess';
 import Path, { rootDbKey } from './path';
 import { reader, writer } from './flattree';
-
-export type BSON<A, ADoc> = {
-  read(doc: ADoc): A,
-  write(a: A): ADoc
-}
+import { BSON } from '../db/bson';
 
 export type RootOrNodeDoc = {
   ply: number,
@@ -52,7 +48,7 @@ export function writeNode(n: Node): NodeDoc {
   
 }
 
-export const nodeRootBsonHandler: BSON<NodeRoot, RootFullDoc> = {
+export const nodeRootBsonHandler: BSON<NodeRoot> = {
   read(doc: RootFullDoc): NodeRoot {
     let rootNode = doc[rootDbKey];
     return NodeRoot.make({

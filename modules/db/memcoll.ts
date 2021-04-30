@@ -1,4 +1,5 @@
-import { WithId, Coll } from './coll';
+import { Coll } from './coll';
+import { BSONId, DocId } from './bson';
 
 const fUpdate = (update: any) => (_: any) => {
   for (let key of Object.keys(update)) {
@@ -15,27 +16,30 @@ const fFind = (query: any) => (_: any) => {
   return true;
 }
 
-export class MemCol<A extends WithId> extends Coll<A> {
+export class MemCol<A> extends Coll<A> {
 
-  data: Array<A>
+  data: Array<DocId>
 
-  constructor(name: string) {
-    super();
+  constructor(name: string, bson: BSONId<A>) {
+    super(bson);
 
     this.data = [];
   }
 
   one(query: any) {
-    return Promise.resolve(this.data.find(fFind(query)));
+    return Promise
+      .resolve(this.data.find(fFind(query)))
+      .then(_ => this.read(_));
   }
   
   find(query: any) {
-    return Promise.resolve(this.data.filter(fFind(query)));
+    return Promise
+      .resolve(this.data.filter(fFind(query)).map(_ => this.read(_)!))
   }
 
   insert(_: A) {
     return Promise.resolve()
-      .then(() => this.data.push(_))
+      .then(() => this.data.push(this.write(_)!))
       .then(() => {})
   }
 

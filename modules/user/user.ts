@@ -1,8 +1,21 @@
-import { kbu } from 'koob';
-import { LiAuth } from '../lila/auth';
+import { BSONId } from '../db/bson';
+import { UserDoc } from './bson';
 
-export type LiUser = {
-  id: kbu.UserId,
-  userId: kbu.UserId,
-  auth: LiAuth
+export type UserId = string
+
+export default class User {
+
+  static make = (doc: UserDoc) =>
+    new User(doc.id,
+             doc.username)
+  
+  id: UserId
+  username: string
+  
+  constructor(id: UserId,
+              username: string) {
+    this.id = id;
+    this.username = username;
+  }
+  
 }

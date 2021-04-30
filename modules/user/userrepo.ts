@@ -1,15 +1,15 @@
 import { nextString } from '../common';
-import { kbu } from 'koob';
 import { Coll } from '../db';
 import { LiAuth } from '../lila/auth';
-import { LiUser } from './user';
+import User, { UserId } from './user';
+import LiUser from './liuser';
 
 export default class UserRepo {
 
   liColl: Coll<LiUser>
-  coll: Coll<kbu.User>
+  coll: Coll<User>
   
-  constructor(coll: Coll<kbu.User>,
+  constructor(coll: Coll<User>,
               liColl: Coll<LiUser>) {
     this.coll = coll;
     this.liColl = liColl;
@@ -32,11 +32,11 @@ export default class UserRepo {
       .then(() => user);
   }
   
-  insert(user: kbu.User) {
+  insert(user: User) {
     return this.coll.insert(user);
   }
 
-  byId(id: kbu.UserId) {
+  byId(id: UserId) {
     return this.coll.one({id});
   }
 

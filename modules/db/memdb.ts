@@ -1,6 +1,6 @@
 import Db from './db';
 import { MemCol } from './memcoll';
-import { WithId } from './coll';
+import { BSONId, DocId, defaultBsonHandler } from './bson';
 
 export default class MemDb extends Db {
 
@@ -9,8 +9,8 @@ export default class MemDb extends Db {
     super(dbName, prefix);
   }
 
-  apply<A extends WithId>(name: string) {
-    return new MemCol<A>(name);
+  apply<A extends DocId>(name: string, bson: BSONId<A> = defaultBsonHandler<A>()): MemCol<A> {
+    return new MemCol<A>(name, bson);
   }
 
 }

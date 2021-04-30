@@ -1,17 +1,17 @@
 import express from 'express';
 import { Nonce } from '../common';
-import { kbu } from 'koob';
+import User from './user';
 
 export class UserContext {
   req: express.Request
 
-  me: Maybe<kbu.User>
+  me: Maybe<User>
 
   isAuth: boolean
   sessionId?: string
 
   constructor(req: express.Request,
-              me: Maybe<kbu.User>) {
+              me: Maybe<User>) {
     this.req = req;
     this.me = me;
 
@@ -22,7 +22,7 @@ export class UserContext {
 
 export class UserContextWrapper {
   userContext: UserContext
-  me: Maybe<kbu.User>
+  me: Maybe<User>
   req: any
   sessionId?: string
   

@@ -1,11 +1,24 @@
-export type WithId = {
-  id: string
-}
+import { BSONId, DocId } from './bson';
 
 
-export abstract class Coll<A extends WithId> {
+export abstract class Coll<A> {
 
-  constructor() {
+  bson: BSONId<A>
+  
+  constructor(bson: BSONId<A>) {
+    this.bson = bson;
+  }
+
+  read(doc: Maybe<DocId>): Maybe<A> {
+    if (doc) {
+      return this.bson.read(doc);
+    }
+  }
+
+  write(a: Maybe<A>): Maybe<DocId> {
+    if (a) {
+      return this.bson.write(a);
+    }
   }
 
   abstract one(query: any): Fu<Maybe<A>>

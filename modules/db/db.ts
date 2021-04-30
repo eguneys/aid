@@ -1,4 +1,5 @@
-import { Coll, WithId } from './coll';
+import { Coll } from './coll';
+import { DocId, BSONId, defaultBsonHandler } from './bson';
 
 export default abstract class Db {
 
@@ -10,5 +11,5 @@ export default abstract class Db {
     this.prefix = prefix;
   }
 
-  abstract apply<A extends WithId>(name: string): Coll<A>
+  abstract apply<A extends DocId>(name: string, bson?: BSONId<A>): Coll<A>
 }

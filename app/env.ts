@@ -7,7 +7,6 @@ import * as chest from '../modules';
 export class Env {
 
   net: NetConfig
-  book: chest.book.Env
   api: chest.api.Env
   user: chest.user.Env
   security: chest.security.Env
@@ -15,12 +14,10 @@ export class Env {
   constructor(net: NetConfig,
               api: chest.api.Env,
               user: chest.user.Env,
-              book: chest.book.Env,
               security: chest.security.Env) {
     this.net = net;
     this.api = api;
     this.user = user;
-    this.book = book;
     this.security = security;
   }
 
@@ -54,17 +51,15 @@ export default class EnvBoot {
     let mainDb = this.mongo.db('main');
 
     let user = new chest.user.Env(mainDb);
-    let book = new chest.book.Env(this.mongo);
     let security = new chest.security.Env(
       user.repo,
       mainDb);
-    let api = new chest.api.Env(book);
+    let api = new chest.api.Env();
 
 
     this.env = new Env(config.net,
                        api,
                        user,
-                       book,
                        security);
 
     helperEnv.setEnv(this.env);

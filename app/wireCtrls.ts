@@ -7,9 +7,6 @@ export default class wireCtrls {
   envAwait: EnvAwait
   auth: c.Auth
   site: c.Site
-  book: c.Book
-  content: c.Content
-  repertoire: c.Repertoire
 
   constructor(_: EnvBoot) {
 
@@ -19,9 +16,6 @@ export default class wireCtrls {
     this.site = new c.Site(this.env);
     this.auth = new c.Auth(this.env,
                            this.envAwait);
-    this.book = new c.Book(this.env);
-    this.content = new c.Content(this.env);
-    this.repertoire = new c.Repertoire(this.env);    
 
   }
   

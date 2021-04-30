@@ -1,8 +1,7 @@
 import tags from '../tags';
 import * as h from '../helper';
 import { Context } from '../../../modules/api';
-import { kbu } from 'koob';
-
+import User from '../../../modules/user/user';
 
 const doctype = tags.raw('<!DOCTYPE html>');
 const htmlTag = tags.html();
@@ -15,7 +14,7 @@ export type LayoutParams = {
 const pieceSprite = () => 
   tags.linkt({ id: 'piece-sprite', href: h.assetUrl('piece-css/cburnett.css'), rel: 'stylesheet'});
 
-const dasher = (me: kbu.User) =>
+const dasher = (me: User) =>
   tags.div({ cls: 'dasher' }, [
     tags.a({ id: 'user_tag', href: '/logout' }, [me.username])
   ])
