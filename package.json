@@ -4,10 +4,11 @@
   "license": "MIT",
   "private": "true",
   "scripts": {
-    "watch": "tsc-watch --onSuccess \"yarn -s start\"",
+    "watch": "tsc-watch --onSuccess 'yarn -s start'",
     "build": "rm -rf lib && tsc",
     "start": "node ./bin/www",
-    "test": "yarn -s build && ava",
+    "test": "yarn build && ava",
+    "watchtest": "tsc-watch --onSuccess 'ava'",
     "prod": "NODE_ENV=production node ./bin/www"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
   "workspaces": [
     "shared/koobm",
     "shared/options",
+    "shared/common",
     "modules/koob",
     "@types/chest",
     "ui",
