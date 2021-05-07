@@ -12,11 +12,11 @@ export default class Session {
   }
   
   userId?: UserId
-  createdAt: Date
+  createdAt: number
   id: SessionId
 
   constructor(id: SessionId,
-              createdAt: Date,
+              createdAt: number,
               userId?: UserId) {
     this.id = id;
     this.createdAt = createdAt;

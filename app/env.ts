@@ -10,15 +10,18 @@ export class Env {
   api: chest.api.Env
   user: chest.user.Env
   security: chest.security.Env
+  study: chest.study.Env
   
   constructor(net: NetConfig,
               api: chest.api.Env,
               user: chest.user.Env,
-              security: chest.security.Env) {
+              security: chest.security.Env,
+              study: chest.study.Env) {
     this.net = net;
     this.api = api;
     this.user = user;
     this.security = security;
+    this.study = study;
   }
 
 }
@@ -54,13 +57,17 @@ export default class EnvBoot {
     let security = new chest.security.Env(
       user.repo,
       mainDb);
+    let study = new chest.study.Env(
+      mainDb
+    );
     let api = new chest.api.Env();
 
 
     this.env = new Env(config.net,
                        api,
                        user,
-                       security);
+                       security,
+                       study);
 
     helperEnv.setEnv(this.env);
   }

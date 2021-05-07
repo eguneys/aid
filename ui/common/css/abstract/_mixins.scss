@@ -6,6 +6,11 @@
   box-shadow: $box-shadow;
 }
 
+@mixin box-neat {
+  @include box-radius;
+  @include box-shadow;
+}
+
 @mixin transition($prop: all, $dur: $transition-duration) {
   transition: $prop $dur;
 }

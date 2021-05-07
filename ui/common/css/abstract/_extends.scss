@@ -24,6 +24,14 @@
   
 }
 
+%page-font {
+  color: $c-font-page;
+}
+
+%page-text {
+  @extend %page-font, %page-text-shadow !optional;
+}
+
 %button-shadow {
   box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, 0.225);
 }
@@ -39,6 +47,15 @@
 
 %box-padding {
   padding: 5vh var(--box-padding);
+}
+
+%box-padding-horiz {
+  padding: 0 var(--box-padding);
+}
+
+%nowrap-hidden {
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 %ellipsis {

@@ -1,5 +1,5 @@
 import { Coll } from './coll';
-import { BSONId, DocId } from './bson';
+import { BSON, BSONId, DocId } from './bson';
 
 const fUpdate = (update: any) => (_: any) => {
   for (let key of Object.keys(update)) {
@@ -15,6 +15,14 @@ const fFind = (query: any) => (_: any) => {
   }
   return true;
 }
+
+const fProjection = (projection: any) => (_: any) => {
+  let res: any = {};
+  for (let key in projection) {
+    res[key] = _[key];
+  }
+  return res;
+};
 
 export class MemCol<A> extends Coll<A> {
 
@@ -35,6 +43,13 @@ export class MemCol<A> extends Coll<A> {
   find(query: any) {
     return Promise
       .resolve(this.data.filter(fFind(query)).map(_ => this.read(_)!))
+  }
+
+  findProjection<B>(query: any, projection: any, bson: BSON<B>) {
+    return Promise
+      .resolve(this.data.filter(fFind(query))
+      .map(fProjection(projection))
+      .map(_ => bson.read(_)!));
   }
 
   insert(_: A) {

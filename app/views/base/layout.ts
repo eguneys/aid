@@ -65,10 +65,7 @@ function topnav() {
                                 tags.span({ cls: 'domain'}, ['chessishard.com'])]))
     ),
     tags.section(
-      linkTitle('/repertoire', 'Repertoire')
-    ),
-    tags.section(
-      linkTitle('/editor', 'Editor')
+      linkTitle('/study', tags.frag([tags.span({ cls: 'study'}, ['study'])]))
     )
   ]);
 }

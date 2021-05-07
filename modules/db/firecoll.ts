@@ -4,7 +4,7 @@ import { CollectionReference,
          QuerySnapshot,
          QueryDocumentSnapshot } from '@google-cloud/firestore';
 import { Coll } from './coll';
-import { BSONId, DocId } from './bson';
+import { BSON, BSONId, DocId } from './bson';
 
 const fQuery = (query: any) => (coll: CollectionReference) => {
   let _query: CollectionReference | Query = coll;
@@ -14,6 +14,14 @@ const fQuery = (query: any) => (coll: CollectionReference) => {
     }
   }
   return _query;
+};
+
+const fProjection = (projection: any) => (_: any) => {
+  let res: any = {};
+  for (let key in projection) {
+    res[key] = _[key];
+  }
+  return res;
 };
 
 export default class FireCol<A> extends Coll<A> {
@@ -26,6 +34,13 @@ export default class FireCol<A> extends Coll<A> {
     this.coll = coll;
   }
 
+  $project<B>(doc: DocumentSnapshot, projection: any, bson: BSON<B>): B {
+    return bson.read(fProjection(projection)({
+      id: doc.id,
+      ...doc.data()
+    }));
+  }
+  
   $doc(doc: DocumentSnapshot): A {
     return this.read({
       id: doc.id,
@@ -52,6 +67,15 @@ export default class FireCol<A> extends Coll<A> {
       let res: Array<A> = [];
       qSnapshot.forEach((dSnapshot: QueryDocumentSnapshot) =>
         res.push(this.$doc(dSnapshot)));
+      return res;                        
+    });
+  }
+
+  findProjection<B>(query: any, projection: any, bson: BSON<B>) {
+    return fQuery(query)(this.coll).get().then((qSnapshot: QuerySnapshot) => {
+      let res: Array<B> = [];
+      qSnapshot.forEach((dSnapshot: QueryDocumentSnapshot) =>
+        res.push(this.$project<B>(dSnapshot, projection, bson)));
       return res;                        
     });
   }

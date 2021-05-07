@@ -5,7 +5,9 @@ $mq-x-small: min-width 600px;
 $mq-small: min-width 800px;
 $mq-medium: min-width 980px;
 
+$mq-not-small: max-width 799px;
 $mq-not-medium: max-width 979px;
+
 
 $mq-tall: min-height 600px;
 
@@ -15,3 +17,6 @@ $mq-topnav-visible: $mq-medium;
 $mq-topnav-hidden: $mq-not-medium;
 
 $mq-site-header-tall: $mq-tall;
+
+$mq-subnav-top: $mq-not-small;
+$mq-subnav-side: $mq-small;

@@ -1,5 +1,5 @@
 {
-  "name": "options",
+  "name": "shared_options",
   "version": "1.0.0",
   "include": [
     "src/*.ts"

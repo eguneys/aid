@@ -85,6 +85,8 @@ const tags = {
   main: tag('main'),
   section: tag('section'),
 
+  aside: tag('aside'),
+
   header: tag('header'),
   
   input: tag('input'),

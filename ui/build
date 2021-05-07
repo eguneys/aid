@@ -10,12 +10,12 @@ echo "yarn: $(yarn --version)"
 
 cd "$(git rev-parse --show-toplevel)"
 
-ls -l node_odules ui/node_modules ui/*/node_modules | grep /yarn/link/ || true
+ls -l node_modules ui/node_modules ui/*/node_modules | grep /yarn/link/ || true
 
 mkdir -p public/compiled
 
 apps1="common"
-apps2="site rotide tencon"
+apps2="site analyse"
 
 yarn install --non-interactive
 

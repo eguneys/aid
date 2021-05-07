@@ -3,7 +3,8 @@ import Session from './session';
 
 
 export type SessionDoc = DocId & {
-  
+  createdAt: number,
+  userId?: string
 }
 
 export const SessionBSONHandler: BSONId<Session> = {

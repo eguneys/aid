@@ -8,13 +8,23 @@
   &-pad {
     @extend %box-padding;
 
-    .box-top {
+    .box__top {
       padding: 0 0 var(--box-padding) 0;
     }
   }
 
   &__top {
-    
+    @extend %flex-between;
+
+    padding: calc(5vh - 1rem) var(--box-padding);
+
+    h1 {
+      margin: 0;
+    }
+
+    &__pad {
+      @extend %box-padding-horiz;
+    }
   }
 }
 

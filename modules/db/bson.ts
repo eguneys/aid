@@ -1,6 +1,6 @@
 export type Doc = {
   [key in string]: any
-}
+} | string
 
 export interface BSON<A> {
   read(doc: Doc): A,

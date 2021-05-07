@@ -16,16 +16,16 @@ export default class UserRepo {
   }
 
   createUserFromLichess(liauth: LiAuth) {
-    let user = {
+    let user = User.make({
       id: nextString(8),
       username: liauth.username
-    };
+    });
 
-    let liuser = {
+  let liuser = LiUser.make({
       id: user.id,
       userId: user.id,
       auth: liauth
-    }
+  });
     
     return this.insert(user)
       .then(() => this.liColl.insert(liuser))

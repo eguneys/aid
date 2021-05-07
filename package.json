@@ -27,6 +27,7 @@
     "@google-cloud/firestore": "^4.9.9",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
+    "domnar": "^1.0.0",
     "express": "^5.0.0-alpha.8",
     "multer": "^1.4.2",
     "node-fetch": "^2.6.1",
@@ -39,6 +40,7 @@
     "ui",
     "ui/common",
     "ui/site",
+    "ui/analyse",
     "ui/@build/webpackProject",
     "ui/@types/uichest"
   ]

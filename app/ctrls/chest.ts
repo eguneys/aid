@@ -5,6 +5,7 @@ import { UserContext } from '../../modules/user';
 import { random as nonceRandom } from '../../modules/common';
 import * as chest from '../../modules';
 import { SessionId } from '../../modules/security/session';
+import { fuccess } from '../../modules/common';
 
 export default class ChestCtrl {
   env: Env
@@ -17,7 +18,7 @@ export default class ChestCtrl {
     return (ctx: Context) => {
       let { sessionId } = ctx;
       if (!sessionId) {
-        this.negotiate(() => res.redirect(401, '/auth'),
+        this.negotiate(() => res.status(401).redirect('/auth'),
                        () => res.status(401).send({redirect:'/auth'}))(ctx);
       } else {
         op(sessionId);
@@ -33,11 +34,12 @@ export default class ChestCtrl {
     fua.then(() => res.send({ok: true}));
   }
   
-  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => any = _ => _) {
+  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => Fu<any> = _ => fuccess(_)) {
     return (ctx: Context) =>
       fua.then(_ => {
         if (_) {
-          res.send(op(_));
+          op(_).then(_ => 
+            res.send(_));
         } else {
           res.status(404).send(
             this.negotiate(() => html.base.notFound()(ctx),
@@ -69,4 +71,15 @@ export default class ChestCtrl {
     let nonce = nonceRandom();
     return !ctx.me ? PageDataAnon(nonce) : PageData(nonce);
   }
+
+  notFound(ctx: Context, req: any, res: any) {
+    this.negotiate(() => html.base.notFound()(ctx),
+                   () => this.notFoundJson(req, res, 'Resource not found'))(ctx);
+  }
+
+
+  notFoundJson(req: any, res: any, err: string = 'Not found') {
+    res.send({err});
+  }
+  
 }
