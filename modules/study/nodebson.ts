@@ -1,17 +1,17 @@
 import { Node, NodeRoot, NodeChildren } from './node';
-import { nt, uc, uci } from 'tschess';
 import Path, { rootDbKey } from './path';
 import { reader, writer } from './flattree';
 import { BSON } from '../db/bson';
+import { Fen, Uci, SanOrCastles, UciOrCastles, uc } from 'chesst';
 
 export type RootOrNodeDoc = {
   ply: number,
-  fen: nt.Fen
+  fen: Fen
 };
 
 export type NodeDoc = RootOrNodeDoc & {
-  uci: nt.UciOrCastles,
-  san: nt.San,
+  uci: UciOrCastles,
+  san: SanOrCastles,
 };
 
 export type RootDoc = RootOrNodeDoc & {
@@ -31,7 +31,7 @@ export function readNode(doc: NodeDoc, id: uc.UciCharPair): Node {
   return Node.make({
     id,
     ply: doc.ply,
-    move: uci.withSan(doc.uci, doc.san),
+    move: Uci.withSan(doc.uci, doc.san),
     fen: doc.fen,
     children: NodeChildren.empty
   })

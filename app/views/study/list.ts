@@ -12,7 +12,7 @@ export const all = () => layout('All Studies', 'all');
 const menu = (active: string) => {
   const activeCls = (c: string) => (c === active) ? 'active': '';
   return tags.aside({ cls: 'page-menu__menu subnav' }, [
-    tags.a({cls: activeCls('all'), href: '/study/all'}, ['All Studies']),
+    // tags.a({cls: activeCls('all'), href: '/study/all'}, ['All Studies']),
     tags.a({cls: activeCls('mine'), href: '/study/mine'}, ['My Studies']),
   ])
 }

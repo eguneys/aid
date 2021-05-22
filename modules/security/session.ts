@@ -1,6 +1,8 @@
 import { UserId } from '../user/user';
 import { SessionDoc } from './bson';
 
+export type SessionIdOrUserId = SessionId | UserId
+
 export type SessionId = string;
 
 export default class Session {

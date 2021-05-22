@@ -10,10 +10,11 @@ export type StudyId = string;
 export default class Study {
 
   static make = (ownerId: SessionId,
-                 name: string) => {
+                 name: string,
+                 studyId: StudyId = nextString(8)) => {
                    let position = PositionRef.make("", Path.root);
                    return new Study(
-                     nextString(8),
+                     studyId,
                      ownerId,
                      name,
                      position);

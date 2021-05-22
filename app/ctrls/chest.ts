@@ -2,7 +2,7 @@ import { Env } from '../env';
 import * as html from '../views';
 import { Context, PageData, PageDataAnon } from '../../modules/api';
 import { UserContext } from '../../modules/user';
-import { random as nonceRandom } from '../../modules/common';
+import { Nonce } from '../../modules/common';
 import * as chest from '../../modules';
 import { SessionId } from '../../modules/security/session';
 import { fuccess } from '../../modules/common';
@@ -68,7 +68,7 @@ export default class ChestCtrl {
   }
 
   async pageDataBuilder(ctx: UserContext): Promise<PageData> {
-    let nonce = nonceRandom();
+    let nonce = Nonce.random();
     return !ctx.me ? PageDataAnon(nonce) : PageData(nonce);
   }
 

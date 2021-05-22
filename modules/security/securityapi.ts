@@ -2,7 +2,7 @@ import Store from './store';
 import { UserRepo } from '../user';
 import User, { UserId } from '../user/user';
 import Session, { SessionId } from './session';
-import { nextString } from '../common';
+import { nextString, fuUndefined } from '../common';
 
 export default class SecurityApi {
 
@@ -30,12 +30,12 @@ export default class SecurityApi {
     let { sessionId } = req.session;
 
     if (!sessionId) {
-      return Promise.resolve(undefined);
+      return fuUndefined;
     }
     
     return this.store.authInfo(sessionId).then(userId =>
       userId ? this.userRepo.byId(userId)
-      : Promise.resolve(undefined));
+      : fuUndefined);
   }
   
 }

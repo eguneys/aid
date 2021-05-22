@@ -4,6 +4,7 @@ import * as h from '../helper';
 
 export function newForm() {
   return h.postForm({ cls: 'new-study', action: '/study' }, [
-    h.submitButton({ cls: 'button button-green' }, ['+ New'])
+    // tags.input({ cls: 'input', type: 'text', required: 'true', name: 'link', placeholder: 'Lichess Study Link' }),
+    h.submitButton({ cls: 'button button-green' }, ['+ New Study'])
   ]);
 }

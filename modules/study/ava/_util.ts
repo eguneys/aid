@@ -1,13 +1,14 @@
-import { nt, uci, uc } from 'tschess';
+import { initial, uc, Uci, uciOrCastles, sanOrCastles } from 'chesst';
 import { NodeRoot, Node, NodeChildren } from '../node';
 
-export function node(ply: number, uciS: string, san: string, children: NodeChildren = NodeChildren.empty) {
-  let _uci = uci.str2uci(uciS)!
+export function node(ply: number, uciS: string, sanS: string, children: NodeChildren = NodeChildren.empty) {
+  let _uci = uciOrCastles(uciS)!
+  let _san = sanOrCastles(sanS)!;
   return Node.make({
-    id: uc.pair(_uci),
-    fen: nt.initialFen,
+    id: uc.uci(_uci),
+    fen: initial,
     ply,
-    move: uci.withSan(_uci, san),
+    move: Uci.withSan(_uci, _san),
     children
   });
 }

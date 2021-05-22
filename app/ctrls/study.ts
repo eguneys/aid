@@ -31,13 +31,17 @@ export default class Study extends ChestCtrl {
   }
 
   private createStudy(ctx: Context, req: any, res: any, sessionId: SessionId) {
-    this.env.study.api.importGame(chest.study.StudyMaker.ImportGame(), sessionId).then(_ => {
-      if (_) {
-        res.redirect(`/study/${_.study.id}`);
-      } else {
-        this.notFound(ctx, req, res);
-      }
-    });
+
+    chest.study.StudyForm.importGame.form(req.body)
+      .unwrap(data =>
+        this.env.study.api.importGame(chest.study.StudyMaker.ImportGame(data), sessionId).then(_ => {
+          if (_) {
+            res.redirect(`/study/${_.study.id}`);
+          } else {
+            this.notFound(ctx, req, res);
+          }
+        }),
+              err => res.redirect('/study/mine'));
   }
 
 

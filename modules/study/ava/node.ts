@@ -1,12 +1,12 @@
 import test from 'ava';
-import { nt, uci, uc } from 'tschess';
+import { initial } from 'chesst';
 import { node, children } from './_util';
 import { NodeRoot } from '../node';
 import { nodeRootBsonHandler } from '../nodebson';
 
 test('node', t => {
 
-  let root = NodeRoot.fromFen(nt.initialFen);
+  let root = NodeRoot.fromFen(initial);
 
   root.children  = children(
     node(1, "e2e4", "e4",

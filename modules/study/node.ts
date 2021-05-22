@@ -1,14 +1,14 @@
-import { nt, uc } from 'tschess';
+import { Fen, UciWithSan, uc } from 'chesst';
 
 export type RootOrNodeOptions = {
   ply: number,
-  fen: nt.Fen,
+  fen: Fen,
   children: NodeChildren
 }
 
 export type NodeOptions = RootOrNodeOptions & {
   id: uc.UciCharPair,
-  move: nt.UciWithSan
+  move: UciWithSan
 }
 
 export type RootOptions = RootOrNodeOptions & {
@@ -17,7 +17,7 @@ export type RootOptions = RootOrNodeOptions & {
 export abstract class RootOrNode {
 
   ply: number
-  fen: nt.Fen
+  fen: Fen
   children: NodeChildren
 
   get opts(): RootOrNodeOptions {
@@ -43,7 +43,7 @@ export class Node extends RootOrNode {
   static make = (opts: NodeOptions): Node => new Node(opts);
   
   id: uc.UciCharPair
-  move: nt.UciWithSan
+  move: UciWithSan
 
   get opts(): NodeOptions {
     return {
@@ -106,7 +106,7 @@ export class NodeRoot extends RootOrNode {
 
   static make = (opts: RootOptions): NodeRoot => new NodeRoot(opts);
   
-  static fromFen = (fen: nt.Fen): NodeRoot => new NodeRoot({
+  static fromFen = (fen: Fen): NodeRoot => new NodeRoot({
     ply: 0,
     fen,
     children: NodeChildren.empty

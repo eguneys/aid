@@ -1,5 +1,5 @@
 import { Node } from './node';
-import { uc } from 'tschess';
+import { uc } from 'chesst';
 import { AnyVal } from 'shared_common';
 
 export function encodeDbKey(pair: uc.UciCharPair): string;
@@ -26,7 +26,7 @@ export default class Path implements AnyVal {
     let ids = str.split(/(..)/)
       .filter(_ => _.length === 2)
       .map(_ =>
-        uc.make(_[0], _[1]));
+        uc.ab(_[0], _[1]));
     return new Path(ids);
   }
 

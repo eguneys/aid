@@ -2,13 +2,22 @@ import { nextString } from 'domnar';
 import { SessionId } from '../security/session';
 import ChapterMaker, { ChapterMakerData } from './chaptermaker';
 import Study, { StudyWithChapter } from './study';
+import * as StudyForm from './studyform';
 
-export class StudyMakerImportGame {}
+export class StudyMakerImportGame {
+
+  form: StudyForm.Data
+
+  constructor(form: StudyForm.Data) {
+    this.form = form;
+  }
+  
+}
 
 export default class StudyMaker {
 
-  static ImportGame = () => {
-    return new StudyMakerImportGame();
+  static ImportGame = (form: StudyForm.Data) => {
+    return new StudyMakerImportGame(form);
   };
 
   chapterMaker: ChapterMaker;
@@ -24,8 +33,8 @@ export default class StudyMaker {
 
   createFromScratch(data: StudyMakerImportGame, sessionId: SessionId) {
     let study = Study.make(
-      'New Study',
-      sessionId
+      sessionId,
+      'New Study'
     )
     return this.chapterMaker.fromBlank(
       study,

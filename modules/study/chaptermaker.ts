@@ -1,8 +1,9 @@
-import { nt } from 'tschess';
+import { initial } from 'chesst';
 import { nextString } from 'domnar';
 import { SessionId } from '../security/session';
 import Study from './study';
 import Chapter from './chapter';
+import { PGNImportResult } from './id2datas';
 import { Node, NodeChildren, NodeRoot } from './node';
 
 export default class ChapterMaker {
@@ -12,15 +13,27 @@ export default class ChapterMaker {
   }
 
   fromBlank(study: Study, data: ChapterMakerData, sessionId: SessionId) {
-    return Promise.resolve(this._fromBlank(study, data, sessionId));
+    return Promise.resolve(//data.pgn?
+      //this._fromPgn(study, data.pgn, data, sessionId):
+      this._fromBlank(study, data, sessionId));
   }
 
+  // _fromPgn(study: Study, pgn: string, data: ChapterMakerData, sessionId: SessionId) {
+
+  //   let name = pgn.tags.get('Event');
+    
+  //   return Chapter.make(
+  //     study.id,
+  //     name,
+  //     pgn.root,
+  //     sessionId);
+  // }
 
   _fromBlank(study: Study, data: ChapterMakerData, sessionId: SessionId) {
 
     let root = NodeRoot.make({
       ply: 0,
-      fen: nt.initialFen,
+      fen: initial,
       children: NodeChildren.empty
     });
 
@@ -35,12 +48,15 @@ export default class ChapterMaker {
 
 export class ChapterMakerData {
 
-  static make = (name: string) => new ChapterMakerData(name);
+  static make = (name: string,
+                 pgn?: PGNImportResult) => new ChapterMakerData(name, pgn);
 
   name: string
+  pgn: Maybe<PGNImportResult>;
   
-  constructor(name: string) {
+  constructor(name: string, pgn?: PGNImportResult) {
     this.name = name;
+    this.pgn = pgn;
   }
                  
   
