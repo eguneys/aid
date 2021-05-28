@@ -1,0 +1,42 @@
+$mq-col2: $mq-col2-uniboard;
+
+.analyse {
+
+  grid-area: main;
+  display: grid;
+
+  &__side {
+    grid-area: side;
+    justify-content: start;
+    margin: $block-gap;
+  }
+
+  &__board {
+    grid-area: board;
+  }
+
+  &__tools {
+    grid-area: tools;
+  }
+
+  &__controls {
+    grid-area: controls;
+  }
+
+  &__underboard {
+    grid-area: under;
+  }
+
+  grid-template-rows: auto auto minmax(20em, 30vh);
+  grid-template-areas: 'board' 'controls' 'tools' 'side' 'under';
+
+  @include breakpoint($mq-col2) {
+    grid-template-columns: $col2-uniboard-width $col2-uniboard-table;
+    grid-template-rows: fit-content(0);
+    grid-template-areas: 'board  .   tools' 'under . controls' 'under . .' 'under . side';
+    grid-row-gap: 0;
+  }
+
+  
+  
+}

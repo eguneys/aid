@@ -1,10 +1,10 @@
 {
-  "comilerOptions": {
+  "compilerOptions": {
     "strict": true,
     "moduleResolution": "node",
     "target": "es2017",
     "module": "es6",
-    "lib": ["DOM"],
-    "types": ["chest"]
+    "lib": ["DOM", "ES2017"],
+    "types": ["chest", "uichest"]
   }
 }

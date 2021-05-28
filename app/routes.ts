@@ -16,7 +16,6 @@ export default function routes(c: wireCtrls) {
   router.get('/study/all', c.study.list.bind(c.study));
   router.get('/study/mine', c.study.mine.bind(c.study));
   router.post('/study', upload.none(), c.study.create.bind(c.study));
-
   router.get('/study/:id', c.study.show.bind(c.study));
 
   router.use(c.site.notFound.bind(c.site));

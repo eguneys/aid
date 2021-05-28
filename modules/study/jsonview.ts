@@ -3,6 +3,7 @@ import Study from './study';
 import Chapter, { ChapterMetadata } from './chapter';
 import { PositionRef } from './position';
 import StudyRepo from './studyrepo';
+import { study } from 'shared_options';
 
 export default class JsonView {
 
@@ -16,7 +17,7 @@ export default class JsonView {
   apply(study: Study,
         chapters: Array<ChapterMetadata>,
         currentChapter: Chapter,
-        me: Maybe<User>) {
+        me: Maybe<User>): Fu<study.StudyData> {
 
     return Promise.resolve().then(() => {
       return {
@@ -24,6 +25,7 @@ export default class JsonView {
         chapters:  chapters.map(_ => JsonView.chapterMetadataWrites(_)),
         chapter: {
           id: currentChapter.id,
+          name: currentChapter.name,
           ownerId: currentChapter.ownerId
         }
       }

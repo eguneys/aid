@@ -18,10 +18,17 @@ export interface StudyChapter {
 }
 
 export interface StudyOptions {
-  study: StudyData
+  study: StudyData;
 }
 
 export interface Position {
   chapterId: string;
   path: Tree.Path
+}
+
+export interface AnaMove {
+  uci: string;
+  fen: string;
+  path: string;
+  ch?: string;
 }

@@ -11,6 +11,10 @@ export type LayoutParams = {
   moreCss?: string
 }
 
+const favicons = tags.raw(`
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+`);
+
 const pieceSprite = () => 
   tags.linkt({ id: 'piece-sprite', href: h.assetUrl('piece-css/cburnett.css'), rel: 'stylesheet'});
 
@@ -40,7 +44,8 @@ export function layout(title: string, body: string[], params: LayoutParams) {
           tags.headTitle(`${title} • chessishard.com`),
           h.cssTag('site'),
           moreCss,
-          pieceSprite()
+          pieceSprite(),
+          favicons
         ]),
         tags.body({ cls: [], }, [
           siteHeader(ctx),

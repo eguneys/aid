@@ -41,10 +41,11 @@
     "shared/common",
     "@types/chest",
     "ui",
-    "ui/common",
-    "ui/site",
-    "ui/analyse",
+    "ui/@types/uichest",
     "ui/@build/webpackProject",
-    "ui/@types/uichest"
+    "ui/common",
+    "ui/tree",
+    "ui/site",
+    "ui/analyse"
   ]
 }

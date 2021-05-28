@@ -47,7 +47,7 @@ export default class Study extends ChestCtrl {
 
   async show(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-
+    
     let { id } = req.params;
     
     this.opFuResult(this.env.study.api.byIdWithChapter(id), res,

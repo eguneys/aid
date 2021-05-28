@@ -30,10 +30,10 @@ gulp.task('css-dev', gulp.series([createThemedBuilds, build]));
 
 gulp.task('css-prod', function () {
   return gulp.src(sourcesGlob)
-    .pipe(sass(
+    .pipe(sass({
       ...sassOptions,
       ...{ outputStyle: 'compressed' },
-    )).on('error', sass.logError)
+    })).on('error', sass.logError)
     .pipe(renameAs('min'))
     .pipe(destination());
 });

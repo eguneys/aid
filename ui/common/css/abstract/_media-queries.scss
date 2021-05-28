@@ -8,8 +8,10 @@ $mq-medium: min-width 980px;
 $mq-not-small: max-width 799px;
 $mq-not-medium: max-width 979px;
 
-
 $mq-tall: min-height 600px;
+
+$mq-portrait: orientation portrait;
+$mq-landscape: orientation landscape;
 
 $mq-main-margin: $mq-small;
 
