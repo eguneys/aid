@@ -14,6 +14,7 @@ export class NetConfig {
   assetDomain!: string
   assetBaseUrl!: string
   protocol: string
+  socketDomains: string[]
   
   constructor({
     project,
@@ -32,5 +33,7 @@ export class NetConfig {
 
     this.assetDomain = this.domain;
     this.assetBaseUrl = this.protocol + this.domain;
+
+    this.socketDomains = [this.domain];
   }
 }

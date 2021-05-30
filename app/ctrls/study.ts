@@ -4,7 +4,8 @@ import ChestCtrl from './chest';
 import { Context } from '../../modules/api';
 import { SessionId } from '../../modules/security/session';
 import * as chest from '../../modules';
-import { study as sstudy } from 'shared_options';
+import { AnalyseOptions } from 'shared_options';
+import { Node } from '../../modules/tree';
 
 export default class Study extends ChestCtrl {
   
@@ -53,11 +54,13 @@ export default class Study extends ChestCtrl {
     this.opFuResult(this.env.study.api.byIdWithChapter(id), res,
                     oldSc =>
       this.getJsonData(oldSc, ctx).then(([sc, opts]) =>
-        this.negotiate(() => html.study.show(sc.study, opts)(ctx),
-                       () => ({}))(ctx)))(ctx);
+        this.negotiate(() => {
+          this.env.study.version(sc.study.id).then(sVersion =>
+            res.send(html.study.show(sc.study, opts, sVersion)(ctx)));
+        }, () => ({}))(ctx)))(ctx);
   }
 
-  private getJsonData(sc: chest.study.StudyWithChapter, ctx: Context): Fu<[chest.study.StudyWithChapter, sstudy.StudyOptions]> {
+  private getJsonData(sc: chest.study.StudyWithChapter, ctx: Context): Fu<[chest.study.StudyWithChapter, Partial<AnalyseOptions>]> {
     return this.env.study.chapterRepo
       .orderedMetadataByStudy(sc.study.id)
       .then(chapters => {
@@ -66,7 +69,12 @@ export default class Study extends ChestCtrl {
         return this.env.study.jsonView.apply(study, chapters, chapter, ctx.me)
           .then(studyJson =>
             [chest.study.StudyWithChapter.make(study, chapter), {
-              study: studyJson
+              study: studyJson,
+              data: {
+                treeParts: Node.partitionTreeJsonWriter.write(
+                  chest.study.TreeBuilder.make(chapter.root)
+                )
+              }
             }]);
       });
      

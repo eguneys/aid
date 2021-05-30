@@ -1,11 +1,12 @@
-export interface AnalyseData {
+import { StudyData } from './study';
 
+export interface AnalyseData {
   treeParts: Tree.Node[];
-  url: {
-    socket: string
-  }
 }
 
 export interface AnalyseOptions {
   data: AnalyseData;
+  study?: StudyData;
+  socketUrl: string;
+  socketVersion: number;
 }

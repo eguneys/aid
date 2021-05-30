@@ -6,6 +6,6 @@ export default function moduleLaunchers() {
   
 }
 
-function startAnalyse(cfg) {
+function startAnalyse(cfg: any) {
   const analyse = (window as any).ChestAnalyse.start(cfg);
 }

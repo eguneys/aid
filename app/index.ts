@@ -8,7 +8,7 @@ import wireCtrls from './wireCtrls';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 
-export async function withApp(cb: (_: express.Application, __: () => void) => void) {
+export async function withApp(cb: (_: express.Application, __: (server: any) => void) => void) {
 
   const app = express();
   const config = new Configuration(app.get('env'));
@@ -32,7 +32,11 @@ export async function withApp(cb: (_: express.Application, __: () => void) => vo
     }));
     
     app.use(router);
-    cb(app, () => {});
+    cb(app, server => {
+
+      boot.env.socket.webClient.initServer(server);
+      
+    });
   }).catch(e => {
     console.log(`[Failed boot] `, e);
     process.exit(1);

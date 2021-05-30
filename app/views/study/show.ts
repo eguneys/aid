@@ -3,9 +3,13 @@ import * as html from '../';
 import * as h from '../helper';
 import { Context } from '../../../modules/api';
 import * as chest from '../../../modules';
-import { study as sstudy } from 'shared_options';
+import { AnalyseOptions } from 'shared_options';
 
-export const show = (s: chest.study.Study, opts: sstudy.StudyOptions) => (ctx: Context) =>
+const socketUrl = (id: string) => `/study/${id}/socket`;
+
+export const show = (s: chest.study.Study,
+                     opts: Partial<AnalyseOptions>,
+                     socketVersion: chest.socket.SocketVersion) => (ctx: Context) =>
   html.base.layout(s.name, [
     tags.main({ cls: 'analyse' })
   ], {
@@ -15,6 +19,9 @@ export const show = (s: chest.study.Study, opts: sstudy.StudyOptions) => (ctx: C
       h.embedJsUnsafe(`
 chest.study=${h.safeJsonValue({
  "study": opts.study,
+ "data": opts.data,
+ "socketUrl": socketUrl(s.id),
+ "socketVersion": socketVersion.value
 })}
 `)(ctx)
     ])

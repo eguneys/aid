@@ -25,6 +25,10 @@ export default class Store {
     }));
   }
 
+  sessionInfo(sessionId: SessionId) {
+    return this.coll.one({id: sessionId});
+  }
+  
   authInfo(sessionId: SessionId) {
     return this.coll.one({id: sessionId})
       .then(_ => _?.userId);

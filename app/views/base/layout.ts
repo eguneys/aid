@@ -32,6 +32,8 @@ const anonDasher = () => `
 <a href="/auth" class="signin button button-empty">Sign In</a>
 `.trim();
 
+const dataSocketDomains = 'data-socket-domains';
+
 export function layout(title: string, body: string[], params: LayoutParams) {
 
   let { moreJs, moreCss } = params;
@@ -47,7 +49,9 @@ export function layout(title: string, body: string[], params: LayoutParams) {
           pieceSprite(),
           favicons
         ]),
-        tags.body({ cls: [], }, [
+        tags.body({ cls: [],
+                    [dataSocketDomains]: h.env.netConfig.socketDomains.join(',')
+                  }, [
           siteHeader(ctx),
           tags.div({
             id: 'main-wrap',

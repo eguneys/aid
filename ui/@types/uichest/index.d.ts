@@ -4,7 +4,7 @@ interface Chest {
   reload(): void;
   socket: any;
   StrongSocket: {
-    new (url: string, cfg?: any): any;
+    new (url: string, version: number, cfg?: any): any;
   }
 }
 
@@ -17,6 +17,8 @@ interface Cookie {
   value: string;
   maxAge: number;
 }
+
+type Timeout = ReturnType<typeof setTimeout>;
 
 interface Dictionary<T> {
   [key: string]: T | undefined;

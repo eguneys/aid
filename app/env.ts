@@ -5,38 +5,21 @@ import Configuration from './config';
 import * as chest from '../modules';
 
 export class Env {
-
-  net: NetConfig
-  api: chest.api.Env
-  user: chest.user.Env
-  security: chest.security.Env
-  study: chest.study.Env
   
-  constructor(net: NetConfig,
-              api: chest.api.Env,
-              user: chest.user.Env,
-              security: chest.security.Env,
-              study: chest.study.Env) {
-    this.net = net;
-    this.api = api;
-    this.user = user;
-    this.security = security;
-    this.study = study;
+  constructor(readonly net: NetConfig,
+              readonly api: chest.api.Env,
+              readonly user: chest.user.Env,
+              readonly socket: chest.socket.Env,
+              readonly security: chest.security.Env,
+              readonly study: chest.study.Env) {
   }
 
 }
 
 export class EnvAwait {
 
-  config: LateConfigEnv
-  lila: chest.lila.Env
-  
-  constructor(config: LateConfigEnv,
-              lila: chest.lila.Env) {
-
-    this.config = config;
-    this.lila = lila;
-    
+  constructor(readonly config: LateConfigEnv,
+              readonly lila: chest.lila.Env) {
   }
 }
 
@@ -57,8 +40,12 @@ export default class EnvBoot {
     let security = new chest.security.Env(
       user.repo,
       mainDb);
+    let socket = new chest.socket.Env(
+      security.api
+    );
     let study = new chest.study.Env(
-      mainDb
+      mainDb,
+      socket.remoteSocket
     );
     let api = new chest.api.Env();
 
@@ -66,6 +53,7 @@ export default class EnvBoot {
     this.env = new Env(config.net,
                        api,
                        user,
+                       socket,
                        security,
                        study);
 

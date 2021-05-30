@@ -1,3 +1,5 @@
+import { defined } from './common';
+
 const jsonHeader = {
   Accept: 'application/vnd.chest.v1+json'
 };
@@ -35,3 +37,10 @@ export const form = (data: any): FormData => {
   for (const k of Object.keys(data)) formData.append(k, data[k]);
   return formData;
 }
+
+export const url = (path: string, params: { [k: string]: string | number | boolean | undefined }) => {
+  const searchParams = new URLSearchParams();
+  for (const k of Object.keys(params)) if (defined(params[k])) searchParams.append(k, params[k] as string);
+  const query = searchParams.toString();
+  return query ? `${path}?${query}`: path;  
+};

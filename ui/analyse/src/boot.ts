@@ -6,7 +6,7 @@ export function start(opts: AnalyseOptions) {
   let $_ = document.querySelector('.analyse') as HTMLElement,
   data: AnalyseData = opts.data;
 
-  chest.socket = new chest.StrongSocket(opts.data.url.socket, {
+  chest.socket = new chest.StrongSocket(opts.socketUrl, opts.socketVersion, {
     receive(t: string, d: any) {
       analyse.socketReceive(t, d);
     }

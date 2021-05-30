@@ -1,10 +1,10 @@
 import Store from './store';
 import { UserRepo } from '../user';
 import User, { UserId } from '../user/user';
-import Session, { SessionId } from './session';
+import Session, { UserWithSession, SessionId } from './session';
 import { nextString, fuUndefined } from '../common';
 
-export default class SecurityApi {
+export class SecurityApi {
 
   userRepo: UserRepo
   store: Store
@@ -36,6 +36,18 @@ export default class SecurityApi {
     return this.store.authInfo(sessionId).then(userId =>
       userId ? this.userRepo.byId(userId)
       : fuUndefined);
+  }
+
+  restoreUserSession(sessionId: SessionId): Fu<Maybe<UserWithSession>> {
+    if (!sessionId) {
+      return fuUndefined;
+    }
+    
+    return this.store.sessionInfo(sessionId).then(session =>
+      session?.userId ?
+      this.userRepo.byId(session.userId)
+        .then(user => session.withUser(user))
+      : fuUndefined);    
   }
   
 }

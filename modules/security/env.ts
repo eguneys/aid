@@ -1,7 +1,7 @@
 import * as chest from '../';
 import { UserRepo } from '../user';
 import Store from './store';
-import SecurityApi from './securityapi';
+import { SecurityApi } from './securityapi';
 import * as bson from './bson';
 import Session from './session';
 

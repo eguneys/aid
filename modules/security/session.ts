@@ -1,9 +1,14 @@
-import { UserId } from '../user/user';
+import User, { UserId } from '../user/user';
 import { SessionDoc } from './bson';
 
 export type SessionIdOrUserId = SessionId | UserId
 
 export type SessionId = string;
+
+export type UserWithSession = {
+  user?: User,
+  session: Session
+}
 
 export default class Session {
 
@@ -24,5 +29,12 @@ export default class Session {
     this.createdAt = createdAt;
     this.userId = userId;
   }
+
+  withUser = (user?: User): UserWithSession => ({
+    session: this,
+    user
+  });
+  
+
   
 }

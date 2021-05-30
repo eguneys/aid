@@ -1,6 +1,7 @@
 type Maybe<A> = A | undefined
 
 type Fu<A> = Promise<A>
+type Funit = Fu<void>
 
 declare type Ply = number;
 declare type Fen = string;
