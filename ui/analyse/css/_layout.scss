@@ -31,7 +31,7 @@ $mq-col2: $mq-col2-uniboard;
   grid-template-areas: 'board' 'controls' 'tools' 'side' 'under';
 
   @include breakpoint($mq-col2) {
-    grid-template-columns: $col2-uniboard-width $col2-uniboard-table;
+    grid-template-columns: $col2-uniboard-width var(--gauge-gap) $col2-uniboard-table;
     grid-template-rows: fit-content(0);
     grid-template-areas: 'board  .   tools' 'under . controls' 'under . .' 'under . side';
     grid-row-gap: 0;

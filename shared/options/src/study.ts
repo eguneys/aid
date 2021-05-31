@@ -15,10 +15,23 @@ export interface StudyChapter {
   id: string;
   name: string;
   ownerId: string;
+  setup: StudyChapterSetup;
+}
+
+export interface StudyChapterSetup {
+  orientation: LongColor;
+  fromFen?: string;
 }
 
 export interface StudyOptions {
   study: StudyData;
+}
+
+export interface ChapterData {
+  name: string;
+  fen?: Fen;
+  pgn?: string;
+  orientation: Orientation;
 }
 
 export interface Position {

@@ -1,6 +1,6 @@
 import User from '../user/user';
 import Study from './study';
-import Chapter, { ChapterMetadata } from './chapter';
+import Chapter, { ChapterMetadata, ChapterSetup } from './chapter';
 import { PositionRef } from './position';
 import StudyRepo from './studyrepo';
 import { study } from 'shared_options';
@@ -26,7 +26,8 @@ export default class JsonView {
         chapter: {
           id: currentChapter.id,
           name: currentChapter.name,
-          ownerId: currentChapter.ownerId
+          ownerId: currentChapter.ownerId,
+          setup: JsonView.chapterSetupWrites(currentChapter.setup)
         }
       }
     });
@@ -48,5 +49,9 @@ export default class JsonView {
     id: metadata.id,
     name: metadata.name
   });
+
+  static chapterSetupWrites = (setup: ChapterSetup) => ({
+    orientation: setup.orientation.long as LongColor
+  });  
   
 }

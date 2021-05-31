@@ -1,9 +1,10 @@
 import { nextString } from 'domnar';
 import { SessionId } from '../security/session';
 
+import { Color } from 'chesst';
 import { StudyId } from './study';
 import { NodeRoot } from './node';
-import { ChapterDoc, ChapterMetadataDoc } from './bson';
+import { ChapterDoc, ChapterSetupDoc, ChapterMetadataDoc, chapterSetupBsonHandler } from './bson';
 import { nodeRootBsonHandler } from './nodebson';
 
 export type ChapterId = string;
@@ -12,11 +13,13 @@ export default class Chapter {
 
   static make = (studyId: StudyId,
                  name: string,
+                 setup: ChapterSetup,
                  root: NodeRoot,
                  ownerId: SessionId) =>
     new Chapter(nextString(8),
                 studyId,
                 name,
+                setup,
                 root,
                 ownerId);
   
@@ -24,27 +27,30 @@ export default class Chapter {
     new Chapter(doc.id,
                 doc.studyId,
                 doc.name,
+                chapterSetupBsonHandler.read(doc.setup),
                 nodeRootBsonHandler.read(doc.root),
                 doc.ownerId);
 
-  id: ChapterId
-  studyId: StudyId
-  ownerId: SessionId
-  name: string
-  root: NodeRoot
-  
-  constructor(id: ChapterId,
-              studyId: StudyId,
-              name: string,
-              root: NodeRoot,
-              ownerId: SessionId) {
-    this.id = id;
-    this.studyId = studyId;
-    this.name = name;
-    this.root = root;
-    this.ownerId = ownerId;
+  constructor(readonly id: ChapterId,
+              readonly studyId: StudyId,
+              readonly name: string,
+              readonly setup: ChapterSetup,
+              readonly root: NodeRoot,
+              readonly ownerId: SessionId) {
   }
   
+}
+
+export class ChapterSetup {
+
+  static make = (orientation: Color) => new ChapterSetup(orientation);
+
+  static fromDoc = (doc: ChapterSetupDoc) =>
+    new ChapterSetup(doc.orientation==='white'?Color.white:Color.black)
+  
+  constructor(readonly orientation: Color) {
+    
+  }
 }
 
 export class ChapterMetadata {

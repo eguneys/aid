@@ -1,5 +1,5 @@
 import Ctrl from './ctrl';
-import { AnaMove } from 'shared_options';
+import { AnaMove, ChapterData } from 'shared_options';
 
 export type ReqPosition = {
   ch: string,
@@ -8,6 +8,7 @@ export type ReqPosition = {
 
 export type StudySocketSendParams =
   | [t: 'setPath', d: ReqPosition]
+  | [t: 'addChapter', d: ChapterData]
   | [t: 'anaMove', d: AnaMove]
 
 export type AnalyseSocketSendParams =

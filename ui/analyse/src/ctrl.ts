@@ -5,6 +5,7 @@ import { Api as DoApi } from 'dochess';
 import { make as makeSocket, Socket } from './socket';
 import { path as treePath, ops as treeOps, TreeWrapper } from 'tree';
 import * as util from './util';
+import StudyCtrl from './studyctrl';
 
 export default class Ctrl {
 
@@ -21,6 +22,8 @@ export default class Ctrl {
   initialPath!: Tree.Path;
   
   resolveAnaMove: Maybe<(fen: cs.Fen) => void>;
+
+  study?: StudyCtrl;
   
   constructor(readonly opts: AnalyseOptionsPlus, readonly redraw: Redraw) {
     this.data = opts.data;
@@ -30,6 +33,10 @@ export default class Ctrl {
     this.initialPath = treePath.root;
     
     this.setPath(this.initialPath);
+
+    if (opts.study) {
+      this.study = StudyCtrl.make(this, opts.study);
+    }
   }
 
   initialize(data: AnalyseData) {

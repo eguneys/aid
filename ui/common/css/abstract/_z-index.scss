@@ -1,5 +1,6 @@
 $z-indexes: (
-  'topnav': 110
+  'topnav': 110,
+  'fullscreen-mask': 109
 );
 
 @function z($layer) {

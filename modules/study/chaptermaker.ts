@@ -1,8 +1,8 @@
-import { initial } from 'chesst';
+import { initial, Color } from 'chesst';
 import { nextString } from 'domnar';
 import { SessionId } from '../security/session';
 import Study from './study';
-import Chapter from './chapter';
+import Chapter, { ChapterSetup } from './chapter';
 import { PGNImportResult } from './id2datas';
 import { Node, NodeChildren, NodeRoot } from './node';
 
@@ -37,8 +37,13 @@ export default class ChapterMaker {
       children: NodeChildren.empty
     });
 
+    let setup = ChapterSetup.make(
+      Color.white
+    );
+
     return Chapter.make(study.id,
                         data.name,
+                        setup,
                         root,
                         sessionId)
     

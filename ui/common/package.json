@@ -1,8 +1,9 @@
 {
   "name": "common",
   "version": "1.0.0",
-  "main": "./index.js",
-  "typings": "./index",
+  "main": "./common.js",
+  "type": "module",
+  "typings": "./common",
   "scripts": {
     "compile": "tsc",
     "dev": "rm lib -rf && yarn run compile",

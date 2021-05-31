@@ -2,6 +2,7 @@ import WsClient from './client';
 import { StudyId } from '../../study/study';
 import { ClientEmit } from './types';
 import { UserWithSession } from '../../security/session';
+import * as cout from './clientout';
 
 export default class StudyClient extends WsClient {
 
@@ -9,15 +10,27 @@ export default class StudyClient extends WsClient {
                  clientIn: ClientEmit,
                  req: any,
                  sri: string,
-                 user: Maybe<UserWithSession>) => new StudyClient(clientIn);
+                 user: Maybe<UserWithSession>) =>
+    new StudyClient(clientIn,
+                    sri,
+                   user);
 
-  constructor(clientIn: ClientEmit) {
-    super(clientIn);
+  constructor(clientIn: ClientEmit,
+              sri: string,
+              user: Maybe<UserWithSession>) {
+    super(clientIn,
+          sri,
+          user);
   }
   
 
   out(msg: string) {
-    super.out(msg);
+    
+    if (cout.isAddChapter(msg)) {
+      console.log(msg);
+    } else {
+      super.out(msg);
+    }
   };
   
 }

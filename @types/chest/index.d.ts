@@ -3,6 +3,9 @@ type Maybe<A> = A | undefined
 type Fu<A> = Promise<A>
 type Funit = Fu<void>
 
+declare type LongColor = 'white' | 'black';
+declare type Orientation = LongColor | 'auto';
+
 declare type Ply = number;
 declare type Fen = string;
 declare type San = string;

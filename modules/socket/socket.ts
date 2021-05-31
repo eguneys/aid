@@ -5,3 +5,5 @@ export class SocketVersion {
     
   }
 }
+
+export type SocketSri = string;

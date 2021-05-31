@@ -5,16 +5,24 @@ import WsClient from './ws/client';
 import Auth from './ws/auth';
 import * as cout from './ws/clientout';
 import { ClientIn } from './ws/clientin';
+import { ChestIn } from './ws/chestin';
+import { ChestOut, OutHandler } from './ws/chestout';
 
 export default class WebSocketPubSub {
 
   controller: Controller;
+
+  chestIn: ChestIn;
+  chestOut: ChestOut;
 
   constructor(securityApi: chest.security.SecurityApi) {
 
     let auth = new Auth(securityApi);
     
     this.controller = Controller.make(auth);
+
+    this.chestIn = ChestIn.make();
+    this.chestOut = ChestOut.make();
   }
   
   initServer(server: any) {
@@ -45,12 +53,12 @@ export default class WebSocketPubSub {
     
   }
   
-  subscribe(channel: string, handler: (_: string) => void) {
-    return Promise.resolve();
+  subscribe(channel: string, handler: OutHandler) {
+    return this.chestOut.subscribe(channel, handler);
   }
 
   publish(channel: string, message: string) {
-    
+    return this.chestIn.publish(channel, message);
   }
   
 }
