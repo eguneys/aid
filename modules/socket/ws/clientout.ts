@@ -50,7 +50,7 @@ export function isUnexpected(_: any): _ is Unexpected {
   return false;
 }
 
-export function parse(msg: string) {
+export function parse(msg: string): Maybe<ClientOut> {
 
   if (msg === 'null' || msg === `{"t":"p"}`) {
     return emptyPing;
@@ -70,25 +70,21 @@ export interface AddChapter extends ClientOut {
 }
 
 export function isChapterData(_: any): _ is ChapterData {
-  if (typeof _ === 'object') {
-    let cd = (_ as ChapterData);
-    if (typeof cd.name === 'string' &&
-      typeof cd.orientation === 'string') {
-      if (!cd.fen || typeof cd.fen === 'string' &&
-        !cd.pgn || typeof cd.pgn === 'string') {
-        return true;
-      }
+  let cd = (_ as ChapterData);
+  if (typeof cd.name === 'string' &&
+    typeof cd.orientation === 'string') {
+    if (!cd.fen || typeof cd.fen === 'string' &&
+      !cd.pgn || typeof cd.pgn === 'string') {
+      return true;
     }
   }
   return false;
 }
 
-export function isAddChapter(_: any): _ is AddChapter {
-  if (typeof _ === 'object') {
-    let ac = (_ as AddChapter);
-    if (ac.t === 'addChapter') {
-      return isChapterData(ac.d);
-    }
+export function isAddChapter(_: ClientOut): _ is AddChapter {
+  let ac = (_ as AddChapter);
+  if (ac.t === 'addChapter') {
+    return isChapterData(ac.d);
   }
   return false;
 }

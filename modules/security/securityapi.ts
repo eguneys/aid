@@ -44,10 +44,11 @@ export class SecurityApi {
     }
     
     return this.store.sessionInfo(sessionId).then(session =>
-      session?.userId ?
-      this.userRepo.byId(session.userId)
-        .then(user => session.withUser(user))
-      : fuUndefined);    
+      session?
+      (session.userId?this.userRepo.byId(session.userId)
+        .then(user => session.withUser(user)):
+        session.withUser(undefined))
+      : fuUndefined);
   }
   
 }

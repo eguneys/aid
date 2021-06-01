@@ -3,6 +3,7 @@ import * as html from '../views';
 import ChestCtrl from './chest';
 import * as chest from '../../modules';
 import { Context } from '../../modules/api';
+import { withSessionId } from '../../modules/common/cookie';
 
 export default class AuthCtrl extends ChestCtrl {
 
@@ -45,7 +46,7 @@ export default class AuthCtrl extends ChestCtrl {
 
     this.env.security.api.anonymousSessionId().then(sessionId => {
       req.session.sessionId = sessionId;
-      res.redirect('/');
+      withSessionId(res, sessionId).redirect('/');
     });
   }
 
@@ -58,7 +59,7 @@ export default class AuthCtrl extends ChestCtrl {
         this.env.user.api.getOrCreate(user).then(_ =>
           this.env.security.api.saveSession(_).then(sessionId => {
             req.session.sessionId = sessionId;
-            res.redirect('/');
+            withSessionId(res, sessionId).redirect('/');
           })))
       .catch(err => next(err));
     

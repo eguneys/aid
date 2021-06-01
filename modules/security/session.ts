@@ -1,7 +1,7 @@
 import User, { UserId } from '../user/user';
 import { SessionDoc } from './bson';
 
-export type SessionIdOrUserId = SessionId | UserId
+export type SessionOrUserId = SessionId | UserId
 
 export type SessionId = string;
 
@@ -21,6 +21,10 @@ export default class Session {
   userId?: UserId
   createdAt: number
   id: SessionId
+
+  get sessionOrUserId(): SessionOrUserId {
+    return this.userId || this.id;
+  }
 
   constructor(id: SessionId,
               createdAt: number,

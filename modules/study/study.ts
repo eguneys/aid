@@ -1,5 +1,5 @@
 import { nextString } from 'domnar';
-import { SessionId } from '../security/session';
+import { SessionOrUserId } from '../security/session';
 import Chapter from './chapter';
 import Position, { PositionRef } from './position';
 import Path from './path';
@@ -9,7 +9,7 @@ export type StudyId = string;
 
 export default class Study {
 
-  static make = (ownerId: SessionId,
+  static make = (ownerId: SessionOrUserId,
                  name: string,
                  studyId: StudyId = nextString(8)) => {
                    let position = PositionRef.make("", Path.root);
@@ -30,17 +30,21 @@ export default class Study {
 
   id: StudyId
   position: PositionRef
-  ownerId: SessionId
+  ownerId: SessionOrUserId
   name: string
   
   constructor(id: StudyId,
-              ownerId: SessionId,
+              ownerId: SessionOrUserId,
               name: string,
               position: PositionRef) {
     this.id = id;
     this.ownerId = ownerId;
     this.name = name;
     this.position = position;
+  }
+
+  canContribute(id: SessionOrUserId) {
+    return this.ownerId === id;
   }
 
   isCurrent(c: Chapter) {

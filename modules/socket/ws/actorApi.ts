@@ -10,3 +10,5 @@ export class Who {
               readonly sri: SocketSri) {
   }
 }
+
+export type RoomId = string;

@@ -1,4 +1,4 @@
-import { SessionId } from '../security/session';
+import { SessionOrUserId } from '../security/session';
 import { StudyMakerImportGame } from './studymaker';
 import ChapterMaker, { ChapterMakerData } from './chaptermaker';
 import Study, { StudyId, StudyWithChapter } from './study';
@@ -8,6 +8,9 @@ import ChapterRepo from './chapterrepo';
 import StudyMaker from './studymaker';
 import { fuccess, funit } from '../common';
 import id2datas from './id2datas';
+import { ChapterData } from 'shared_options';
+import { Who } from '../socket/ws/actorApi';
+import StudySocket from './studysocket';
 
 export default class StudyApi {
 
@@ -70,46 +73,42 @@ export default class StudyApi {
     });
   }
 
-  // async importPgns(data: StudyMakerImportGame, sessionId: SessionId) {
-  //   let datas = await id2datas(data.form.id);
+  addChapter(studyId: StudyId, data: ChapterData) {
+    return (who: Who) => {
+      this.studyRepo.byId(studyId).then(study => {
+        if (study) {
+          if (this.Contribute(who, study)) {
+            this.chapterMaker
+              .apply(study, ChapterMakerData.fromChapterData(data), who.u.session.sessionOrUserId)
+              .then(chapter => {
+                this.doAddChapter(study, chapter, who);
+              });
+          }
+        }
+      });
+    };
+  }
 
-  //   if (datas && datas.length > 0) {
-
-  //     let study = Study.make(sessionId,
-  //                            'New Study');
-
-  //     await this.studyRepo.insert(study);
-
-  //     let firstChapter: Maybe<Chapter>;
-      
-  //     for (let data of datas) {
-  //       firstChapter ||= await this.addChapter(study.id, data, sessionId);
-  //     }
-
-
-  //     return StudyWithChapter.make(study, firstChapter!);
-  //   }
-  // }
-
-  addChapter(studyId: StudyId, data: ChapterMakerData, sessionId: SessionId) {
-    return this.studyRepo.byId(studyId).then(study => {
-      if (study) {
-        return this.chapterMaker.fromBlank(study, data, sessionId).then(chapter => {
-          this.chapterRepo.insert(chapter);
-          return chapter;
-        });
-      }
+  doAddChapter(study: Study, chapter: Chapter, who: Who) {
+    this.chapterRepo.insert(chapter).then(() => {
+      let newStudy = study.withChapter(chapter);
+      this.sendTo(study.id)(_ => _.addChapter(newStudy.position, who));
+    }).then(() => {
+      this.studyRepo.updateNow(study);
     });
-    
+  }
+
+  Contribute(who: Who, study: Study) {
+    return study.canContribute(who.u.session.sessionOrUserId);
   }
   
-  importGame(data: StudyMakerImportGame, sessionId: SessionId) {
-    return this.create(data, sessionId);
+  importGame(data: StudyMakerImportGame, sessionOrUserId: SessionOrUserId) {
+    return this.create(data, sessionOrUserId);
   }
 
 
-  create(data: StudyMakerImportGame, sessionId: SessionId) {
-    return this.studyMaker.make(data, sessionId)
+  create(data: StudyMakerImportGame, sessionOrUserId: SessionOrUserId) {
+    return this.studyMaker.make(data, sessionOrUserId)
       .then(sc =>
         this.studyRepo.insert(sc.study)
           .then(() => this.chapterRepo.insert(sc.chapter))
@@ -129,6 +128,18 @@ export default class StudyApi {
     })
       .then(() => this.byIdWithFirstChapter(study.id));
     
+  }
+
+  socket?: StudySocket
+  registerSocket(s: StudySocket) {
+    this.socket = s;
+  }
+  sendTo(studyId: StudyId) {
+    return (f: (_: StudySocket) => (_: StudyId) => void) => {
+      if (this.socket) {
+        f(this.socket)(studyId);
+      }
+    };
   }
   
 }

@@ -2,7 +2,7 @@ import { Env } from '../env';
 import * as html from '../views';
 import ChestCtrl from './chest';
 import { Context } from '../../modules/api';
-import { SessionId } from '../../modules/security/session';
+import { SessionOrUserId } from '../../modules/security/session';
 import * as chest from '../../modules';
 import { AnalyseOptions } from 'shared_options';
 import { Node } from '../../modules/tree';
@@ -27,15 +27,15 @@ export default class Study extends ChestCtrl {
 
   async create(req: any, res: any) {
     let ctx: Context = await this.reqToCtx(req);
-    this.authSession(req, res, sessionId =>
-      this.createStudy(ctx, req, res, sessionId))(ctx);
+    this.authSession(req, res, sessionOrUserId =>
+      this.createStudy(ctx, req, res, sessionOrUserId))(ctx);
   }
 
-  private createStudy(ctx: Context, req: any, res: any, sessionId: SessionId) {
+  private createStudy(ctx: Context, req: any, res: any, sessionOrUserId: SessionOrUserId) {
 
     chest.study.StudyForm.importGame.form(req.body)
       .unwrap(data =>
-        this.env.study.api.importGame(chest.study.StudyMaker.ImportGame(data), sessionId).then(_ => {
+        this.env.study.api.importGame(chest.study.StudyMaker.ImportGame(data), sessionOrUserId).then(_ => {
           if (_) {
             res.redirect(`/study/${_.study.id}`);
           } else {

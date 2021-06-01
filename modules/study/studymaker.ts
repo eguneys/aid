@@ -38,7 +38,7 @@ export default class StudyMaker {
     )
     return this.chapterMaker.fromBlank(
       study,
-      ChapterMakerData.make('Chapter 1'),
+      ChapterMakerData.make('Puzzle 1'),
       sessionId).then(chapter =>
         StudyWithChapter.make(study.withChapter(chapter), chapter));
   }

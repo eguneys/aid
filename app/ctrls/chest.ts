@@ -4,7 +4,7 @@ import { Context, PageData, PageDataAnon } from '../../modules/api';
 import { UserContext } from '../../modules/user';
 import { Nonce } from '../../modules/common';
 import * as chest from '../../modules';
-import { SessionId } from '../../modules/security/session';
+import { SessionOrUserId } from '../../modules/security/session';
 import { fuccess } from '../../modules/common';
 
 export default class ChestCtrl {
@@ -14,14 +14,14 @@ export default class ChestCtrl {
     this.env = env;
   }
 
-  authSession(req: any, res: any, op: (sessionId: SessionId) => void) {
+  authSession(req: any, res: any, op: (sessionOrUserId: SessionOrUserId) => void) {
     return (ctx: Context) => {
-      let { sessionId } = ctx;
-      if (!sessionId) {
+      let { sessionOrUserId } = ctx;
+      if (!sessionOrUserId) {
         this.negotiate(() => res.status(401).redirect('/auth'),
                        () => res.status(401).send({redirect:'/auth'}))(ctx);
       } else {
-        op(sessionId);
+        op(sessionOrUserId);
       }
     }
   }

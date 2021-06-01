@@ -18,6 +18,12 @@ export default class StudyRepo {
     return this.coll.one({ id });
   }
 
+  updateNow(s: Study) {
+    return this.coll.update(s.id, {
+      updatedAt: Date.now()
+    });
+  }
+
   updateSomeFields(s: Study) {
     return this.coll.update(s.id, {
       position: s.position,

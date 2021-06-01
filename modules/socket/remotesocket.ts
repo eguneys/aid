@@ -1,7 +1,8 @@
 import WebSocketPubSub from './websocketpubsub';
+import { OutHandler } from './ws/chestin';
+import { ChestOut } from './ws/chestout';
 
-export type Send = (_: string) => void
-export type Handler = (_: string) => void
+export type Send = (_: ChestOut) => void
 
 export default class RemoteSocket {
 
@@ -13,12 +14,12 @@ export default class RemoteSocket {
     return Sender.make(this, channel);
   }
 
-  subscribe(channel: string, handler: Handler): Funit {
+  subscribe(channel: string, handler: OutHandler): Funit {
     return this.connectAndSubscribe(channel, handler);
   }
 
-  connectAndSubscribe(channel: string, handler: Handler) {
-    return this.webClient.subscribe(channel, message => handler(message))
+  connectAndSubscribe(channel: string, handler: OutHandler) {
+    return this.webClient.subscribe(channel, handler);
   }
 }
 
@@ -30,7 +31,7 @@ export class Sender {
   constructor(readonly rs: RemoteSocket,
               readonly channel: string) {}
 
-  apply = (msg: string) => {
+  apply = (msg: ChestOut) => {
     return this.rs.webClient.publish(this.channel, msg);
   }
   

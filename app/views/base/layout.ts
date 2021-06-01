@@ -94,7 +94,7 @@ function siteHeader(ctx: Context) {
       topnav()
     ]),
     tags.div({ cls: 'site-buttons' }, [
-      ctx.me?dasher(ctx.me):ctx.sessionId?guestDasher():anonDasher()
+      ctx.me?dasher(ctx.me):ctx.sessionOrUserId?guestDasher():anonDasher()
     ])
   ]);
 }

@@ -2,19 +2,28 @@ import { StudyId } from '../../study/study';
 import { ClientEmit } from './types';
 import StudyClient from './studyclient';
 import Auth from './auth';
+import { ChestInHandler } from './chestin';
+import { ChestOutHandler } from './chestout';
 import { UserWithSession } from '../../security/session';
+import { SocketVersion } from '../socket';
 
 export default class Controller {
 
-  static make = (auth: Auth) => new Controller(auth);
+  static make = (auth: Auth,
+                 chestIn: ChestInHandler) =>
+    new Controller(auth,
+                   chestIn);
 
-  constructor(readonly auth: Auth) {
+  constructor(readonly auth: Auth,
+              readonly chestIn: ChestInHandler) {
     
   }
   
   study(req: any, id: StudyId, emit: ClientEmit): Fu<Maybe<StudyClient>> {
     return this.WebSocket(req)((sri, user) =>  {
       return StudyClient.make(id,
+                              this.fromVersion(req),
+                              this.chestIn,
                               emit,
                               req,
                               sri,
@@ -44,6 +53,18 @@ export default class Controller {
         return sri;
       }
     }
+  }
+
+  fromVersion(req: any): Maybe<SocketVersion> {
+    let [_, params] = req.url.split('?');
+    if (params) {
+      let match = params.match(/v=(0-9*)/);
+
+      if (match) {
+        let sri = match[1];
+        return SocketVersion.make(parseInt(sri));
+      }
+    }    
   }
   
 }
