@@ -39,10 +39,11 @@ export default class WebSocketPubSub {
       //console.log(req.headers.cookie);
       let [url, params] = req.url.split('?');
       let [_, path, id, socket] = url.split('/');
-      if (path === 'study' &&
-        socket === 'socket') {
-        clientFu = this.controller.study(req, id, emit);
-      }
+
+      // if (path === 'study' &&
+      //   socket === 'socket') {
+      //   clientFu = this.controller.study(req, id, emit);
+      // }
 
       ws.on('message', (txt: string) => {
         let msg = cout.parse(txt)

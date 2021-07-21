@@ -1,4 +1,4 @@
-import { LiAuth } from '../lila/auth';
+import { SteamProfile } from '../steam/auth';
 import UserRepo from './userrepo';
 
 export default class UserApi {
@@ -9,10 +9,10 @@ export default class UserApi {
     this.repo = repo;
   }
 
-  async getOrCreate(liauth: LiAuth) {
-    let user = await this.repo.byUsername(liauth.username)
+  async getOrCreate(profile: SteamProfile) {
+    let user = await this.repo.byUsername(profile.personaname)
 
-    return user || this.repo.createUserFromLichess(liauth);
+    return user || this.repo.createUserFromSteam(profile);
   }
   
 }

@@ -16,7 +16,7 @@ export default class AuthCtrl extends ChestCtrl {
     this.env2 = env2;
   }
 
-  async logout(req: any, res: any) {
+  logout = async (req: any, res: any) => {
     let ctx: Context = await this.reqToCtx(req);
 
     req.session.sessionId = undefined;
@@ -24,7 +24,7 @@ export default class AuthCtrl extends ChestCtrl {
     res.redirect('/auth');
   }
   
-  async login(req: any, res: any) {
+  login = async (req: any, res: any) => {
     let ctx: Context = await this.reqToCtx(req);
 
     if (ctx.me) {
@@ -34,37 +34,55 @@ export default class AuthCtrl extends ChestCtrl {
     }
   }
 
-  async lichess(req: any, res: any) {
+  steam = async (req: any, res: any, next: any) => {
     let ctx: Context = await this.reqToCtx(req);
 
-    res.redirect(this.env2.lila.auth.authorizationUri);
-  }
-  
-  async guest(req: any, res: any) {
-    let ctx: Context = await this.reqToCtx(req);
-
-
-    this.env.security.api.anonymousSessionId().then(sessionId => {
-      req.session.sessionId = sessionId;
-      withSessionId(res, sessionId).redirect('/');
-    });
+    this.env2.steam.auth.redirectUrl.then(url =>
+      res.redirect(url))
+      .catch(err => next(err))
+    //res.redirect(this.env2.lila.auth.authorizationUri);
   }
 
-  async callback(req: any, res: any, next: any) {
+  steamCallback = async (req: any, res: any, next: any) => {
     let ctx: Context = await this.reqToCtx(req);
-
-    this.env2.lila.auth
-      .exchangeCode(req.query.code)
-      .then(user =>
-        this.env.user.api.getOrCreate(user).then(_ =>
-          this.env.security.api.saveSession(_).then(sessionId => {
-            req.session.sessionId = sessionId;
-            withSessionId(res, sessionId).redirect('/');
-          })))
+    
+    let authResult = this.env2.steam.auth.authenticate(req)
       .catch(err => next(err));
     
-    
+    this.opFuResult(authResult, res, user =>
+      this.env.user.api.getOrCreate(user).then(_ =>
+        this.env.security.api.saveSession(_).then(sessionId => {
+          req.session.sessionId = sessionId;
+          withSessionId(res, sessionId).redirect('/');
+        })))(ctx);
+
   }
+  
+  // async guest(req: any, res: any) {
+  //   let ctx: Context = await this.reqToCtx(req);
+
+
+  //   this.env.security.api.anonymousSessionId().then(sessionId => {
+  //     req.session.sessionId = sessionId;
+  //     withSessionId(res, sessionId).redirect('/');
+  //   });
+  // }
+
+  // async callback(req: any, res: any, next: any) {
+  //   let ctx: Context = await this.reqToCtx(req);
+
+  //   this.env2.lila.auth
+  //     .exchangeCode(req.query.code)
+  //     .then(user =>
+  //       this.env.user.api.getOrCreate(user).then(_ =>
+  //         this.env.security.api.saveSession(_).then(sessionId => {
+  //           req.session.sessionId = sessionId;
+  //           withSessionId(res, sessionId).redirect('/');
+  //         })))
+  //     .catch(err => next(err));
+    
+    
+  // }
 
 
   

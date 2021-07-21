@@ -1,13 +1,10 @@
 import { LateConfig } from '../app/lateconfig';
 
 const config: LateConfig = {
-  id: 'chessisharddev',
-  project: 'ChessIsHard',
+  id: 'csgo-faceitdev',
+  project: 'CsGoFaceit',
   cookie_secret: 'dev',
-  lila_oauth: {
-    client_id: 'goDsgpFfo5uN8rc3',
-    client_secret: '1ncuABQuSoIFgGlBeT4OrJuoNoqTMcFG'
-  }
+  steamApiKey: '3EAE223A5D3AA79B2AEDAE3AE208F12A'
 };
 
 export default config;

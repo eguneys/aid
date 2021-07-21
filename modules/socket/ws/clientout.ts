@@ -1,5 +1,3 @@
-import { ChapterData }  from 'shared_options';
-
 export interface ClientOut {
   t: string
   d?: any
@@ -61,30 +59,4 @@ export function parse(msg: string): Maybe<ClientOut> {
       return unexpected(msg);
     }
   }  
-}
-
-
-export interface AddChapter extends ClientOut {
-  t: 'addChapter',
-  d: ChapterData
-}
-
-export function isChapterData(_: any): _ is ChapterData {
-  let cd = (_ as ChapterData);
-  if (typeof cd.name === 'string' &&
-    typeof cd.orientation === 'string') {
-    if (!cd.fen || typeof cd.fen === 'string' &&
-      !cd.pgn || typeof cd.pgn === 'string') {
-      return true;
-    }
-  }
-  return false;
-}
-
-export function isAddChapter(_: ClientOut): _ is AddChapter {
-  let ac = (_ as AddChapter);
-  if (ac.t === 'addChapter') {
-    return isChapterData(ac.d);
-  }
-  return false;
 }

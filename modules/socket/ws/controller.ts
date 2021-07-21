@@ -1,7 +1,6 @@
-import { StudyId } from '../../study/study';
 import { ClientEmit } from './types';
-import StudyClient from './studyclient';
 import Auth from './auth';
+import RoomClient from './roomclient';
 import { ChestInHandler } from './chestin';
 import { ChestOutHandler } from './chestout';
 import { UserWithSession } from '../../security/session';
@@ -19,22 +18,8 @@ export default class Controller {
     
   }
   
-  study(req: any, id: StudyId, emit: ClientEmit): Fu<Maybe<StudyClient>> {
-    return this.WebSocket(req)((sri, user) =>  {
-      return StudyClient.make(id,
-                              this.fromVersion(req),
-                              this.chestIn,
-                              emit,
-                              req,
-                              sri,
-                              user);
-    });
-    
-  }
-
-
   WebSocket(req: any) {
-    return async (op: (sri: string, muser: Maybe<UserWithSession>) => StudyClient) => {
+    return async (op: (sri: string, muser: Maybe<UserWithSession>) => RoomClient) => {
       let sri = this.ValidSri(req);
       if (sri) {
         let user = await this.auth.apply(req);

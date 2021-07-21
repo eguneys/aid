@@ -39,7 +39,7 @@ export default class ChestCtrl {
       fua.then(_ => {
         if (_) {
           op(_).then(_ => 
-            res.send(_));
+            _ && res.send(_));
         } else {
           res.status(404).send(
             this.negotiate(() => html.base.notFound()(ctx),

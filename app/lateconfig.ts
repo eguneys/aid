@@ -8,10 +8,7 @@ import { BSONId, DocId, defaultBsonHandler } from '../modules/db/bson';
 export type LateConfig = DocId & {
   project: string,
   cookie_secret: string,
-  lila_oauth: {
-    client_id: string,
-    client_secret: string
-  }
+  steamApiKey: string
 }
 
 export default class LateConfigEnv {

@@ -1,34 +1,23 @@
 import { nextString } from '../common';
 import { Coll } from '../db';
-import { LiAuth } from '../lila/auth';
+import { SteamProfile } from '../steam/auth';
 import User, { UserId } from './user';
-import LiUser from './liuser';
 
 export default class UserRepo {
 
-  liColl: Coll<LiUser>
   coll: Coll<User>
   
-  constructor(coll: Coll<User>,
-              liColl: Coll<LiUser>) {
+  constructor(coll: Coll<User>) {
     this.coll = coll;
-    this.liColl = liColl;
   }
 
-  createUserFromLichess(liauth: LiAuth) {
+  createUserFromSteam(profile: SteamProfile) {
     let user = User.make({
       id: nextString(8),
-      username: liauth.username
+      username: profile.personaname
     });
 
-  let liuser = LiUser.make({
-      id: user.id,
-      userId: user.id,
-      auth: liauth
-  });
-    
     return this.insert(user)
-      .then(() => this.liColl.insert(liuser))
       .then(() => user);
   }
   

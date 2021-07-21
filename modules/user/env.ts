@@ -14,8 +14,7 @@ export class Env {
   constructor(db: chest.db.Db) {
     this.db = db;
 
-    this.repo = new UserRepo(db.apply<User>('user', bson.UserBsonHandler),
-                             db.apply<LiUser>('liauth', bson.LiUserBsonHandler));
+    this.repo = new UserRepo(db.apply<User>('user', bson.UserBsonHandler));
 
     this.api = new UserApi(this.repo);
   }

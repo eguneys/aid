@@ -17,6 +17,12 @@ module.exports = ({
   module: {
     rules: [
       {
+        test: /\.js$/,
+        resolve: {
+          fullySpecified: false
+        }
+      },
+      {
         test: /\.ts$/,
         use: "ts-loader",
         exclude: /node_modules/
@@ -48,6 +54,12 @@ module.exports = ({
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        resolve: {
+          fullySpecified: false
+        }
+      },
       {
         test: /\.ts$/,
         use: "ts-loader",

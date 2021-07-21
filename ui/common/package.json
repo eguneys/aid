@@ -1,9 +1,9 @@
 {
   "name": "common",
   "version": "1.0.0",
-  "main": "./common.js",
+  "module": "common.js",
   "type": "module",
-  "typings": "./common",
+  "typings": "common",
   "scripts": {
     "compile": "tsc",
     "dev": "rm lib -rf && yarn run compile",

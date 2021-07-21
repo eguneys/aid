@@ -10,8 +10,7 @@ export class Env {
               readonly api: chest.api.Env,
               readonly user: chest.user.Env,
               readonly socket: chest.socket.Env,
-              readonly security: chest.security.Env,
-              readonly study: chest.study.Env) {
+              readonly security: chest.security.Env) {
   }
 
 }
@@ -19,7 +18,7 @@ export class Env {
 export class EnvAwait {
 
   constructor(readonly config: LateConfigEnv,
-              readonly lila: chest.lila.Env) {
+              readonly steam: chest.steam.Env) {
   }
 }
 
@@ -43,10 +42,6 @@ export default class EnvBoot {
     let socket = new chest.socket.Env(
       security.api
     );
-    let study = new chest.study.Env(
-      mainDb,
-      socket.remoteSocket
-    );
     let api = new chest.api.Env();
 
 
@@ -54,8 +49,7 @@ export default class EnvBoot {
                        api,
                        user,
                        socket,
-                       security,
-                       study);
+                       security);
 
     helperEnv.setEnv(this.env);
   }
@@ -70,11 +64,11 @@ export default class EnvBoot {
 
     await lateConfig.awaitConfig()
 
-    let lila = new chest.lila.Env(this.config,
-                                  lateConfig);
+    let steam = new chest.steam.Env(this.config,
+                                    lateConfig);
 
     this.envAwait = new EnvAwait(lateConfig,
-                                 lila);
+                                 steam);
     
   }
 }
