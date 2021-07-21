@@ -14,4 +14,5 @@ Mac Arama Sayfasi
 
 
 
-[ ] Profilinde neler olucak?
+[ ] Profil ozellikleri
+[ ] Eslestirme kriterleri

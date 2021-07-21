@@ -13,6 +13,10 @@ export default function routes(c: wireCtrls) {
   // router.get('/callback', c.auth.callback.bind(c.auth));
   router.get('/logout', c.auth.logout);
 
+
+  router.get('/matchmaker', c.matchmaker.list)
+  router.get('/matchmaker/csgo', c.matchmaker.showCsGo)
+
   router.use(c.site.notFound.bind(c.site));
 
   router.use((err: any, req: any, res: any, next: any) => {

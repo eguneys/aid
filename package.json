@@ -51,6 +51,6 @@
     "ui/common",
     "ui/tree",
     "ui/site",
-    "ui/analyse"
+    "ui/matchmaker"
   ]
 }

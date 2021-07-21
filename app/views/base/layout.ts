@@ -15,9 +15,6 @@ const favicons = tags.raw(`
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 `);
 
-const pieceSprite = () => 
-  tags.linkt({ id: 'piece-sprite', href: h.assetUrl('piece-css/cburnett.css'), rel: 'stylesheet'});
-
 const dasher = (me: User) =>
   tags.div({ cls: 'dasher' }, [
     tags.a({ id: 'user_tag', href: '/logout' }, [me.username])
@@ -43,10 +40,9 @@ export function layout(title: string, body: string[], params: LayoutParams) {
       doctype,
       htmlTag({}, [
         tags.head([
-          tags.headTitle(`${title} • chessishard.com`),
+          tags.headTitle(`${title} • csgo-faceit-tr.com`),
           h.cssTag('site'),
           moreCss,
-          pieceSprite(),
           favicons
         ]),
         tags.body({ cls: [],
@@ -70,11 +66,11 @@ function linkTitle(url: string, name: string) {
 function topnav() {
   return tags.nav({ id: 'topnav', cls: 'hover' }, [
     tags.section(
-      linkTitle('/', tags.frag([tags.span({ cls: 'home'}, ['home']),
-                                tags.span({ cls: 'domain'}, ['chessishard.com'])]))
+      linkTitle('/', tags.frag([tags.span({ cls: 'home'}, ['Ana Sayfa']),
+                                tags.span({ cls: 'domain'}, ['csgo-faceit-tr.com'])]))
     ),
     tags.section(
-      linkTitle('/study', tags.frag([tags.span({ cls: 'study'}, ['study'])]))
+      linkTitle('/matchmaker', tags.frag([tags.span({ cls: 'matchmaker'}, ['Eslestirme'])]))
     )
   ]);
 }
@@ -89,7 +85,7 @@ function siteHeader(ctx: Context) {
     tags.div({ cls: 'site-title-nav' }, [
       topnavToggle,
       tags.h1({ cls: 'site-title' }, [
-        tags.a({ href: '/' }, ['Chess Is Hard'])
+        tags.a({ href: '/' }, ['CsGo FaceIt Tr'])
       ]),
       topnav()
     ]),
