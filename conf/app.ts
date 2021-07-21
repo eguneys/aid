@@ -2,9 +2,10 @@ import { Config } from './types';
 
 const config: Config = {
   net: {
-    project: 'Chest',
-    domain: 'localhost:3000',
-    prodDomain: 'chessishard.com',
+    project: 'csgo-faceit',
+    protocol: 'http://',
+    domain: '213.238.166.207:3000',
+    prodDomain: '213.238.166.207:3000',
     minifiedAssets: false
   }
 };

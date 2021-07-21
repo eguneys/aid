@@ -1,5 +1,6 @@
 export type NetConfigParams = {
   project: string,
+  protocol: string,
   domain: string,
   prodDomain: string,
   minifiedAssets: boolean
@@ -18,6 +19,7 @@ export class NetConfig {
   
   constructor({
     project,
+    protocol,
     domain,
     prodDomain,
     minifiedAssets
@@ -29,7 +31,8 @@ export class NetConfig {
     this.minifiedAssets = minifiedAssets;
 
     this.domain = domain;
-    this.protocol = this.isProd ? 'https://':'http://';
+    //this.protocol = this.isProd ? 'https://':'http://';
+    this.protocol = protocol;
 
     this.assetDomain = this.domain;
     this.assetBaseUrl = this.protocol + this.domain;

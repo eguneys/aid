@@ -7,7 +7,7 @@ export class Env {
   collPrefix: string
 
   constructor(config: Configuration) {
-    this.collPrefix = config.mode === 'development' ? 'dev' : '';
+    this.collPrefix = config.mode === 'development' ? 'dev' : 'prod';
   }
 
   db(name: string) {
