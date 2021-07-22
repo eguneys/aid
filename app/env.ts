@@ -10,7 +10,8 @@ export class Env {
               readonly api: chest.api.Env,
               readonly user: chest.user.Env,
               readonly socket: chest.socket.Env,
-              readonly security: chest.security.Env) {
+              readonly security: chest.security.Env,
+              readonly pool: chest.pool.Env) {
   }
 
 }
@@ -45,11 +46,14 @@ export default class EnvBoot {
     let api = new chest.api.Env();
 
 
+    let pool = new chest.pool.Env(user.repo);
+
     this.env = new Env(config.net,
                        api,
                        user,
                        socket,
-                       security);
+                       security,
+                       pool);
 
     helperEnv.setEnv(this.env);
   }

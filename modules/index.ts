@@ -4,3 +4,4 @@ export * as user from './user';
 export * as security from './security';
 export * as steam from './steam';
 export * as socket from './socket';
+export * as pool from './pool';

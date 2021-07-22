@@ -10,7 +10,7 @@ Mac Arama Sayfasi
 [ ] Mac aramayi iptal et
 [ ] Mac bulunca kabul et
 
-
+[ ] Sunucu Listesi
 
 
 
