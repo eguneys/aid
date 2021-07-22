@@ -1,4 +1,3 @@
-export * as study from './study';
+export * as matchmaker from './matchmaker';
 
-export * from './study';
-export * from './analyse';
+export * from './matchmaker';

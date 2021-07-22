@@ -20,6 +20,8 @@ interface Cookie {
 
 type Timeout = ReturnType<typeof setTimeout>;
 
+declare type SocketSend = (type: string, data?: any, opts?: any, noRetry?: boolean) => void
+
 interface Dictionary<T> {
   [key: string]: T | undefined;
 }

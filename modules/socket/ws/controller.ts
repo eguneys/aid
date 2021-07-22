@@ -1,6 +1,7 @@
 import { ClientEmit } from './types';
 import Auth from './auth';
-import RoomClient from './roomclient';
+import WsClient from './client';
+import MatchmakerClient from './matchmakerclient';
 import { ChestInHandler } from './chestin';
 import { ChestOutHandler } from './chestout';
 import { UserWithSession } from '../../security/session';
@@ -17,9 +18,19 @@ export default class Controller {
               readonly chestIn: ChestInHandler) {
     
   }
+
+  matchmaker(req: any, id: string, emit: ClientEmit) {
+    return this.WebSocket(req)((sri, user) => {
+      return MatchmakerClient.make(this.chestIn,
+                                   emit,
+                                   req,
+                                   sri,
+                                   user);
+    });
+  }
   
   WebSocket(req: any) {
-    return async (op: (sri: string, muser: Maybe<UserWithSession>) => RoomClient) => {
+    return async (op: (sri: string, muser: Maybe<UserWithSession>) => WsClient) => {
       let sri = this.ValidSri(req);
       if (sri) {
         let user = await this.auth.apply(req);

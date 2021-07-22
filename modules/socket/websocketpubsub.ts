@@ -5,6 +5,7 @@ import WsClient from './ws/client';
 import Auth from './ws/auth';
 import * as cout from './ws/clientout';
 import { ClientIn } from './ws/clientin';
+import { ClientEmit } from './ws/types';
 import { ChestInHandler, OutHandler } from './ws/chestin';
 import { chestOut2ClientIn, ChestOutHandler, ChestOut } from './ws/chestout';
 
@@ -34,21 +35,18 @@ export default class WebSocketPubSub {
     wss.on('connection', async (ws: any, req: any, _client: any) => {
 
       let emit = (msg: ClientIn) => ws.send(msg.write);
-      let clientFu: Fu<Maybe<WsClient>> = Promise.resolve(undefined);
-      
-      //console.log(req.headers.cookie);
-      let [url, params] = req.url.split('?');
-      let [_, path, id, socket] = url.split('/');
-
-      // if (path === 'study' &&
-      //   socket === 'socket') {
-      //   clientFu = this.controller.study(req, id, emit);
-      // }
+      let clientFu: Fu<Maybe<WsClient>> = this.router(req, emit)
 
       ws.on('message', (txt: string) => {
         let msg = cout.parse(txt)
         if (msg) {
-          clientFu.then(_ => _?.out(msg!));
+          clientFu.then(_ => {
+            if (_) {
+              _.out(msg!)
+            } else {
+              ws.terminate();
+            }
+          });
         }
       });
 
@@ -57,6 +55,18 @@ export default class WebSocketPubSub {
       });
       
     });
+    
+  }
+
+  router(req: any, emit: ClientEmit) {
+    let [url, params] = req.url.split('?');
+    let [_, path, id, socket] = url.split('/');
+
+    if (path === 'matchmaker' && socket === 'socket') {
+      return this.controller.matchmaker(req, id, emit);
+    }
+
+    return Promise.resolve(undefined);
     
   }
   

@@ -1,5 +1,7 @@
 import { UserId } from '../user/user';
 import { SocketSri } from '../socket/socket';
+import { Joiner } from './poolapi';
+import { PoolConfig } from './poolconfig';
 
 export type RatingRange = 'TODO implement me';
 
@@ -13,6 +15,14 @@ export class PoolMember {
                    sri,
                    rating,
                    ratingRange)
+
+  static makeWithJoin = (joiner: Joiner,
+                         config: PoolConfig) =>
+    new PoolMember(joiner.userId,
+                   joiner.sri,
+                   joiner.rating,
+                   undefined)
+                   
 
   constructor(
     readonly userId: UserId,

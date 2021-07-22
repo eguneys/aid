@@ -53,7 +53,7 @@ export default class AuthCtrl extends ChestCtrl {
       this.env.user.api.getOrCreate(user).then(_ =>
         this.env.security.api.saveSession(_).then(sessionId => {
           req.session.sessionId = sessionId;
-          withSessionId(res, sessionId).redirect('/');
+          withSessionId(res, sessionId).redirect('/matchmaker/csgo');
         })))(ctx);
 
   }

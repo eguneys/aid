@@ -14,7 +14,7 @@ export default class Auth {
   sessionIdFromReq(req: any) {
     let cookie = req.headers.cookie;
 
-    let match = cookie.match(/sessionId=(\w+)/);
+    let match = cookie?.match(/sessionId=(\w+)/);
     return match?.[1];
   }
   

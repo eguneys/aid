@@ -2,6 +2,10 @@ import { PoolConfig } from './poolconfig';
 import { PoolMember } from './poolmember';
 import { MatchMaking } from './matchmaking';
 import { GameStarter } from './gamestarter';
+import { Joiner } from './poolapi';
+import { UserId } from '../user/user';
+import { SocketSri } from '../socket/socket';
+
 
 export class PoolActor {
 
@@ -36,6 +40,10 @@ export class PoolActor {
     
   };
 
+  fullWave = () => {
+    this.runWave();
+  };
+
 
   poolHooks = async () => {
 
@@ -59,6 +67,29 @@ export class PoolActor {
     
     
   };
+
+
+  join = (joiner:Joiner) => {
+    let member = this.members.find(_ => joiner.is(_))
+
+    if (member) {
+      
+    } else {
+      this.members.push(PoolMember.makeWithJoin(joiner, this.config))
+
+      if (this.members.length >= this.config.players) {
+        this.fullWave();
+      }
+    }
+  }
+
+  leave = (userId: UserId) => {
+    this.members = this.members.filter(_ => _.userId !== userId)
+  }
+
+  sries = (sries: Array<SocketSri>) => {
+    this.members = this.members.filter(_ => sries.includes(_.sri))
+  }
   
   
 }

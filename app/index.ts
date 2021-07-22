@@ -28,7 +28,7 @@ export async function withApp(cb: (_: express.Application, __: (server: any) => 
       name: 'rk2',
       secret: cookie_secret,
       signed: false,
-      maxAge: 7 * 24 * 60 * 1000 // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     }));
     
     app.use(router);

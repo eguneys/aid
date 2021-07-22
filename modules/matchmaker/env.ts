@@ -1,11 +1,20 @@
-import Configuration from '../../app/config';
-import LateConfigEnv from '../../app/lateconfig';
+import * as chest from '../';
+import MatchmakerSocket from './matchmakersocket';
+import { SocketVersion, RemoteSocket } from '../socket';
 
 export class Env {
 
-  constructor(config: Configuration,
-              lateConfig: LateConfigEnv) {
+  socket: MatchmakerSocket
+  
+  constructor(readonly db: chest.db.Db,
+              readonly remoteSocketApi: RemoteSocket) {
 
+
+
+    this.socket = new MatchmakerSocket(this.remoteSocketApi);
+    
+    
+    
   }
   
 }

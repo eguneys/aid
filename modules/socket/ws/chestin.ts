@@ -22,8 +22,8 @@ export class ChestInHandler {
     res?.forEach(_ => _(msg));
   }
 
-  study(msg: ChestIn) {
-    this.emitSubs('study-in', msg);
+  matchmaker(msg: ChestIn) {
+    this.emitSubs('matchmaker-in', msg);
   }
 
   
@@ -55,4 +55,23 @@ export function tellRoomWho(id: RoomId,
     who,
     msg
   };
+}
+
+export interface TellSri extends ChestIn {
+  tpe: 'tell/sri',
+  who: Maybe<Who>,
+  payload: any
+}
+
+export function tellSri(who: Maybe<Who>,
+                        payload: any) {
+  return {
+    tpe: 'tell/sri',
+    who,
+    payload
+  }
+}
+
+export function isTellSri(_: ChestIn): _ is TellSri {
+  return _.tpe === 'tell/sri';
 }

@@ -1,6 +1,6 @@
 let config = require('@build/webpackProject');
 
 module.exports = config({
-  library: 'CsgoMatchmaker',
+  library: 'CsGoMatchmaker',
   output: 'matchmaker'
 });

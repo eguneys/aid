@@ -11,7 +11,8 @@ export class Env {
               readonly user: chest.user.Env,
               readonly socket: chest.socket.Env,
               readonly security: chest.security.Env,
-              readonly pool: chest.pool.Env) {
+              readonly pool: chest.pool.Env,
+              readonly matchmaker: chest.matchmaker.Env) {
   }
 
 }
@@ -48,12 +49,16 @@ export default class EnvBoot {
 
     let pool = new chest.pool.Env(user.repo);
 
+    let matchmaker = new chest.matchmaker.Env(mainDb,
+                                              socket.remoteSocket);
+
     this.env = new Env(config.net,
                        api,
                        user,
                        socket,
                        security,
-                       pool);
+                       pool,
+                       matchmaker);
 
     helperEnv.setEnv(this.env);
   }

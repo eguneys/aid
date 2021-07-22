@@ -16,7 +16,7 @@ export default function routes(c: wireCtrls) {
 
   router.get('/matchmaker', c.matchmaker.list)
   router.get('/matchmaker/csgo', c.matchmaker.showCsGo)
-
+  
   router.use(c.site.notFound.bind(c.site));
 
   router.use((err: any, req: any, res: any, next: any) => {

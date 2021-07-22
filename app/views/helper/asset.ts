@@ -24,7 +24,7 @@ export const cssTag = (name: string) =>
   cssAt(`css/${name}.dark.${e.env.net.minifiedAssets?'min':'dev'}.css`);
 
 
-export const analyseTag = () => jsModule('analyse');
+export const matchmakerTag = () => jsModule('matchmaker');
 
 export const embedJsUnsafe = (js: string) => (ctx: Context) => {
   let nonce = ctx.nonce ? ` nonce="${ctx.nonce}"`:'';
