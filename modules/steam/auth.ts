@@ -1,5 +1,6 @@
 import openid from 'openid';
 import fetch from 'node-fetch';
+import { nextString } from '../common/random';
 
 export type SteamProfile = {
   steamid: string,
@@ -24,6 +25,14 @@ export class Auth {
       []
     )
     
+  }
+
+  get mockProfile(): SteamProfile {
+    return {
+      steamid: nextString(12),
+      personaname: 'mocknamE' + nextString(8),
+      avatar: 'mockavatar'
+    }
   }
 
   get redirectUrl() {

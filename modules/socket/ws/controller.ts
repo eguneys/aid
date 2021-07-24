@@ -6,24 +6,30 @@ import { ChestInHandler } from './chestin';
 import { ChestOutHandler } from './chestout';
 import { UserWithSession } from '../../security/session';
 import { SocketVersion } from '../socket';
+import { Services } from './services';
 
 export default class Controller {
 
   static make = (auth: Auth,
-                 chestIn: ChestInHandler) =>
+                 chestIn: ChestInHandler,
+                 services: Services) =>
     new Controller(auth,
-                   chestIn);
+                   chestIn,
+                   services);
 
   constructor(readonly auth: Auth,
-              readonly chestIn: ChestInHandler) {
+              readonly chestIn: ChestInHandler,
+              readonly services: Services) {
     
   }
 
-  matchmaker(req: any, id: string, emit: ClientEmit) {
+  matchmaker(req: any, id: string, emit: ClientEmit, onStop: () => void) {
     return this.WebSocket(req)((sri, user) => {
       return MatchmakerClient.make(this.chestIn,
                                    emit,
+                                   this.services,
                                    req,
+                                   onStop,
                                    sri,
                                    user);
     });
@@ -40,13 +46,15 @@ export default class Controller {
   }
 
   ValidSri(req: any) {
-    let [_, params] = req.url.split('?');
+    let [_, params] = decodeURIComponent(req.url).split('?');
     if (params) {
-      let match = params.match(/sri=([a-zA-Z0-9]*)/);
 
-      if (match) {
-        let sri = match[1];
-        return sri;
+      let sri = params.split('&')
+        .map(_ => _.split('='))
+        .find(_ => _[0] === 'sri')
+
+      if (sri && sri[1].length <= 12) {
+        return sri[1];
       }
     }
   }

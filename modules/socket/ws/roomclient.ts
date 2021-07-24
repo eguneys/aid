@@ -8,6 +8,8 @@ import * as chIn from './chestin';
 import * as chOut from './chestout';
 import { SocketVersion } from '../socket';
 import Bus from './bus';
+import { Services } from './services';
+
 
 export default abstract class RoomClient extends WsClient {
 
@@ -16,11 +18,15 @@ export default abstract class RoomClient extends WsClient {
     readonly fromVersion: Maybe<SocketVersion>,
     chestIn: chIn.ChestInHandler,
     clientIn: ClientEmit,
+    services: Services,
+    onStop: () => void,
     sri: string,
     user: Maybe<UserWithSession>) {
 
     super(chestIn,
           clientIn,
+          services,
+          onStop,
           sri,
           user);
 
@@ -39,5 +45,9 @@ export default abstract class RoomClient extends WsClient {
     if (cin.isVersioned(_)) {
       this.clientIn(this.versionFor(_))
     }
+  }
+
+  onStop() {
+    Bus.unsubscribe(`room/${this.id}`, this.in);
   }
 }

@@ -71,7 +71,6 @@ export function isMForward(_: any): _ is MatchmakerForward {
 }
 
 export function parse(msg: string): Maybe<ClientOut> {
-
   if (msg === 'null' || msg === `{"t":"p"}`) {
     return emptyPing;
   } else {

@@ -50,7 +50,8 @@ export default class EnvBoot {
     let pool = new chest.pool.Env(user.repo);
 
     let matchmaker = new chest.matchmaker.Env(mainDb,
-                                              socket.remoteSocket);
+                                              socket.remoteSocket,
+                                              pool.api);
 
     this.env = new Env(config.net,
                        api,

@@ -5,6 +5,7 @@ import { GameStarter } from './gamestarter';
 import { UserId } from '../user/user';
 import { SocketSri } from '../socket/socket';
 import { Game } from '../game/game';
+import { Color } from '../game/color';
 
 export class PoolApi {
 
@@ -32,7 +33,6 @@ export class PoolApi {
   }
 
   leave(poolId: PoolConfigId, userId: UserId) {
-
     this.actors.get(poolId)?.leave(userId)
   }
 
@@ -68,7 +68,11 @@ export class Pairing {
                                                          bSries)
   
   constructor(readonly game: Game,
-              aSries: Array<SocketSri>,
-              bSries: Array<SocketSri>) {
+              readonly aSries: Array<SocketSri>,
+              readonly bSries: Array<SocketSri>) {
+  }
+
+  sries(color: Color): Array<SocketSri> {
+    return color.fold(this.aSries, this.bSries);
   }
 }

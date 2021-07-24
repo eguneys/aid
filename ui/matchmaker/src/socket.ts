@@ -14,7 +14,10 @@ export default class MatchSocket {
     this.send = send;
 
     this.handlers = {
-      
+      poolSize: size => {
+        ctrl.poolSpread(size)
+        ctrl.redraw()
+      }
     };
   }
 

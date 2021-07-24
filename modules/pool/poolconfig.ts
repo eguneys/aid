@@ -21,7 +21,7 @@ export type PoolConfigId = string
 export class PoolList {
 
   static all: Array<PoolConfig> = [
-    PoolConfig.make('TODO generate id', 1, 10, 10)
+    PoolConfig.make('single', 1, 10, 10)
   ]
   
 }

@@ -1,9 +1,13 @@
+import * as chest from '../';
 import { UserId } from '../user/user';
 import UserRepo from '../user/userrepo';
 import { Couple } from './matchmaking';
 import { PoolConfig} from './poolconfig';
 import { Pairing } from './poolapi';
 import { Game } from '../game/game';
+import { Team } from '../game/team';
+import { Player } from '../game/player';
+import { Color } from '../game/color';
 
 export class GameStarter {
 
@@ -15,7 +19,8 @@ export class GameStarter {
         couples: Array<Couple>) {
 
     Promise.all(couples.map(_ => this.one(pool, _)))
-      .then(pairings => console.log(pairings))
+      .then(pairings =>
+        chest.common.bus.publish('poolPairings', pairings))
   }
 
   async one(pool: PoolConfig, couple: Couple) {
@@ -32,8 +37,13 @@ export class GameStarter {
   makeGame(pool: PoolConfig,
            aUsers: Array<UserId>,
            bUsers: Array<UserId>) {
-    return Game.make(aUsers,
-                     bUsers);
+
+    return Game.make(Team.make(Color.a,
+                               aUsers.map(userId =>
+                                 Player.make(Color.a, userId))),
+                     Team.make(Color.b,
+                               bUsers.map(userId =>
+                                 Player.make(Color.b, userId))));
   }
   
 }

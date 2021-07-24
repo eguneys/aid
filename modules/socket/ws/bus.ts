@@ -1,9 +1,23 @@
 import { ClientMsg } from './clientin';
 
-export class Bus {
+export function _sri(sri: string) {
+  return `sri/${sri}`;
+}
 
+export const _all = `all`;
+
+export class Bus {
+  
   subs: Map<string, Sub[]> = new Map()
 
+  unsubscribe(channel: string, handler: Sub) {
+    let res = this.subs.get(channel);
+    if (res) {
+      this.subs.set(channel,
+                    res.filter(_ => _ != handler))
+    }
+  }
+  
   subscribe(channel: string, handler: Sub) {
     let res = this.subs.get(channel) || [];
 

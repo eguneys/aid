@@ -2,21 +2,42 @@ import { SocketVersion } from '../socket';
 
 export interface ClientMsg {};
 
-export interface ClientIn extends ClientMsg {
-  write: string
+export abstract class ClientIn implements ClientMsg {
+
+  static isClientIn = (_: ClientMsg): _ is ClientIn => {
+    return (_ as ClientIn).clientIn;
+  }
+  
+  clientIn = true;
+  abstract write: string;
 }
 
-export const Pong: ClientIn = {
-  write: '0'
-};
+export class PongIn extends ClientIn {
 
-export class Payload implements ClientIn {
+  static Pong = new PongIn();
 
+  write = '0';
+  
+}
+
+export class Payload extends ClientIn {
+
+  static cliMsg = (t: string, d: ClientMsg) => new Payload({
+    d, t })
+  
   static make = (msg: ClientMsg) => new Payload(msg);
+
+  kind: string = 'payload';
   
   get write(): string { return JSON.stringify(this.msg); }
   
-  constructor(readonly msg: ClientMsg) {}
+  constructor(readonly msg: ClientMsg) {
+    super();
+  }
+}
+
+export function isPayload(_: ClientMsg): _ is Payload {
+  return (_ as Payload).kind === 'payload';
 }
 
 export class HasVersion implements ClientMsg {

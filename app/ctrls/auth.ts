@@ -58,32 +58,20 @@ export default class AuthCtrl extends ChestCtrl {
 
   }
   
-  // async guest(req: any, res: any) {
-  //   let ctx: Context = await this.reqToCtx(req);
+  guest = async (req: any, res: any) => {
+    let ctx: Context = await this.reqToCtx(req);
 
-
-  //   this.env.security.api.anonymousSessionId().then(sessionId => {
-  //     req.session.sessionId = sessionId;
-  //     withSessionId(res, sessionId).redirect('/');
-  //   });
-  // }
-
-  // async callback(req: any, res: any, next: any) {
-  //   let ctx: Context = await this.reqToCtx(req);
-
-  //   this.env2.lila.auth
-  //     .exchangeCode(req.query.code)
-  //     .then(user =>
-  //       this.env.user.api.getOrCreate(user).then(_ =>
-  //         this.env.security.api.saveSession(_).then(sessionId => {
-  //           req.session.sessionId = sessionId;
-  //           withSessionId(res, sessionId).redirect('/');
-  //         })))
-  //     .catch(err => next(err));
+    let mockSteam = this.env2.steam.auth.mockProfile;
     
-    
-  // }
+    this.env.user.api.getOrCreate(mockSteam).then(_ =>
+      this.env.security.api.saveSession(_).then(sessionId => {
+        req.session.sessionId = sessionId;
+        withSessionId(res, sessionId).send(
+          mockSteam
+        );
+      }));
 
+  }
 
   
 }

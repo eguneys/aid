@@ -33,7 +33,7 @@ export function naive(members: Array<PoolMember>, n: number): Array<Couple> {
   let res = [];
   let sorted = members.sort((a, b) => a.rating - b.rating)
 
-  for (let i = 0; i < sorted.length - n2; i+=n2) {
+  for (let i = 0; i < sorted.length; i+=n2) {
     let a = sorted.slice(i, i+n),
     b = sorted.slice(i+n, i+n2);
 

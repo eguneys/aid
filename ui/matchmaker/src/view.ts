@@ -17,9 +17,8 @@ function inPool(ctrl: Ctrl): VNode {
     h('h1', 'Oyun ara'),
     h('div.details', 'CsGo 5v5 Tek Mac'),
     h('div.waiting', [
-      h('a.user-link.target', {
-        href: '/@/username'
-      }, 'username'),
+      h('span.user-link.target', {},
+        `${ctrl.poolSize} bekleyen kisi var`),
       spinner(),
       h('p', 'Eslestirme bekleniyor')
     ]),

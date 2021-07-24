@@ -1,20 +1,33 @@
 import { funit } from '../../common/base';
-import Bus from './bus';
+import Bus, { _sri } from './bus';
 import * as cin from './clientin';
-import { SocketVersion } from '../socket';
+import { SocketSri, SocketVersion } from '../socket';
+import { Pairing  } from '../../pool/poolapi';
+import { Color } from '../../game/color';
 
 export function chestOut2ClientIn(chestOut: ChestOutHandler) {
-  chestOut.subscribe('study-out', studyHandler);
+  chestOut.subscribe('matchmaker-out', matchmakerHandler);
 }
 
-export function studyHandler(msg: ChestOut) {
-  if (isTellRoomVersion(msg)) {
-    let versioned = cin.Versioned.make(msg.payload,
-                                       msg.version);
+export function matchmakerHandler(msg: ChestOut) {
+  if (LobbyPoolSize.isLobbyPoolSize(msg)) {
+    Bus.publish(`matchmaker`, cin.Payload.cliMsg(
+      'poolSize',
+      msg.size
+    ));
+  }
+  if (LobbyPairings.isLobbyPairings(msg)) {
+    msg.pairings.forEach(pairing =>
+      Color.all.forEach(color =>
+        pairing.sries(color).forEach((sri: SocketSri) =>
+          Bus.publish(_sri(sri), cin.Payload.cliMsg(
+            'redirect',
+            {
+              id: pairing.game.fullIdOf(color),
+              url: `/${pairing.game.fullIdOf(color)}`
+            }
+          )))))
 
-    // TODO History.room.add(msg.roomId, versioned)
-    
-    Bus.publish(`room/${msg.roomId}`, versioned);
   }
 }
 
@@ -45,6 +58,37 @@ export type OutHandler = (_: ChestOut) => void;
 export interface ChestOut {
   chOut: string
 };
+
+export class LobbyPoolSize implements ChestOut {
+
+  static make = (size: number) => new LobbyPoolSize(size);
+
+  static isLobbyPoolSize = (_: ChestOut): _ is LobbyPoolSize => {
+    return _.chOut === 'lobby/poolSize';
+  }
+  
+  chOut = 'lobby/poolSize';
+  
+  constructor(readonly size: number) {
+    
+  }
+}
+
+export class LobbyPairings implements ChestOut {
+
+  static make = (pairings: Array<Pairing>) => new LobbyPairings(pairings);
+
+  static isLobbyPairings = (_: ChestOut): _ is LobbyPairings => {
+    return _.chOut === 'lobby/pairings';
+  }
+  
+  chOut = 'lobby/pairings';
+  
+  constructor(readonly pairings: Array<Pairing>) {
+    
+  }
+}
+
 
 export interface TellRoomVersion extends ChestOut {
   chOut: 'tell/room/version';

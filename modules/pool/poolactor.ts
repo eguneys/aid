@@ -1,3 +1,4 @@
+import * as chest from '../';
 import { PoolConfig } from './poolconfig';
 import { PoolMember } from './poolmember';
 import { MatchMaking } from './matchmaking';
@@ -36,6 +37,9 @@ export class PoolActor {
   runWave = () => {
 
     clearTimeout(this.nextWaveTimeoutId);
+
+    chest.common.bus.publish('poolSize', this.members.length);
+    
     this.poolHooks();
     
   };
@@ -73,7 +77,7 @@ export class PoolActor {
     let member = this.members.find(_ => joiner.is(_))
 
     if (member) {
-      
+
     } else {
       this.members.push(PoolMember.makeWithJoin(joiner, this.config))
 
@@ -88,6 +92,7 @@ export class PoolActor {
   }
 
   sries = (sries: Array<SocketSri>) => {
+    console.log(sries);
     this.members = this.members.filter(_ => sries.includes(_.sri))
   }
   

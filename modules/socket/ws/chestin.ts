@@ -1,4 +1,5 @@
 import { Who, RoomId } from './actorApi';
+import { SocketSri } from '../socket';
 import { ClientOut } from './clientout';
 import { funit } from '../../common/base';
 import { ChestOut } from './chestout';
@@ -34,6 +35,36 @@ export type OutHandler = (_: ChestIn) => void;
 export interface ChestIn {
   tpe: string
 }
+
+export interface Matchmaker extends ChestIn {
+}
+
+export class ConnectSris implements Matchmaker {
+
+  static make = (sris: Array<Who>) => new ConnectSris(sris);
+
+  static isConnectSris = (_: ChestIn): _ is ConnectSris =>
+    _.tpe === 'connect/sris';
+  
+  tpe = 'connect/sris'
+  
+  constructor(readonly sris: Array<Who>) {}
+  
+}
+
+export class DisconnectSris implements Matchmaker {
+
+  static make = (sris: Array<SocketSri>) => new DisconnectSris(sris);
+
+  static isDisconnectSris = (_: ChestIn): _ is DisconnectSris =>
+    _.tpe === 'disconnect/sris';
+  
+  tpe = 'disconnect/sris'
+  
+  constructor(readonly sris: Array<SocketSri>) {}
+  
+}
+
 
 export interface TellRoomWho extends ChestIn {
   tpe: 'tellRoomWho',

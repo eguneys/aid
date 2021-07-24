@@ -5,12 +5,18 @@ import WsClient from './ws/client';
 import Auth from './ws/auth';
 import * as cout from './ws/clientout';
 import { ClientIn } from './ws/clientin';
-import { ClientEmit } from './ws/types';
+import { ClientEmit, Broom } from './ws/types';
 import { ChestInHandler, OutHandler } from './ws/chestin';
 import { chestOut2ClientIn, ChestOutHandler, ChestOut } from './ws/chestout';
+import Bus from './ws/bus';
+import Matchmaker from './ws/matchmaker';
+import { Services } from './ws/services';
 
 export default class WebSocketPubSub {
 
+  services: Services;
+  
+  matchmaker: Matchmaker;
   controller: Controller;
 
   chestIn: ChestInHandler;
@@ -22,20 +28,35 @@ export default class WebSocketPubSub {
 
     this.chestIn = ChestInHandler.make();
     this.chestOut = ChestOutHandler.make();
+
+    this.matchmaker = Matchmaker.make(this.chestIn);
+
+    this.services = Services.make(this.matchmaker);
     
     this.controller = Controller.make(auth,
-                                      this.chestIn);
+                                      this.chestIn,
+                                      this.services);
+
 
     chestOut2ClientIn(this.chestOut);
+
+
+    setInterval(() => {
+      Bus.publish('matchmaker', Broom.make(Date.now() - 10 * 1000))
+    }, 10 * 1000);
   }
   
   initServer(server: any) {
     let wss = new WebSocket.Server({ server });
 
-    wss.on('connection', async (ws: any, req: any, _client: any) => {
+    wss.on('connection', (ws: any, req: any, _client: any) => {
 
-      let emit = (msg: ClientIn) => ws.send(msg.write);
-      let clientFu: Fu<Maybe<WsClient>> = this.router(req, emit)
+      let emit = (msg: ClientIn) => {
+        ws.send(msg.write);
+      };
+      let clientFu: Fu<Maybe<WsClient>> = this.router(req, emit, () => {
+        ws.terminate();
+      })
 
       ws.on('message', (txt: string) => {
         let msg = cout.parse(txt)
@@ -51,19 +72,19 @@ export default class WebSocketPubSub {
       });
 
       ws.on('close', () => {
-        
+        clientFu.then(_ => _?.onStop());
       });
       
     });
     
   }
 
-  router(req: any, emit: ClientEmit) {
+  router(req: any, emit: ClientEmit, onStop: () => void) {
     let [url, params] = req.url.split('?');
     let [_, path, id, socket] = url.split('/');
 
     if (path === 'matchmaker' && socket === 'socket') {
-      return this.controller.matchmaker(req, id, emit);
+      return this.controller.matchmaker(req, id, emit, onStop);
     }
 
     return Promise.resolve(undefined);

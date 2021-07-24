@@ -7,12 +7,11 @@ export default function routes(c: wireCtrls) {
   const router = express.Router();
 
   router.get('/auth', c.auth.login);
-  // router.get('/auth/guest', c.auth.guest.bind(c.auth));
   router.get('/auth/steam', c.auth.steam);
   router.get('/steam/callback', c.auth.steamCallback);
-  // router.get('/callback', c.auth.callback.bind(c.auth));
   router.get('/logout', c.auth.logout);
-
+  // dev only
+  router.get('/auth/guest', c.auth.guest);
 
   router.get('/matchmaker', c.matchmaker.list)
   router.get('/matchmaker/csgo', c.matchmaker.showCsGo)

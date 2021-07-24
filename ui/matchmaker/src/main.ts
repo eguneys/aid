@@ -10,6 +10,7 @@ export interface MatchmakerApi {
   socketReceive(typ: string, data: any): boolean;
   setRedirecting(): void;
   leavePool(): void;
+  poolSpread(nb: number): void
 }
 
 const patch = init([classModule, attributesModule]);
@@ -31,6 +32,7 @@ export function app(opts: MatchmakerOptions) {
     socketReceive: ctrl.socket.receive,
     setRedirecting: ctrl.setRedirecting,
     enterPool: ctrl.enterPool,
-    leavePool: ctrl.leavePool
+    leavePool: ctrl.leavePool,
+    poolSpread: ctrl.poolSpread
   }
 }

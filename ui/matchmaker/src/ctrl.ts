@@ -9,6 +9,8 @@ export default class MatchCtrl {
 
   poolMember?: PoolMember
   socket: MatchSocket
+
+  poolSize: number = 0
   
   constructor(readonly opts: MatchmakerOptions,
               readonly redraw: Redraw) {
@@ -46,6 +48,10 @@ export default class MatchCtrl {
   };
 
   setRedirecting = () => {
+  };
+
+  poolSpread = (nb: number) => {
+    this.poolSize = nb;
   };
   
 }
