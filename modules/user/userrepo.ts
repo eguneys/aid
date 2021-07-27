@@ -2,6 +2,7 @@ import { nextString } from '../common';
 import { Coll } from '../db';
 import { SteamProfile } from '../steam/auth';
 import User, { UserId } from './user';
+import { BSON } from '../db/bson';
 
 export default class UserRepo {
 
@@ -27,6 +28,11 @@ export default class UserRepo {
 
   byId(id: UserId) {
     return this.coll.one({id});
+  }
+
+  // abstract findProjection<B>(query: any, projection: any, bson: BSON<B>): Fu<Array<B>>
+  findProjection<A>(id: UserId, projection: any, bson: BSON<A>): Fu<Maybe<A>> {
+    return this.coll.findProjection({id}, projection, bson).then(_ => _[0]);
   }
 
   byUsername(username: string) {

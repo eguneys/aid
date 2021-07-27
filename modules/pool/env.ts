@@ -8,11 +8,13 @@ export class Env {
   api: PoolApi
   gameStarter: GameStarter
   
-  constructor(readonly userRepo: chest.user.UserRepo) {
+  constructor(readonly userRepo: chest.user.UserRepo,
+              readonly gameRepo: chest.game.GameRepo) {
 
     let poolConfigs = PoolList.all
 
-    this.gameStarter = new GameStarter(userRepo);
+    this.gameStarter = new GameStarter(gameRepo,
+                                      userRepo);
     
     this.api = new PoolApi(poolConfigs,
                            this.gameStarter)

@@ -12,6 +12,7 @@ export class Env {
               readonly socket: chest.socket.Env,
               readonly security: chest.security.Env,
               readonly pool: chest.pool.Env,
+              readonly round: chest.round.Env,
               readonly matchmaker: chest.matchmaker.Env) {
   }
 
@@ -46,12 +47,18 @@ export default class EnvBoot {
     );
     let api = new chest.api.Env();
 
+    let game = new chest.game.Env(mainDb);
 
-    let pool = new chest.pool.Env(user.repo);
+    let pool = new chest.pool.Env(user.repo,
+                                  game.gameRepo);
 
     let matchmaker = new chest.matchmaker.Env(mainDb,
                                               socket.remoteSocket,
                                               pool.api);
+
+    let round = new chest.round.Env(user.lightUserApi,
+                                    game.gameRepo,
+                                    socket.remoteSocket);
 
     this.env = new Env(config.net,
                        api,
@@ -59,6 +66,7 @@ export default class EnvBoot {
                        socket,
                        security,
                        pool,
+                       round,
                        matchmaker);
 
     helperEnv.setEnv(this.env);

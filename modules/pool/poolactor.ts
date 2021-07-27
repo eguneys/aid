@@ -92,7 +92,6 @@ export class PoolActor {
   }
 
   sries = (sries: Array<SocketSri>) => {
-    console.log(sries);
     this.members = this.members.filter(_ => sries.includes(_.sri))
   }
   

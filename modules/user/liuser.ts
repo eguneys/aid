@@ -1,16 +1,16 @@
-import { UserId } from './user';
-import { LiUserDoc } from './bson';
+// import { UserId } from './user';
+// import { LiUserDoc } from './bson';
 
-export default class LiUser {
+// export default class LiUser {
 
-  id: UserId
+//   id: UserId
   
-  static make = (doc: LiUserDoc): LiUser => {
-    return new LiUser(doc.id);
-  }
+//   static make = (doc: LiUserDoc): LiUser => {
+//     return new LiUser(doc.id);
+//   }
 
-  constructor(id: UserId) {
-    this.id = id;
-  }
+//   constructor(id: UserId) {
+//     this.id = id;
+//   }
   
-}
+// }

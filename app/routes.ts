@@ -15,6 +15,8 @@ export default function routes(c: wireCtrls) {
 
   router.get('/matchmaker', c.matchmaker.list)
   router.get('/matchmaker/csgo', c.matchmaker.showCsGo)
+
+  router.get('/:fullId', c.round.player)
   
   router.use(c.site.notFound.bind(c.site));
 

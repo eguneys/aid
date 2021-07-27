@@ -9,7 +9,7 @@ export class Player {
 
   static make = (color: Color,
                  userId: Maybe<UserId>) =>
-    new Player(nextString(8),
+    new Player(nextString(4),
                color,
                userId);
   

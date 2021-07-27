@@ -7,3 +7,5 @@ export * as steam from './steam';
 export * as socket from './socket';
 export * as pool from './pool';
 export * as matchmaker from './matchmaker';
+export * as round from './round';
+export * as game from './game';

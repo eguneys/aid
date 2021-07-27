@@ -16,7 +16,7 @@ export default class MatchCtrl {
               readonly redraw: Redraw) {
 
 
-    this.socket = new MatchSocket(opts.socketSend,
+    this.socket = new MatchSocket(opts.socketSend,r
                                   this);
     
   }

@@ -5,7 +5,7 @@ import { UserContext } from '../../modules/user';
 import { Nonce } from '../../modules/common';
 import * as chest from '../../modules';
 import { SessionOrUserId } from '../../modules/security/session';
-import { fuccess } from '../../modules/common';
+import { fuccess, funit } from '../../modules/common';
 
 export default class ChestCtrl {
   env: Env
@@ -34,7 +34,7 @@ export default class ChestCtrl {
     fua.then(() => res.send({ok: true}));
   }
   
-  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => Fu<any> = _ => fuccess(_)) {
+  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => Fu<any> = _ => funit) {
     return (ctx: Context) =>
       fua.then(_ => {
         if (_) {

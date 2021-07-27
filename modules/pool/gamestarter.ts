@@ -1,6 +1,7 @@
 import * as chest from '../';
 import { UserId } from '../user/user';
 import UserRepo from '../user/userrepo';
+import { GameRepo } from '../game/gamerepo';
 import { Couple } from './matchmaking';
 import { PoolConfig} from './poolconfig';
 import { Pairing } from './poolapi';
@@ -12,6 +13,7 @@ import { Color } from '../game/color';
 export class GameStarter {
 
   constructor(
+    readonly gameRepo: GameRepo,
     readonly userRepo: UserRepo) {
   }
 
@@ -28,7 +30,7 @@ export class GameStarter {
                         couple.a.map(_ => _.userId),
                         couple.b.map(_ => _.userId)).start
 
-    //await gameRepo.insertDenormalized(game)
+    await this.gameRepo.insertDenormalized(game)
     return Pairing.make(game,
                         couple.a.map(_ => _.sri),
                         couple.b.map(_ => _.sri))

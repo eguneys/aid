@@ -25,6 +25,7 @@ export const cssTag = (name: string) =>
 
 
 export const matchmakerTag = () => jsModule('matchmaker');
+export const roundTag = () => jsModule('round');
 
 export const embedJsUnsafe = (js: string) => (ctx: Context) => {
   let nonce = ctx.nonce ? ` nonce="${ctx.nonce}"`:'';

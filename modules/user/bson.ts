@@ -1,6 +1,6 @@
 import { BSONId, DocId } from '../db/bson';
 import User from './user';
-import LiUser from './liuser';
+import LightUser from './lightuser';
 
 export type UserDoc = DocId & {
   username: string
@@ -19,18 +19,20 @@ export const UserBsonHandler: BSONId<User> = {
   }
 };
 
-export type LiUserDoc = DocId & {
-
+export type LightUserDoc = DocId & {
+  username: string  
 }
 
-export const LiUserBsonHandler: BSONId<LiUser> = {
-  read(doc: LiUserDoc): LiUser {
-    return LiUser.make(doc);
+export const lightUserBsonHandler: BSONId<LightUser> = {
+  read(doc: LightUserDoc): LightUser {
+    return new LightUser(doc.id,
+                         doc.username);
   },
 
-  write(liuser: LiUser): LiUserDoc {
+  write(lightUser: LightUser): LightUserDoc {
     return {
-      id: liuser.id
+      id: lightUser.id,
+      username: lightUser.name
     };
   }
 }

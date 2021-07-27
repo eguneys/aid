@@ -51,6 +51,7 @@
     "ui/common",
     "ui/tree",
     "ui/site",
-    "ui/matchmaker"
+    "ui/matchmaker",
+    "ui/round"
   ]
 }

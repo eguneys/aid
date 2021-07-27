@@ -1,5 +1,8 @@
 export class Color {
 
+  static makeByLetter = (letter: string) =>
+    letter === Color.a.letter ? Color.a: Color.b
+  
   static a = new Color('a')
   static b = new Color('b')
 
