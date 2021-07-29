@@ -1,5 +1,9 @@
 import { ClientMsg } from './clientin';
 
+export function _room(roomId: string) {
+  return `room/${roomId}`;
+}
+
 export function _sri(sri: string) {
   return `sri/${sri}`;
 }

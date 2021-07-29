@@ -15,6 +15,11 @@ export default class RoundSocket {
     this.send = send;
 
     this.handlers = {
+
+      crowd(o) {
+        ctrl.setCrowd(o);
+        ctrl.redraw();
+      }
       
     }
     

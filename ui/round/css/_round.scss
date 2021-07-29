@@ -1,0 +1,12 @@
+.round__app {
+  @extend %flex-between;
+
+  .team h2 {
+    color: $c-secondary;
+  }
+  
+  .versus {
+    margin-top: 2em;
+    text-align: center;
+  }
+}

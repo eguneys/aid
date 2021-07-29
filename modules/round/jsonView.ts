@@ -13,7 +13,12 @@ export default class JsonView {
   }
 
   apply(pov: Pov): Fu<RoundData> {
-    return this.gameJsonView(pov.game).then(game => ({game}));
+    return this.gameJsonView(pov.game).then(game => ({
+      game,
+      url: {
+        socket: `/play/${pov.fullId}/v5`
+      }
+    }));
   }
 
   gameJsonView(game: Game): Fu<RoundGame> {

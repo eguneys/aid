@@ -1,0 +1,35 @@
+.user-link {
+
+  @extend %nowrap-hidden;
+
+  color: $c-font;
+
+  &.online .line {
+    &::before {
+      content: '✓';
+    }
+
+    color: $c-good;
+    opacity: 0.9;
+  }
+
+  .line {
+    @extend %data-icon;
+
+    color: $c-font;
+    opacity: 0.5;
+    display: inline-block;
+    width: 1.5em;
+    text-align: center;
+    vertical-align: text-top;
+
+    &::before {
+      content: '_';
+    }
+  }
+
+  a.user-link:hover {
+    color: $c-link;    
+  }
+  
+}

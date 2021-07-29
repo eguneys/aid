@@ -63,14 +63,14 @@ export default class MatchmakerClient extends WsClient {
     if (cin.isPayload(_)) {
       this.clientIn(_)
     }
-
-    if (Broom.isBroom(_)) {
-      super.broom(_.oldSeconds); 
-    }    
   }
 
   _all = (_: cin.ClientMsg) => {
     super._all(_);
+    
+    if (Broom.isBroom(_)) {
+      super.broom(_.oldSeconds); 
+    }    
   }
 
   onStop() {

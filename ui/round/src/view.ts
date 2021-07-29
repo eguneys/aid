@@ -1,9 +1,10 @@
 import { h } from 'snabbdom';
 import RoundCtrl from './ctrl';
 import { bind } from './util';
+import { RoundPlayer } from 'shared_options';
 
 export function main(ctrl: RoundCtrl) {
-  return h('main.round__app', [
+  return h('main.round__app box box-pad', [
     team(ctrl, 'aTeam'),
     vsReady(ctrl),
     team(ctrl, 'bTeam')
@@ -29,6 +30,17 @@ export function team(ctrl: RoundCtrl, teamName: 'aTeam' | 'bTeam') {
   ]);
 }
 
-export function player(ctrl: RoundCtrl, player: any) {
-  return h('div.player', player.name);
+export function player(ctrl: RoundCtrl, player: RoundPlayer) {
+  const connecting = !ctrl.onGame(player.name) && ctrl.firstSeconds;
+  return h('div.user-link', {
+    class: {
+      online: ctrl.onGame(player.name)
+    }
+  },[h('i.line', {
+    attrs: {
+      title: connecting ? 'Baglaniyor' : ctrl.onGame(player.name) ? 'Katildi' : 'Ayrildi'
+    }
+  }),
+    h('span.name', player.name)
+  ]);
 }

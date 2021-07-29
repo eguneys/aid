@@ -51,3 +51,18 @@ export default abstract class RoomClient extends WsClient {
     Bus.unsubscribe(`room/${this.id}`, this.in);
   }
 }
+
+export class State {
+
+  static make = (id: RoomId) => new State(id,
+                                         cin.Crowd.empty);
+  
+  lastCrowd: cin.Crowd
+  
+  constructor(readonly id: RoomId,
+              lastCrowd: cin.Crowd) {
+
+    this.lastCrowd = lastCrowd;
+  }
+  
+}

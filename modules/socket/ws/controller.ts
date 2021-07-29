@@ -2,11 +2,14 @@ import { ClientEmit } from './types';
 import Auth from './auth';
 import WsClient from './client';
 import MatchmakerClient from './matchmakerclient';
+import RoundClient from './roundclient';
 import { ChestInHandler } from './chestin';
 import { ChestOutHandler } from './chestout';
 import { UserWithSession } from '../../security/session';
 import { SocketVersion } from '../socket';
 import { Services } from './services';
+import { GameFullId } from './model';
+import { State as RoomActorState } from './roomclient';
 
 export default class Controller {
 
@@ -23,6 +26,20 @@ export default class Controller {
     
   }
 
+  roundPlay(req: any, id: GameFullId, emit: ClientEmit, onStop: () => void) {
+    return this.WebSocket(req)((sri, user) => {
+      return RoundClient.make(
+        RoomActorState.make(id.gameId),
+        this.chestIn,
+        emit,
+        this.services,
+        req,
+        onStop,
+        sri,
+        user);
+    });
+  }
+  
   matchmaker(req: any, id: string, emit: ClientEmit, onStop: () => void) {
     return this.WebSocket(req)((sri, user) => {
       return MatchmakerClient.make(this.chestIn,

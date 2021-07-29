@@ -20,6 +20,32 @@ export class PongIn extends ClientIn {
   
 }
 
+export class Crowd extends ClientIn {
+
+  static make = (doc: any) => new Crowd(doc);
+
+  static empty = Crowd.make([]);
+
+  static isCrowd = (_: ClientMsg): _ is Crowd => {
+    return (_ as Crowd).kind === 'crowd';
+  }
+
+  kind = 'crowd';
+  
+  constructor(readonly doc: any) {
+    super();
+  }
+  
+  get write() {
+    return JSON.stringify(cliMsg('crowd',
+                                 this.doc));
+  }
+
+  equals(crowd: Crowd) {
+    return crowd.write === this.write;
+  }
+}
+
 export class Payload extends ClientIn {
 
   static cliMsg = (t: string, d: ClientMsg) => new Payload({
@@ -74,4 +100,8 @@ export class Versioned extends HasVersion {
 
 export function isVersioned(_: ClientMsg): _ is Versioned {
   return (_ as Versioned).kind === 'versioned';
+}
+
+export function cliMsg(t: string, d: any) {
+  return {t, d };
 }

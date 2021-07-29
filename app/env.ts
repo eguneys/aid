@@ -43,7 +43,8 @@ export default class EnvBoot {
       user.repo,
       mainDb);
     let socket = new chest.socket.Env(
-      security.api
+      security.api,
+      user.lightUserApi
     );
     let api = new chest.api.Env();
 

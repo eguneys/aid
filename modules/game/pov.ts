@@ -11,6 +11,10 @@ export class Pov {
               readonly color: Color) {
     
   }
+
+  get fullId() {
+    return this.game.fullIdOf(this.color);
+  }
 }
 
 export class TeamRef {

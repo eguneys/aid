@@ -1,5 +1,8 @@
 export type RoundData = {
-  game: RoundGame
+  game: RoundGame,
+  url: {
+    socket: string
+  }
 }
 
 

@@ -12,6 +12,16 @@ export function boot(opts: Partial<RoundOptions>) {
 
   opts.element = element;
 
+  chest.socket = new chest.StrongSocket(data.url.socket, 0, {
+    receive(t: string, d: any) {
+      round.socketReceive(t, d);
+    },
+    events: {
+    }
+  });
+
   round = app(opts as RoundOptions);
+
+  
 
 }
