@@ -10,7 +10,7 @@ export default class Configuration {
     
     this.mode = mode;
 
-    this.net = new NetConfig(config.net)
+    this.net = new NetConfig(config.net, this.mode)
   }
 
 }

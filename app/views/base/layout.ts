@@ -40,7 +40,9 @@ export function layout(title: string, body: string[], params: LayoutParams) {
       doctype,
       htmlTag({}, [
         tags.head([
-          tags.headTitle(`${title} • csgo-faceit-tr.com`),
+          tags.headTitle(h.env.netConfig.isProd?
+            `${title} • csgo-faceit-tr.com`:
+            `${title} • csgo-faceit-tr.dev`),
           h.cssTag('site'),
           moreCss,
           favicons
@@ -85,7 +87,8 @@ function siteHeader(ctx: Context) {
     tags.div({ cls: 'site-title-nav' }, [
       topnavToggle,
       tags.h1({ cls: 'site-title' }, [
-        tags.a({ href: '/' }, ['CsGo FaceIt Tr'])
+        tags.a({ href: '/' }, ['CsGo FaceIt Tr']),
+        tags.span(`${h.env.netConfig.isProd?'.com':'.dev'}`)
       ]),
       topnav()
     ]),

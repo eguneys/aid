@@ -37,6 +37,8 @@ export async function withApp(cb: (_: express.Application, __: (server: any) => 
       boot.env.socket.webClient.initServer(server);
       
     });
+
+    console.log(`Domain: ${config.net.domain}`);
   }).catch(e => {
     console.log(`[Failed boot] `, e);
     process.exit(1);

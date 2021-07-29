@@ -23,14 +23,14 @@ export class NetConfig {
     domain,
     prodDomain,
     minifiedAssets
-  }: NetConfigParams) {
+  }: NetConfigParams, mode: string) {
 
     this.project = project;
     
-    this.isProd = domain === prodDomain;
+    this.isProd = mode==='production';
     this.minifiedAssets = minifiedAssets;
 
-    this.domain = domain;
+    this.domain = this.isProd?prodDomain:domain;
     //this.protocol = this.isProd ? 'https://':'http://';
     this.protocol = protocol;
 
