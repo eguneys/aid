@@ -1,6 +1,6 @@
 import { nextString } from '../common';
 import { Coll } from '../db';
-import { SteamProfile } from '../steam/auth';
+import { LiAuth } from '../lila/auth';
 import User, { UserId } from './user';
 import { BSON } from '../db/bson';
 
@@ -12,10 +12,10 @@ export default class UserRepo {
     this.coll = coll;
   }
 
-  createUserFromSteam(profile: SteamProfile) {
+  createUserFromLiAuth(profile: LiAuth) {
     let user = User.make({
       id: nextString(8),
-      username: profile.personaname
+      username: profile.username
     });
 
     return this.insert(user)

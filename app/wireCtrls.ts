@@ -7,8 +7,6 @@ export default class wireCtrls {
   envAwait: EnvAwait
   auth: c.Auth
   site: c.Site
-  matchmaker: c.Matchmaker
-  round: c.Round
 
   constructor(_: EnvBoot) {
 
@@ -18,10 +16,6 @@ export default class wireCtrls {
     this.site = new c.Site(this.env);
     this.auth = new c.Auth(this.env,
                            this.envAwait);
-
-    this.matchmaker = new c.Matchmaker(this.env);
-
-    this.round = new c.Round(this.env);
 
   }
   

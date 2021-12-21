@@ -4,16 +4,16 @@ import LateConfigEnv from '../../app/lateconfig';
 
 export class Env {
 
-  // auth: Auth
+  auth: Auth
   
   constructor(config: Configuration,
               lateConfig: LateConfigEnv) {
 
-    // let { lila_oauth: { client_id, client_secret } } = lateConfig.config;
+    let { lila_oauth: { client_id, client_secret } } = lateConfig.config;
 
-    // this.auth = new Auth(`${config.net.protocol + config.net.domain}/callback`,
-    //                      client_id,
-    //                      client_secret);
+    this.auth = new Auth(`${config.net.protocol + config.net.domain}/lila/callback`,
+                         client_id,
+                         client_secret);
     
   }
   

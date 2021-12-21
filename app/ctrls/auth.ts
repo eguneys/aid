@@ -34,44 +34,41 @@ export default class AuthCtrl extends ChestCtrl {
     }
   }
 
-  steam = async (req: any, res: any, next: any) => {
+  lila = async (req: any, res: any, next: any) => {
     let ctx: Context = await this.reqToCtx(req);
 
-    this.env2.steam.auth.redirectUrl.then(url =>
-      res.redirect(url))
-      .catch(err => next(err))
-    //res.redirect(this.env2.lila.auth.authorizationUri);
+    let auth_uri = await this.env2.lila.auth.authorizationUri(req)
+    res.redirect(auth_uri)
   }
 
-  steamCallback = async (req: any, res: any, next: any) => {
+  lilaCallback = async (req: any, res: any, next: any) => {
     let ctx: Context = await this.reqToCtx(req);
     
-    let authResult = this.env2.steam.auth.authenticate(req)
-      .catch(err => next(err));
+    let authResult = this.env2.lila.auth.exchangeCode(req, req.query.code)
     
-    this.opFuResult(authResult, res, user =>
+    this.opFuResult(authResult, res, next, user =>
       this.env.user.api.getOrCreate(user).then(_ =>
         this.env.security.api.saveSession(_).then(sessionId => {
           req.session.sessionId = sessionId;
-          withSessionId(res, sessionId).redirect('/matchmaker/csgo');
+          withSessionId(res, sessionId).redirect('/');
         })))(ctx);
 
   }
-  
-  guest = async (req: any, res: any) => {
-    let ctx: Context = await this.reqToCtx(req);
-
-    let mockSteam = this.env2.steam.auth.mockProfile;
-    
-    this.env.user.api.getOrCreate(mockSteam).then(_ =>
-      this.env.security.api.saveSession(_).then(sessionId => {
-        req.session.sessionId = sessionId;
-        withSessionId(res, sessionId).send(
-          mockSteam
-        );
-      }));
-
-  }
-
+//   
+//   guest = async (req: any, res: any) => {
+//     let ctx: Context = await this.reqToCtx(req);
+// 
+//     let mockSteam = this.env2.lila.auth.mockProfile;
+//     
+//     this.env.user.api.getOrCreate(mockSteam).then(_ =>
+//       this.env.security.api.saveSession(_).then(sessionId => {
+//         req.session.sessionId = sessionId;
+//         withSessionId(res, sessionId).send(
+//           mockSteam
+//         );
+//       }));
+// 
+//   }
+// 
   
 }

@@ -12,7 +12,6 @@ export class Env {
               readonly socket: chest.socket.Env,
               readonly security: chest.security.Env,
               readonly pool: chest.pool.Env,
-              readonly round: chest.round.Env,
               readonly matchmaker: chest.matchmaker.Env) {
   }
 
@@ -21,7 +20,7 @@ export class Env {
 export class EnvAwait {
 
   constructor(readonly config: LateConfigEnv,
-              readonly steam: chest.steam.Env) {
+              readonly lila: chest.lila.Env) {
   }
 }
 
@@ -56,18 +55,12 @@ export default class EnvBoot {
     let matchmaker = new chest.matchmaker.Env(mainDb,
                                               socket.remoteSocket,
                                               pool.api);
-
-    let round = new chest.round.Env(user.lightUserApi,
-                                    game.gameRepo,
-                                    socket.remoteSocket);
-
     this.env = new Env(config.net,
                        api,
                        user,
                        socket,
                        security,
                        pool,
-                       round,
                        matchmaker);
 
     helperEnv.setEnv(this.env);
@@ -83,11 +76,12 @@ export default class EnvBoot {
 
     await lateConfig.awaitConfig()
 
-    let steam = new chest.steam.Env(this.config,
-                                    lateConfig);
+    let lila = new chest.lila.Env(this.config,
+      lateConfig)
 
     this.envAwait = new EnvAwait(lateConfig,
-                                 steam);
+      lila
+     );
     
   }
 }

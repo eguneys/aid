@@ -7,17 +7,13 @@ export default function routes(c: wireCtrls) {
   const router = express.Router();
 
   router.get('/auth', c.auth.login);
-  router.get('/auth/steam', c.auth.steam);
-  router.get('/steam/callback', c.auth.steamCallback);
+  router.get('/auth/lila', c.auth.lila);
+  router.get('/lila/callback', c.auth.lilaCallback);
   router.get('/logout', c.auth.logout);
   // dev only
-  router.get('/auth/guest', c.auth.guest);
+  //router.get('/auth/guest', c.auth.guest);
 
-  router.get('/matchmaker', c.matchmaker.list)
-  router.get('/matchmaker/csgo', c.matchmaker.showCsGo)
-
-  router.get('/:fullId', c.round.player)
-  
+ 
   router.use(c.site.notFound.bind(c.site));
 
   router.use((err: any, req: any, res: any, next: any) => {

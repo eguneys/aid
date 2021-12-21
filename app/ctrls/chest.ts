@@ -34,7 +34,7 @@ export default class ChestCtrl {
     fua.then(() => res.send({ok: true}));
   }
   
-  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, op: (a: A) => Fu<any> = _ => funit) {
+  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, next: any, op: (a: A) => Fu<any> = _ => funit) {
     return (ctx: Context) =>
       fua.then(_ => {
         if (_) {
@@ -45,7 +45,7 @@ export default class ChestCtrl {
             this.negotiate(() => html.base.notFound()(ctx),
                            () => ({err: 'Resource not found' }))(ctx));
         }
-      });
+      }).catch(err => next(err))
   }
 
   negotiate(html: () => any, api: () => any) {

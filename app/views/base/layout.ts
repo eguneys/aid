@@ -26,7 +26,7 @@ const guestDasher = () =>
   ]);
 
 const anonDasher = () => `
-<a href="/auth" class="signin button button-empty">Sign In</a>
+<a href="/auth" class="signin">Sign In</a>
 `.trim();
 
 const dataSocketDomains = 'data-socket-domains';
@@ -41,8 +41,8 @@ export function layout(title: string, body: string[], params: LayoutParams) {
       htmlTag({}, [
         tags.head([
           tags.headTitle(h.env.netConfig.isProd?
-            `${title} • csgo-faceit-tr.com`:
-            `${title} • csgo-faceit-tr.dev`),
+            `${title} • aidchess.com`:
+            `${title} • aidchess.dev`),
           h.cssTag('site'),
           moreCss,
           favicons
@@ -68,12 +68,12 @@ function linkTitle(url: string, name: string) {
 function topnav() {
   return tags.nav({ id: 'topnav', cls: 'hover' }, [
     tags.section(
-      linkTitle('/', tags.frag([tags.span({ cls: 'home'}, ['Ana Sayfa']),
-                                tags.span({ cls: 'domain'}, ['csgo-faceit-tr.com'])]))
+      linkTitle('/', tags.frag([tags.span({ cls: 'home'}, ['Home']),
+                                tags.span({ cls: 'domain'}, ['aidchess.com'])]))
     ),
-    tags.section(
-      linkTitle('/matchmaker', tags.frag([tags.span({ cls: 'matchmaker'}, ['Eslestirme'])]))
-    )
+   //  tags.section(
+   //   linkTitle('/matchmaker', tags.frag([tags.span({ cls: 'matchmaker'}, ['Eslestirme'])]))
+   //  )
   ]);
 }
 
@@ -87,7 +87,7 @@ function siteHeader(ctx: Context) {
     tags.div({ cls: 'site-title-nav' }, [
       topnavToggle,
       tags.h1({ cls: 'site-title' }, [
-        tags.a({ href: '/' }, ['CsGo FaceIt Tr']),
+        tags.a({ href: '/' }, ['aidchess']),
         tags.span(`${h.env.netConfig.isProd?'.com':'.dev'}`)
       ]),
       topnav()
