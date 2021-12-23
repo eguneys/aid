@@ -1,5 +1,5 @@
-
 import fetch from 'node-fetch'
+import User from '../user/user'
 
 export type LiAuth = {
   username: string,
@@ -10,21 +10,18 @@ export class Study {
   }
 
 
-  async authorizationUri(req: any) {
-    let user = await fetch('https://lichess.org/api/account', {
+  async sanitize_fetch_link_to_pgn(user: User, _link: string) {
+    if (!_link || _link.length > 100) {
+      return undefined
+    }
+    let studyId = _link.substr(_link.length - 8)
+
+    let study = await fetch(`https://lichess.org/api/study/${studyId}.pgn`, {
       headers: {
-        'Authorization': `Bearer ${token.access_token}`
+        'Authorization': `Bearer ${user.litoken}`
       }
-    }).then(res => res.json());
+    }).then(res => res.text())
 
-
-    if (user.error) {
-      throw user.error;
-    }
-
-    return {
-      username: user.username,
-      token: token.access_token
-    }
+    return study
   }
 }

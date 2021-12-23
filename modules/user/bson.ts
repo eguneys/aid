@@ -3,7 +3,8 @@ import User from './user';
 import LightUser from './lightuser';
 
 export type UserDoc = DocId & {
-  username: string
+  username: string,
+  litoken: string
 }
 
 export const UserBsonHandler: BSONId<User> = {
@@ -14,7 +15,8 @@ export const UserBsonHandler: BSONId<User> = {
   write(user: User): UserDoc {
     return {
       id: user.id,
-      username: user.username
+      username: user.username,
+      litoken: user.litoken
     };
   }
 };

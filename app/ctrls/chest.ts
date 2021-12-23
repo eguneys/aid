@@ -1,17 +1,17 @@
-import { Env } from '../env';
+import { Env, EnvAwait } from '../env';
 import * as html from '../views';
 import { Context, PageData, PageDataAnon } from '../../modules/api';
 import { UserContext } from '../../modules/user';
+import User from '../../modules/user/user';
 import { Nonce } from '../../modules/common';
 import * as chest from '../../modules';
 import { SessionOrUserId } from '../../modules/security/session';
 import { fuccess, funit } from '../../modules/common';
 
 export default class ChestCtrl {
-  env: Env
 
-  constructor(env: Env) {
-    this.env = env;
+  constructor(readonly env: Env,
+    readonly env2: EnvAwait) {
   }
 
   authRole(req: any, res: any, op: () => void) {
@@ -38,6 +38,19 @@ export default class ChestCtrl {
     }
   }
 
+
+  authUser(req: any, res: any, op: (user: User) => void) {
+    return (ctx: Context) => {
+      let { me } = ctx;
+      if (!me) {
+        this.negotiate(() => res.status(401).redirect('/auth'),
+                       () => res.status(401).send({redirect:'/auth'}))(ctx);
+      } else {
+        op(me);
+      }
+    }
+  }
+
   open<A>(fua: Fu<A>, res: any) {
     fua.then(_ => res.send(_));
   }
@@ -51,11 +64,12 @@ export default class ChestCtrl {
       fua.then(_ => {
         if (_) {
           op(_).then(_ => 
-            _ && res.send(_));
+            _ && res.send(_))
+          .catch(error => res.send({error}));
         } else {
           res.status(404).send(
             this.negotiate(() => html.base.notFound()(ctx),
-                           () => ({err: 'Resource not found' }))(ctx));
+                           () => ({error: 'Resource not found' }))(ctx));
         }
       }).catch(err => next(err))
   }
@@ -90,8 +104,8 @@ export default class ChestCtrl {
   }
 
 
-  notFoundJson(req: any, res: any, err: string = 'Not found') {
-    res.send({err});
+  notFoundJson(req: any, res: any, error: string = 'Not found') {
+    res.send({error});
   }
   
 }

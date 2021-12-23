@@ -14,11 +14,13 @@ export default class wireCtrls {
     this.env = _.env;
     this.envAwait = _.envAwait;
 
-    this.site = new c.Site(this.env);
+    this.site = new c.Site(this.env,
+      this.envAwait);
     this.auth = new c.Auth(this.env,
                            this.envAwait);
 
-    this.opening = new c.Opening(this.env)
+    this.opening = new c.Opening(this.env, 
+      this.envAwait)
 
   }
   

@@ -7,13 +7,10 @@ import { withSessionId } from '../../modules/common/cookie';
 
 export default class AuthCtrl extends ChestCtrl {
 
-  env2: EnvAwait
   
   constructor(env: Env,
               env2: EnvAwait) {
-    super(env);
-
-    this.env2 = env2;
+    super(env, env2)
   }
 
   logout = async (req: any, res: any) => {

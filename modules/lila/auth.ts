@@ -42,7 +42,7 @@ export class Auth {
         response_type: 'code',
         client_id,
         redirect_uri,
-        scope: 'preference:read',
+        scope: 'preference:read study:read',
         code_challenge_method: 'S256',
         code_challenge: challenge
       })

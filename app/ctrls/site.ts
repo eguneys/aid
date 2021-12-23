@@ -1,11 +1,12 @@
-import { Env } from '../env';
+import { Env, EnvAwait } from '../env';
 import * as html from '../views';
 import ChestCtrl from './chest';
 
 export default class Site extends ChestCtrl {
   
-  constructor(env: Env) {
-    super(env);
+  constructor(env: Env,
+    env2: EnvAwait) {
+    super(env, env2);
   }
 
   async notFound(req: any, res: any, next: any) {

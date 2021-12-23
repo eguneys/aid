@@ -15,7 +15,8 @@ export default class UserRepo {
   createUserFromLiAuth(profile: LiAuth) {
     let user = User.make({
       id: nextString(8),
-      username: profile.username
+      username: profile.username,
+      litoken: profile.token
     });
 
     return this.insert(user)

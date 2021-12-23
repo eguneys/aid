@@ -4,7 +4,6 @@ export * as api from './api';
 export * as user from './user';
 export * as security from './security';
 export * as socket from './socket';
-export * as pool from './pool';
-export * as matchmaker from './matchmaker';
 export * as game from './game';
 export * as lila from './lila'
+export * as opening from './opening'

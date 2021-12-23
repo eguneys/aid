@@ -7,12 +7,11 @@ import * as chest from '../modules';
 export class Env {
   
   constructor(readonly net: NetConfig,
-              readonly api: chest.api.Env,
-              readonly user: chest.user.Env,
-              readonly socket: chest.socket.Env,
-              readonly security: chest.security.Env,
-              readonly pool: chest.pool.Env,
-              readonly matchmaker: chest.matchmaker.Env) {
+    readonly api: chest.api.Env,
+    readonly user: chest.user.Env,
+    readonly socket: chest.socket.Env,
+    readonly security: chest.security.Env,
+    readonly opening: chest.opening.Env) {
   }
 
 }
@@ -49,19 +48,14 @@ export default class EnvBoot {
 
     let game = new chest.game.Env(mainDb);
 
-    let pool = new chest.pool.Env(user.repo,
-                                  game.gameRepo);
+    let opening = new chest.opening.Env(mainDb);
 
-    let matchmaker = new chest.matchmaker.Env(mainDb,
-                                              socket.remoteSocket,
-                                              pool.api);
     this.env = new Env(config.net,
                        api,
                        user,
                        socket,
                        security,
-                       pool,
-                       matchmaker);
+                       opening);
 
     helperEnv.setEnv(this.env);
   }
