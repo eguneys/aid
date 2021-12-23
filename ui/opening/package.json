@@ -1,0 +1,15 @@
+{
+  "name": "opening",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch --env=development",
+    "dev": "webpack --env=development",
+    "prod": "webpack --env=production"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@build/webpackProject": "1.0.0",
+    "ts-loader": "^9.2.6"
+  }
+}
