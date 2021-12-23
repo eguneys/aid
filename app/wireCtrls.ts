@@ -7,6 +7,7 @@ export default class wireCtrls {
   envAwait: EnvAwait
   auth: c.Auth
   site: c.Site
+  opening: c.Opening
 
   constructor(_: EnvBoot) {
 
@@ -16,6 +17,9 @@ export default class wireCtrls {
     this.site = new c.Site(this.env);
     this.auth = new c.Auth(this.env,
                            this.envAwait);
+
+    this.opening = new c.Opening(this.env,
+      this.envAwait)
 
   }
   
