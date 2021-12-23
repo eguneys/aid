@@ -13,7 +13,11 @@ export default function routes(c: wireCtrls) {
   // dev only
   //router.get('/auth/guest', c.auth.guest);
 
+  
   router.get('/', c.opening.home)
+
+  router.post('/opening/addf', upload.none(), c.opening.addf)
+  router.post('/opening/add', upload.none(), c.opening.add)
  
   router.use(c.site.notFound.bind(c.site));
 

@@ -49,7 +49,6 @@
     "ui/common",
     "ui/tree",
     "ui/site",
-    "ui/matchmaker",
-    "ui/round"
+    "ui/opening"
   ]
 }

@@ -14,6 +14,18 @@ export default class ChestCtrl {
     this.env = env;
   }
 
+  authRole(req: any, res: any, op: () => void) {
+    return (ctx: Context) => {
+      let { sessionOrUserId, isAdmin } = ctx
+      if (!sessionOrUserId || !isAdmin) {
+        this.negotiate(() => res.status(401).redirect('/auth'),
+                       () => res.status(401).send({redirect:'/auth'}))(ctx)
+      } else {
+          op()
+      }
+    }
+  }
+
   authSession(req: any, res: any, op: (sessionOrUserId: SessionOrUserId) => void) {
     return (ctx: Context) => {
       let { sessionOrUserId } = ctx;
