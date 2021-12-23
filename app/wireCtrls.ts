@@ -18,8 +18,7 @@ export default class wireCtrls {
     this.auth = new c.Auth(this.env,
                            this.envAwait);
 
-    this.opening = new c.Opening(this.env,
-      this.envAwait)
+    this.opening = new c.Opening(this.env)
 
   }
   

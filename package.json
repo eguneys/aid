@@ -42,8 +42,6 @@
     "ws": "^7.4.6"
   },
   "workspaces": [
-    "shared/options",
-    "shared/common",
     "@types/chest",
     "ui",
     "ui/@types/uichest",
