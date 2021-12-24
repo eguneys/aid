@@ -1317,10 +1317,10 @@ chalk@^4.1.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chesst@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/chesst/-/chesst-2.0.1.tgz#7178f1aa0539933eb9e30cfeea460526c020de2e"
-  integrity sha512-mIwrYvSoP1OzmLoZIFhCF+QiHhLaQHWU2tsMK2ZvfLgF1HMWFBu78x98UrUhzUGEWjeJZ335Q5tD73IpIPqrgw==
+chesst@^2.1.0:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/chesst/-/chesst-2.1.2.tgz#2e1a8018052d264f341e1cae7fc057c68a226f26"
+  integrity sha512-+1sFTJOAIV7LplXX8pU7MIw1Ycpgl8MXTqo38agh7TAMmVxUt9bdXYyQFs6JLfO9o/AxrssE7affChHHbhEHAA==
 
 "chokidar@>=2.0.0 <4.0.0", chokidar@^3.4.3:
   version "3.5.1"
@@ -2104,19 +2104,19 @@ esprima@^4.0.0:
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
 
 esra@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/esra/-/esra-1.0.1.tgz#edd217a3276513b657aefc893e49cd365b342a36"
-  integrity sha512-qqWtEbnrg0XOZ+IFsT692Gl38xBjzoM62uIHZIp9DI8iLEGGrXd0XdVi1QuDY/nIVPENOSBHDTi7HdCiDQ5mvw==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/esra/-/esra-1.2.1.tgz#526f633d41e5858c0f848f01c4a235672a702063"
+  integrity sha512-Sls9HZ/LSgu+Gu8o2xaJ9kWhXVqZNl7kMIdwn7WWzAv1TzYh0Hr2PNF9bGYoN8EqtCV66Zaf/sW91YsWiob5pA==
   dependencies:
     sfilg "^1.0.0"
     tamcher "^1.1.1"
 
 esrar@^1.0.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/esrar/-/esrar-1.2.1.tgz#75384a44cebc15713c01950179835f088593ce99"
-  integrity sha512-Z8QdM0W0LQmQPxCF40TeVdu3msslR2F7l7ZJEcj+ahH1XfYc/8cvgbL5nbr2kx1+5iICHyj9zcFP+i9KPV9DBw==
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/esrar/-/esrar-1.4.1.tgz#89004c0d5fea8a4fa313ba2a89185dd99b0ada85"
+  integrity sha512-J8kvmO1d5+uIMZlA5eBrsgPW1rABkOxNmz2UOgMlbIoZl/fZ7RThzQfOpZsW287cOqCYW9hmzsDAsQhIzix5Pg==
   dependencies:
-    chesst "^2.0.0"
+    chesst "^2.1.0"
     esra "^1.0.1"
 
 esrecurse@^4.3.0:

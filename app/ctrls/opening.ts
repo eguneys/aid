@@ -22,7 +22,7 @@ export default class Opening extends ChestCtrl {
           req.body.link),
        res, next, pgn => this.env.opening.api
         .create_from_pgn(user, pgn)
-        .then(_ => {ok:true})
+        .then(opening => ({redirect: `opening/${opening.id}` }))
        )(ctx)
     )(ctx)
   }
@@ -31,7 +31,8 @@ export default class Opening extends ChestCtrl {
   home = async (req: any, res: any, next: any) => {
     let ctx: any = await this.reqToCtx(req);
 
-    let mine: any = [],
+    let mine: any = ctx.me ? await this.env.opening.api
+      .byUser(ctx.me) : [],
       featured: any = [1]
 
     res.send(html.opening.home(mine, featured)(ctx))
