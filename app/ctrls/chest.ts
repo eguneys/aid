@@ -59,13 +59,17 @@ export default class ChestCtrl {
     fua.then(() => res.send({ok: true}));
   }
   
-  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, next: any, op: (a: A) => Fu<any> = _ => funit) {
+  opFuResult<A>(fua: Fu<Maybe<A>>, res: any, next: any, op: (a: A) => any = _ => funit) {
     return (ctx: Context) =>
       fua.then(_ => {
         if (_) {
-          op(_).then(_ => 
-            _ && res.send(_))
-          .catch(error => res.send({error}));
+          let _res = op(_)
+
+          if (typeof _res === 'object' && _res.then) {
+            _res.then((_: any)=> res.send(_))
+          } else {
+            res.send(_res)
+          }
         } else {
           res.status(404).send(
             this.negotiate(() => html.base.notFound()(ctx),

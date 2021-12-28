@@ -1,8 +1,8 @@
 import Esrar, { erm, q } from 'esrar'
-import { Chapter } from './opening'
+import Opening, { Chapter } from './opening'
 
 
-export function import_chapters(pgn: string) {
+export function import_chapters(opening: Opening, pgn: string) {
 
   let res = Esrar(pgn)
 
@@ -13,6 +13,6 @@ export function import_chapters(pgn: string) {
 
 
   return res.pgns.map(qpgn => 
-    Chapter.make(qpgn.tags.get('Event') || 'Dont have Event tag')
+    Chapter.make(qpgn.tags.get('Event') || 'Dont have Event tag', opening)
   )
 }

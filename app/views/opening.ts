@@ -2,7 +2,7 @@ import tags from './tags';
 import * as html from './';
 import * as h from './helper';
 import { Context } from '../../modules/api';
-import Opening from '../../modules/opening/opening'
+import Opening, { OpeningWithChapters } from '../../modules/opening/opening'
 
 function bits_openings(openings: Array<Opening>) {
 
@@ -11,6 +11,22 @@ function bits_openings(openings: Array<Opening>) {
   ])))
 }
 
+
+export const show = ([opening, chapters]: OpeningWithChapters) => (ctx: Context) => html.base.layout(opening.name, [
+  tags.main({ class: 'opening' }, [ ])
+], {
+  moreCss: tags.frag([
+    h.cssTag('opening.show')
+  ]),
+  moreJs: tags.frag([
+    h.openingTag(),
+    h.embedJsUnsafeLoadThen(`
+    Opening.boot({
+      opening:${h.safeJsonValue(opening)},
+      chapters:${h.safeJsonValue(chapters)}
+    })`)(ctx)
+  ])
+})(ctx)
 
 export const home = (mine: Array<Opening>, featured: Array<Opening>) => (ctx: Context) => html.base.layout("Opening Knowledge", [
   tags.main({ class: 'opening box box-padding' }, [
@@ -40,7 +56,7 @@ export const home = (mine: Array<Opening>, featured: Array<Opening>) => (ctx: Co
   moreJs: tags.frag([
     h.openingTag(),
     h.embedJsUnsafeLoadThen(`
-    Opening.boot()
+    Opening.boot_show()
     `)(ctx)
   ])
 })(ctx);

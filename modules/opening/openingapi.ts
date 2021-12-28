@@ -1,13 +1,20 @@
 import User from '../user/user'
 import OpeningRepo from './openingrepo';
 import { import_chapters } from './parser'
-import Opening from './opening'
+import Opening, { OpeningWithChapters } from './opening'
 
 export default class OpeningApi {
   
   constructor(readonly repo: OpeningRepo) {
   }
 
+  async opening_with_chapters(id: string): Fu<Maybe<OpeningWithChapters>> {
+
+    return this.repo.byId(id).then(op =>
+      op ? this.repo.chaptersByOpening(id).then(chapters =>
+        [op, chapters]) : undefined)
+
+  }
 
   async byUser(user: User) {
     return this.repo.byUser(user)
@@ -16,17 +23,21 @@ export default class OpeningApi {
 
   async create_from_pgn(user: User, pgn: string) {
 
-    let chapters = import_chapters(pgn)
+    let opening = Opening.make(
+      'fill then',
+      user.id)
+
+
+    let chapters = import_chapters(opening, pgn)
 
     if (chapters.length === 0) {
       throw 'no chapters'
     }
 
-    let opening = Opening.make(
-      chapters[0].name,
-      user.id)
+    opening = Opening.make2(chapters[0].name, opening)
 
-    return this.repo.insert(opening).then(_ => opening)
+    return Promise.all(chapters.map(_ => this.repo.insertChapter(_)))
+      .then(_ => this.repo.insert(opening).then(_ => opening))
   }
  
 }

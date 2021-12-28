@@ -1,7 +1,10 @@
-- [ ] List imported openings
-- [ ] Import study as opening
-- [ ] Import Loading bar
-- [ ] Import Error Pgn
+- [+] Import study as opening
+- [+] List openings
+- [ ] Loading bar
+- [ ] Error Pgn
 - [ ] Limit Import number
+
+- [ ] Opening page
+- [ ] List chapters
 - [ ] Delete opening
 

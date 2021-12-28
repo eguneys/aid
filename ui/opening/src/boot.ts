@@ -1,7 +1,13 @@
 import { json, form } from 'common/xhr'
+import main from './main'
 
+export function boot(opening: any) {
 
-export function boot() {
+  let $el = document.querySelector('.opening') as HTMLElement
+  main($el, opening)
+}
+
+export function boot_show() {
 
 
   const send_mine = document.getElementById('send-mine') as HTMLInputElement,

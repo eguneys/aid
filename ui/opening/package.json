@@ -11,5 +11,8 @@
   "devDependencies": {
     "@build/webpackProject": "1.0.0",
     "ts-loader": "^9.2.6"
+  },
+  "dependencies": {
+    "snabbdom": "^3.2.0"
   }
 }

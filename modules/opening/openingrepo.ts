@@ -1,22 +1,38 @@
 import { Coll } from '../db';
-import Opening from './opening';
+import Opening, { Chapter } from './opening';
 import { BSON } from '../db/bson';
 import User from '../user/user'
 
-export default class UserRepo {
+export default class OpeningRepo {
 
   
-  constructor(readonly coll: Coll<Opening>) {
+  constructor(readonly coll: Coll<Opening>,
+    readonly ccoll: Coll<Chapter>) {
   }
 
   insert(opening: Opening) {
     return this.coll.insert(opening)
   }
+
+  insertChapter(chapter: Chapter) {
+    return this.ccoll.insert(chapter)
+  }
   
+
+  byId(id: string) {
+    return this.coll.one({ id })
+  }
+
+
   byUser(user: User) {
     return this.coll.find({
       userId: user.id
     }) 
   }
 
+  chaptersByOpening(openingId: string) {
+    return this.ccoll.find({
+      openingId
+    })
+  }
 }

@@ -23,7 +23,8 @@ export const OpeningBsonHandler: BSONId<Opening> = {
 
 
 export type ChapterDoc = DocId & {
-  name: string
+  name: string,
+  openingId: string
 }
 
 
@@ -35,6 +36,7 @@ export const ChapterBsonHandler: BSONId<Chapter> = {
   write(chapter: Chapter): ChapterDoc {
     return {
       id: chapter.id,
+      openingId: chapter.openingId,
       name: chapter.name
     }
   }

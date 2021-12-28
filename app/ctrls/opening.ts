@@ -8,6 +8,19 @@ export default class Opening extends ChestCtrl {
     super(env, env2);
   }
 
+  show = async (req: any, res: any, next: any) => {
+    let ctx: any = await this.reqToCtx(req);
+
+    this.opFuResult(this.env.opening
+      .api.opening_with_chapters(req.params.id),
+      res, next, opening_with_chapters =>
+      html.opening.show(opening_with_chapters)(ctx)
+    )(ctx)
+  }
+
+
+
+
   addf = async (req: any, res: any, next: any) => {
     let ctx: any = await this.reqToCtx(req);
 
@@ -17,14 +30,14 @@ export default class Opening extends ChestCtrl {
     let ctx: any = await this.reqToCtx(req);
 
     this.authUser(req, res, user =>
-      this.opFuResult(this.env2.lila.study
-        .sanitize_fetch_link_to_pgn(user, 
-          req.body.link),
-       res, next, pgn => this.env.opening.api
+      this.env2.lila.study
+      .sanitize_fetch_link_to_pgn(user, req.body.link)
+      .then(pgn =>
+        pgn ? this.env.opening.api
         .create_from_pgn(user, pgn)
-        .then(opening => ({redirect: `opening/${opening.id}` }))
-       )(ctx)
-    )(ctx)
+        .then(opening => res.send({redirect: `opening/${opening.id}` })) :
+        res.send({error: 'dont parse pgn' })
+      ))(ctx)
   }
 
 
