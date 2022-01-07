@@ -1,4 +1,41 @@
+.opening {
+  grid-area: main;
+
+
+  display: grid;
+
+  grid-template-rows: fit-content(0);
+  grid-template-columns: 55vmin 20px 240px;
+
+  grid-template-areas: "board . tools"
+  "info . side"
+  "info . side";
+
+
+  &__board {
+    grid-area: board;
+  }
+
+  &__tools {
+    grid-area: tools;
+  }
+
+  &__info {
+    grid-area: info;
+  }
+
+  &__side {
+    grid-area: side;
+  }
+}
+
+
+
+
+
 .chapters {
+  border: 1px solid #000000;
+  box-shadow: 1px 1px 1px #000000;
 }
 
 .chapter h3 {
@@ -9,10 +46,70 @@
 }
 
 .chapter.selected {
-  background: #ceffaa;
+  background: #232c28;
 }
 
 .chapter:hover {
+  background: #232c28;
+}
+
+
+.tview {
+  padding: 7px 3px 7px 7px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px black;
+}
+
+.tview move {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0.25em 0.17em;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+
+.tview move index {
+  padding-right: 0.2em;
+  line-height: 111%;
+  font-size: 90%;
+  color: #987654;
+}
+
+
+.tview move:hover {
+  background: #ceffaa;
   color: black;
-  background: #c3ff1a;
+}
+
+
+.tview lines {
+  display: block;
+  margin-top: 2px;
+  border-left: 2px solid #4b5d5a;
+}
+
+.tview line {
+  display: block;
+  padding-left: 7px;
+}
+
+
+.tview line::before {
+  content: ' ';
+  margin-top: 0.6em;
+  margin-left: -8px;
+  border-top: 2px solid #4b5d5a;
+  position: absolute;
+  width: 8px;
+  height: 6px;
+}
+
+.tview lines lines::before {
+  content: ' ';
+  margin-left: -11px;
+  border-top: 2px solid #404040;
+  position: absolute;
+  width: 9px;
+  height: 6px;
 }

@@ -56,7 +56,7 @@ export const home = (mine: Array<Opening>, featured: Array<Opening>) => (ctx: Co
   moreJs: tags.frag([
     h.openingTag(),
     h.embedJsUnsafeLoadThen(`
-    Opening.boot_show()
+    Opening.boot_home()
     `)(ctx)
   ])
 })(ctx);

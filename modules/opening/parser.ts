@@ -1,4 +1,4 @@
-import Esrar, { erm, q } from 'esrar'
+import { Esrar } from 'chesstwo'
 import Opening, { Chapter } from './opening'
 
 

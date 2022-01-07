@@ -7,7 +7,7 @@ export function boot(opening: any) {
   main($el, opening)
 }
 
-export function boot_show() {
+export function boot_home() {
 
 
   const send_mine = document.getElementById('send-mine') as HTMLInputElement,
