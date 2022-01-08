@@ -1,6 +1,20 @@
+import { Ply, Fen, FRoot } from 'chesstwo'
+
+export type MoveNode = {
+  ply: Ply,
+  fen: Fen,
+  uci: string,
+  san: string
+}
+
+export type MoveRoot = {
+  ply: Ply,
+  fen: Fen
+}
 
 export type LightChapter = {
-  name: string
+  name: string,
+  root: FRoot<MoveNode, MoveRoot>
 }
 
 export type Move = {
@@ -33,6 +47,10 @@ export default class Ctrl {
 
   get chapter(): LightChapter {
     return this.chapters[this.selected]
+  }
+
+  get line(): FRoot<MoveNode, MoveRoot> {
+    return this.chapter.root
   }
 
   constructor(readonly opts: any, 

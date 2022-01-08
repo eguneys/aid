@@ -1,7 +1,8 @@
 import { h, VNode } from 'snabbdom'
 import { bind } from './util'
 import Ctrl from './ctrl'
-import { LightChapter, Lines, Line, isMove, isComment } from './ctrl'
+import { MoveNode, MoveRoot, LightChapter, Lines, Line, isMove, isComment } from './ctrl'
+import { FRoot } from 'chesstwo'
 
 export default function view(ctrl: Ctrl) {
   return h('main.opening', [
@@ -35,8 +36,14 @@ export function chapters(ctrl: Ctrl) {
 }
 
 export function tview(ctrl: Ctrl) {
-  return h('div.tview', renderInLine(ctrl.line))
+  return h('div.tview', renderF(ctrl.line))
 }
+
+function renderF(_: FRoot<MoveNode, MoveRoot>) {
+  
+}
+
+
 
 export function renderInLine(_: Line) {
   if (isMove(_)) {
