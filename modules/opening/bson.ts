@@ -1,5 +1,7 @@
 import { BSONId, DocId } from '../db/bson';
 import Opening, { Chapter } from './opening'
+import { flat, flat_root, FRoot } from 'chesstwo'
+import { MoveRoot, MoveNode } from './node'
 
 export type OpeningDoc = DocId & {
   name: string,
@@ -24,9 +26,11 @@ export const OpeningBsonHandler: BSONId<Opening> = {
 
 export type ChapterDoc = DocId & {
   name: string,
-  openingId: string
+  openingId: string,
+  root: string
 }
 
+const fn_json = (obj: any) => JSON.stringify(obj)
 
 export const ChapterBsonHandler: BSONId<Chapter> = {
   read(doc: ChapterDoc): Chapter {
@@ -37,7 +41,8 @@ export const ChapterBsonHandler: BSONId<Chapter> = {
     return {
       id: chapter.id,
       openingId: chapter.openingId,
-      name: chapter.name
+      name: chapter.name,
+      root: flat(chapter.root, fn_json, fn_json)
     }
   }
 }
