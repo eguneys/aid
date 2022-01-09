@@ -2,14 +2,14 @@ import { h, VNode } from 'snabbdom'
 import { bind } from './util'
 import Ctrl from './ctrl'
 import { MoveNode, MoveRoot, LightChapter, Lines, Line, isMove, isComment } from './ctrl'
-import { FRoot } from 'chesstwo'
+import { FRoot, FNode } from 'chesstwo'
 
 export default function view(ctrl: Ctrl) {
   return h('main.opening', [
     h('div.opening__board', board()),
     h('div.opening__tools', tview(ctrl)),
     h('div.opening__info', info(ctrl)),
-    h('aside.opening__side', chapters(ctrl))
+    h('aside.opening__side', side(ctrl))
   ])
 }
 
@@ -25,6 +25,17 @@ export function board() {
   return h('div.board', 'board')
 }
 
+export function side(ctrl: Ctrl) {
+  return h('div.side', [
+    h('div.controls', [
+      h('a.delete', {
+        hook: bind('click', e => ctrl.delete(), ctrl.redraw)
+      }, 'Delete')
+    ]),
+    chapters(ctrl)
+  ])
+}
+
 export function chapters(ctrl: Ctrl) {
   return h('div.chapters', ctrl.chapters
     .map(c => h('div.chapter', { class: { 
@@ -36,29 +47,32 @@ export function chapters(ctrl: Ctrl) {
 }
 
 export function tview(ctrl: Ctrl) {
-  return h('div.tview', renderF(ctrl.line))
-}
-
-function renderF(_: FRoot<MoveNode, MoveRoot>) {
-  
+  return h('div.tview', renderLines(ctrl, ctrl.line.children))
 }
 
 
-
-export function renderInLine(_: Line) {
-  if (isMove(_)) {
-    return h('move', [
-      _.index ? h('index', _.index): '',
-      _.san
-    ])
-  } else if (isComment(_)) {
-    return h('comment', _)
-  } else {
-    return h('lines', renderLines(_))
-  }
+function renderChildrenOf(ctrl: Ctrl, node: FNode<MoveNode>): Array<VNode> | undefined {
+  let cs = node.children,
+    main = cs[0]
+  if (!main) return
+  return [
+    ...[renderMoveOf(ctrl, main)],
+    renderLines(ctrl, cs.slice(1)),
+    ... renderChildrenOf(ctrl, main) || []
+  ]
 }
 
+function renderLines(ctrl: Ctrl, lines: Array<FNode<MoveNode>>): VNode {
+  return h('lines', lines.map(n => 
+    h('line', renderMoveAndChildrenOf(ctrl, n))
+  ))
+}
 
-export function renderLines(lines: Lines): VNode {
-  return h('line', lines.map(_ => renderInLine(_)))
+function renderMoveAndChildrenOf(ctrl: Ctrl, node: FNode<MoveNode>): Array<VNode> {
+  return [renderMoveOf(ctrl, node)]
+  .concat(renderChildrenOf(ctrl, node) || [])
+}
+
+function renderMoveOf(ctrl: Ctrl, node: FNode<MoveNode>) {
+  return h('move', node.data.san)
 }

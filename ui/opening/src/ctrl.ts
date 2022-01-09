@@ -1,3 +1,4 @@
+import * as xhr from 'common/xhr'
 import { Ply, Fen, FRoot } from 'chesstwo'
 
 export type MoveNode = {
@@ -15,6 +16,11 @@ export type MoveRoot = {
 export type LightChapter = {
   name: string,
   root: FRoot<MoveNode, MoveRoot>
+}
+
+export type LightOpening = {
+  id: string,
+  name: string
 }
 
 export type Move = {
@@ -41,6 +47,8 @@ export function make_move(san: string, index?: string) {
 }
 
 export default class Ctrl {
+
+  opening: LightOpening
   chapters: Array<LightChapter>;
 
   selected: number
@@ -56,9 +64,15 @@ export default class Ctrl {
   constructor(readonly opts: any, 
     readonly  redraw: any) {
     this.chapters = opts.chapters 
+    this.opening = opts.opening
     this.selected = 0
   }
 
+  delete = () => {
+    xhr.json(`/opening/${this.opening.id}`, {
+      method: 'DELETE'
+    }).then(_ => chest.redirect('/'))
+  }
 
   select = (chapter: LightChapter) => {
     this.selected = this.chapters.indexOf(chapter)

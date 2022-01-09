@@ -8,6 +8,17 @@ export default class Opening extends ChestCtrl {
     super(env, env2);
   }
 
+  remove = async (req: any, res: any, next: any) => {
+
+    let ctx: any = await this.reqToCtx(req);
+
+    this.authUser(req, res, user =>
+      this.env.opening.api.opening_delete(req.params.id, user)
+      .then(_ => res.send({ok: true }))
+    )(ctx)
+
+  }
+
   show = async (req: any, res: any, next: any) => {
     let ctx: any = await this.reqToCtx(req);
 
@@ -37,7 +48,7 @@ export default class Opening extends ChestCtrl {
         .create_from_pgn(user, pgn)
         .then(opening => res.send({redirect: `opening/${opening.id}` })) :
         res.send({error: 'dont parse pgn' })
-      ))(ctx)
+      ).catch(err => res.send({err})))(ctx)
   }
 
 

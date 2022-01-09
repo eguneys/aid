@@ -8,6 +8,11 @@ export default class OpeningApi {
   constructor(readonly repo: OpeningRepo) {
   }
 
+
+  async opening_delete(id: string, user: User) {
+    return this.repo.deleteOpeningOfUser(id, user)
+  }
+
   async opening_with_chapters(id: string): Fu<Maybe<OpeningWithChapters>> {
 
     return this.repo.byId(id).then(op =>

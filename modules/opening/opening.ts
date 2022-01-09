@@ -1,7 +1,7 @@
 import { nextString } from 'domnar'
 import { ChapterDoc, OpeningDoc } from './bson'
 import { UserId } from '../user/user'
-import { flat_root, FRoot } from 'chesstwo'
+import { pretty, flat_root, FRoot } from 'chesstwo'
 import { MoveRoot, MoveNode } from './node'
 
 export default class Opening {
@@ -54,7 +54,6 @@ export class Chapter {
     readonly name: string,
     readonly root: FRoot<MoveNode, MoveRoot>
     ) {
-
   }
 }
 

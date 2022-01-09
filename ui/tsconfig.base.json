@@ -2,9 +2,9 @@
   "compilerOptions": {
     "strict": true,
     "moduleResolution": "node",
-    "target": "es2017",
+    "target": "es2019",
     "module": "es6",
-    "lib": ["DOM", "ES2017"],
+    "lib": ["DOM", "ES2019"],
     "types": ["chest", "uichest"]
   }
 }

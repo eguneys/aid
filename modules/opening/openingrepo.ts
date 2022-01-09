@@ -10,6 +10,10 @@ export default class OpeningRepo {
     readonly ccoll: Coll<Chapter>) {
   }
 
+  deleteOpeningOfUser(id: string, user: User) {
+    return this.coll.delete(id)
+  }
+
   insert(opening: Opening) {
     return this.coll.insert(opening)
   }
