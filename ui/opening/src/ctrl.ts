@@ -15,7 +15,8 @@ export type MoveRoot = {
 
 export type LightChapter = {
   name: string,
-  root: FRoot<MoveNode, MoveRoot>
+  root: FRoot<MoveNode, MoveRoot>,
+  site: string
 }
 
 export type LightOpening = {

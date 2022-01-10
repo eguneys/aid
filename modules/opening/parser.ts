@@ -28,6 +28,8 @@ export function import_chapters(opening: Opening, pgn: string) {
         fen: situation_fen(situation),
         comments: 'TODO',
         glyphs: 'TODO'
-      })))
+      })),
+      qpgn.tags.get('Site')
+    )
   )
 }

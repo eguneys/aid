@@ -37,23 +37,26 @@ export class Chapter {
     new Chapter(doc.id,
       doc.openingId,
       doc.name,
-      flat_root(doc.root, fn_json_read, fn_json_read))
+      flat_root(doc.root, fn_json_read, fn_json_read),
+      doc.site)
 
   static make = (event: string, 
     opening: Opening,
-    root: FRoot<MoveNode, MoveRoot>
+    root: FRoot<MoveNode, MoveRoot>,
+    site?: string
     ) =>
     new Chapter(
       nextString(8),
       opening.id,
       event,
-      root)
+      root,
+      site)
 
   constructor(readonly id: string,
     readonly openingId: string,
     readonly name: string,
-    readonly root: FRoot<MoveNode, MoveRoot>
-    ) {
+    readonly root: FRoot<MoveNode, MoveRoot>,
+    readonly site?: string) {
   }
 }
 

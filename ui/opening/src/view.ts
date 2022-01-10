@@ -23,7 +23,7 @@ export function info(ctrl: Ctrl) {
   let { chapter } = ctrl
   return h('div.info', [
     h('h3', chapter.name),
-    h('a', { href: 'https://lichess.org/study' }, 'See study on lichess')
+    h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess')
   ])
 }
 

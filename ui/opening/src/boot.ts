@@ -24,7 +24,7 @@ function send_href(link: string, href: string) {
   json(href, {
     method: 'POST',
     body: form({link})
-  }).then(res => console.log(res))
+  }).then(res => chest.redirect(res.redirect))
 }
 
 function attach_send(element: HTMLInputElement, href: string) {

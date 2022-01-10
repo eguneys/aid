@@ -29,9 +29,9 @@ export const show = ([opening, chapters]: OpeningWithChapters) => (ctx: Context)
 })(ctx)
 
 export const home = (mine: Array<Opening>, featured: Array<Opening>) => (ctx: Context) => html.base.layout("Opening Knowledge", [
-  tags.main({ class: 'opening box box-padding' }, [
+  tags.main({ class: 'opening box box-pad' }, [
     tags.h1(['Opening Knowledge']),
-    tags.p(['Add lichess studies to get started.']),
+    mine.length === 0 ? tags.p(['Add lichess studies to get started.']): '',
     bits_openings(mine),
     tags.div({ class:'controls' }, [
       tags.input({ id:'send-mine', type:'text', placeholder:'add lichess study link' })

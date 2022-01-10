@@ -1,0 +1,3 @@
+- [ ] Delete opening and its chapters
+- [ ] Delete opening check user owner
+- [ ] 

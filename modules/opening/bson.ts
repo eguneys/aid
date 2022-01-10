@@ -27,6 +27,7 @@ export const OpeningBsonHandler: BSONId<Opening> = {
 export type ChapterDoc = DocId & {
   name: string,
   openingId: string,
+  site?: string,
   root: string
 }
 
@@ -42,6 +43,7 @@ export const ChapterBsonHandler: BSONId<Chapter> = {
       id: chapter.id,
       openingId: chapter.openingId,
       name: chapter.name,
+      site: chapter.site,
       root: flat(chapter.root, fn_json, fn_json)
     }
   }
