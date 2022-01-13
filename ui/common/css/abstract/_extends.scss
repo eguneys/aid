@@ -75,6 +75,12 @@
   @include ellipsis;
 }
 
+%square {
+  position: relative;
+  display: block;
+  aspect-ratio: 1/1;
+}
+
 %data-icon {
   font-size: 1.2em;
   vertical-align: middle;

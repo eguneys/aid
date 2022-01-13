@@ -1,8 +1,9 @@
 import { h, VNode } from 'snabbdom'
 import { bind } from './util'
 import Ctrl from './ctrl'
-import { MoveNode, MoveRoot, LightChapter, Lines, Line, isMove, isComment } from './ctrl'
+import { MoveNode, MoveRoot, LightChapter } from './ctrl'
 import { FRoot, FNode } from 'chesstwo'
+import { render as ground } from './ground'
 
 export type Opts = {
   isMainline: boolean,
@@ -12,7 +13,7 @@ export type Opts = {
 
 export default function view(ctrl: Ctrl) {
   return h('main.opening', [
-    h('div.opening__board', board()),
+    h('div.opening__board.main-board', board(ctrl)),
     h('div.opening__tools', tview(ctrl)),
     h('div.opening__info', info(ctrl)),
     h('aside.opening__side', side(ctrl))
@@ -27,8 +28,8 @@ export function info(ctrl: Ctrl) {
   ])
 }
 
-export function board() {
-  return h('div.board', 'board')
+export function board(ctrl: Ctrl) {
+  return h('div.board', ground(ctrl))
 }
 
 export function side(ctrl: Ctrl) {

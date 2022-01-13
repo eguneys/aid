@@ -1,5 +1,6 @@
 import * as xhr from 'common/xhr'
 import { Ply, Fen, FRoot } from 'chesstwo'
+import { Api as ChessgroundApi } from 'chessground/api'
 
 export type MoveNode = {
   ply: Ply,
@@ -24,31 +25,9 @@ export type LightOpening = {
   name: string
 }
 
-export type Move = {
-  index?: string,
-  san: string
-}
-export type Comment = string
-export type Line = Move | Comment | Lines
-export type Lines = Array<Line>;
-
-export function isMove(_: Line): _ is Move {
-  return !Array.isArray(_) && typeof _ !== 'string'
-}
-
-export function isComment(_: Line): _ is Comment {
-  return typeof _ === 'string'
-}
-
-export function make_move(san: string, index?: string) {
-  return {
-    san, 
-    index
-  }
-}
-
 export default class Ctrl {
 
+  chessground!: ChessgroundApi
   opening: LightOpening
   chapters: Array<LightChapter>;
 

@@ -10,8 +10,11 @@
 @import 'layout/base';
 @import 'layout/page-menu';
 
+@import 'vendor/chessground/chessground';
+
 @import 'header/header';
 
+@import 'component/board';
 @import 'component/box';
 @import 'component/user-link';
 @import 'component/button';
