@@ -31,6 +31,11 @@ const anonDasher = () => `
 
 const dataSocketDomains = 'data-socket-domains';
 
+
+const pieceSprite = () => tags.linkt({ id: 'piece-sprite',
+  href: h.assetUrl('piece-css/cburnett.css'),
+  rel: 'stylesheet'})
+
 export function layout(title: string, body: string[], params: LayoutParams) {
 
   let { moreJs, moreCss } = params;
@@ -45,15 +50,16 @@ export function layout(title: string, body: string[], params: LayoutParams) {
             `${title} • aidchess.dev`),
           h.cssTag('site'),
           moreCss,
+          pieceSprite(),
           favicons
         ]),
-        tags.body({ cls: [],
+        tags.body({ cls: ['pink'],
                     [dataSocketDomains]: h.env.netConfig.socketDomains.join(',')
                   }, [
           siteHeader(ctx),
           tags.div({
             id: 'main-wrap',
-            cls: []
+            cls: ['is2d']
           }, body)
         ]),
         loadScripts(moreJs, ctx)

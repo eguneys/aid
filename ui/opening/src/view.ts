@@ -29,7 +29,7 @@ export function info(ctrl: Ctrl) {
 }
 
 export function board(ctrl: Ctrl) {
-  return h('div.board', ground(ctrl))
+  return h('div.board.pink', ground(ctrl))
 }
 
 export function side(ctrl: Ctrl) {
