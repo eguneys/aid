@@ -3,11 +3,17 @@ import { path_tail, path_head, Ply, Fen, FNode, FRoot, Path } from 'chesstwo'
 import { Api as ChessgroundApi } from 'chessground/api'
 import { Config as ChessgroundConfig } from 'chessground/config'
 
+export type Comment = {
+  text: string
+}
+
+
 export type MoveNode = {
   ply: Ply,
   fen: Fen,
   uci: string,
-  san: string
+  san: string,
+  comments?: Array<Comment>
 }
 
 export type MoveRoot = {

@@ -1,7 +1,7 @@
 export type MoveNodeRootBase = {
   ply: Ply,
   fen: Fen,
-  comments: string,
+  comments?: Array<string>,
   glyphs: string
 }
 

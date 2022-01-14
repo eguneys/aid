@@ -57,10 +57,12 @@ export function chapters(ctrl: Ctrl) {
 export function tview(ctrl: Ctrl) {
   return h('div.tview', {
     hook: mainHook(ctrl)
-  }, renderChildrenOf(ctrl, ctrl.line, {
-    isMainline: true,
-    parentPath: ''
-  }))
+  }, [
+    ...(renderChildrenOf(ctrl, ctrl.line, {
+      isMainline: true,
+      parentPath: ''
+    }) || [])
+  ])
 }
 
 export function mainHook(ctrl: Ctrl) {
@@ -85,6 +87,14 @@ function eventPath(e: MouseEvent): Path | null {
   )
 }
 
+function renderInlineCommentsOf(ctrl: Ctrl, node: FNode<MoveNode>) {
+  if (!node.data.comments) return []
+  return node.data.comments.map(comment => {
+    let truncated = comment.text
+    return h('comment', truncated)
+  })
+}
+
 function renderChildrenOf(ctrl: Ctrl, node: FRoot<MoveNode, MoveRoot> | FNode<MoveNode>, opts: Opts): Array<VNode> | undefined {
   let cs = node.children,
     main = cs[0]
@@ -99,6 +109,7 @@ function renderChildrenOf(ctrl: Ctrl, node: FRoot<MoveNode, MoveRoot> | FNode<Mo
       ...[renderMoveOf(ctrl, main, { isMainline: true, 
         withIndex: opts.withIndex,
         parentPath: opts.parentPath } )],
+      ...renderInlineCommentsOf(ctrl, main),
       renderLines(ctrl, cs.slice(1), { 
         isMainline: true,
         parentPath: opts.parentPath
@@ -122,8 +133,13 @@ function renderLines(ctrl: Ctrl, lines: Array<FNode<MoveNode>>, opts: Opts): VNo
 }
 
 function renderMoveAndChildrenOf(ctrl: Ctrl, node: FNode<MoveNode>, opts: Opts): Array<VNode> {
-  const path = opts.parentPath + node.id
+  const path = opts.parentPath + node.id,
+  comments = renderInlineCommentsOf(ctrl, node)
+
+
+
   return [renderMoveOf(ctrl, node, opts)]
+  .concat(comments)
   .concat(renderChildrenOf(ctrl, node, { 
     isMainline: opts.isMainline,
     parentPath: path }) || [])

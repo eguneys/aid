@@ -5,7 +5,7 @@
   display: grid;
 
   grid-template-rows: fit-content(0);
-  grid-template-columns: 55vmin 20px 240px;
+  grid-template-columns: 55vmin 20px 333px;
 
   grid-template-areas: "board . tools"
   "info . side"
@@ -31,6 +31,24 @@
 
 
 
+.opening {
+
+
+  &__tools {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid #404040;
+  }
+
+}
+
+.chapters {
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  max-height: 18em;
+}
 
 
 .chapters {
@@ -55,6 +73,7 @@
 
 
 .tview {
+  user-select: none;
   padding: 7px 3px 7px 7px;
   border: 1px solid black;
   box-shadow: 1px 1px 1px black;
@@ -66,6 +85,7 @@
   padding: 0.25em 0.17em;
   font-weight: bold;
   border-radius: 2px;
+  font-family: 'Noto Chess', 'Noto Sans';
 }
 
 
