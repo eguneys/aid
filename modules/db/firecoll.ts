@@ -100,10 +100,26 @@ export default class FireCol<A> extends Coll<A> {
       .then(() => {});
   }
 
-  update(id: string, update: any) {
+  deleteByQuery(query: any) {
+    return fQuery(query)(this.coll).get().then((qSnapshot: QuerySnapshot) => {
+      qSnapshot.forEach((dSnapshot: QueryDocumentSnapshot) =>
+        dSnapshot.ref.delete()
+      )
+    });
+  }
+  
+  updateById(id: string, update: any) {
     return this.coll
       .doc(id).update(update)
       .then(() => {});
+  }
+
+  updateByQuery(query: any, update: any) {
+    return fQuery(query)(this.coll).get().then((qSnapshot: QuerySnapshot) => {
+      qSnapshot.forEach((dSnapshot: QueryDocumentSnapshot) =>
+        dSnapshot.ref.update(update)
+      )
+    });
   }
   
 }

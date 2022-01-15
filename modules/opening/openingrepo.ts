@@ -2,6 +2,7 @@ import { Coll } from '../db';
 import Opening, { Chapter } from './opening';
 import { BSON } from '../db/bson';
 import User from '../user/user'
+import { FRoot } from 'chesstwo'
 
 export default class OpeningRepo {
 
@@ -11,7 +12,10 @@ export default class OpeningRepo {
   }
 
   deleteOpeningOfUser(id: string, user: User) {
-    return this.coll.delete(id)
+    return Promise.all([this.coll.delete(id),
+      this.ccoll.deleteByQuery({openingId: id})
+    ])
+
   }
 
   insert(opening: Opening) {
@@ -38,5 +42,9 @@ export default class OpeningRepo {
     return this.ccoll.find({
       openingId
     })
+  }
+
+
+  setComments() {
   }
 }

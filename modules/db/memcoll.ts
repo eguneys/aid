@@ -68,12 +68,26 @@ export class MemCol<A> extends Coll<A> {
       .then(() => {});
   }
 
-  update(id: string, update: any) {
+  deleteByQuery(query: any) {
+    return Promise.resolve()
+    .then(() => this.data = this.data.filter(fFind(query)))
+    .then(() => {})
+  }
+
+  updateById(id: string, update: any) {
     let _update = fUpdate(update);
     return Promise.resolve()
       .then(() =>
         this.data.filter(fFind({id})).forEach(_update))
       .then(() => {});
   }
-  
+ 
+  updateByQuery(query: any, update: any) {
+    let _update = fUpdate(update);
+    return Promise.resolve()
+      .then(() =>
+        this.data.filter(fFind(query)).forEach(_update))
+      .then(() => {});
+  }
+   
 }

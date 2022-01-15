@@ -28,8 +28,10 @@ export abstract class Coll<A> {
   abstract one(query: any): Fu<Maybe<A>>
   abstract insert(doc: A): Fu<void>
   abstract delete(id: string): Fu<void>
+  abstract deleteByQuery(query: any): Fu<void>
   abstract set(id: string, update: any): Fu<void>
-  abstract update(id: string, update: any): Fu<void>
+  abstract updateById(id: string, update: any): Fu<void>
+  abstract updateByQuery(query: any, update: any): Fu<void>
   abstract find(query: any): Fu<Array<A>>
   abstract findProjection<B>(query: any, projection: any, bson: BSON<B>): Fu<Array<B>>
   

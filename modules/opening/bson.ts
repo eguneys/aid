@@ -1,6 +1,6 @@
 import { BSONId, DocId } from '../db/bson';
-import Opening, { Chapter } from './opening'
-import { flat, flat_root, FRoot } from 'chesstwo'
+import Opening, { flat_vec2map, Chapter } from './opening'
+import { flat, flat_root, FRoot, Path } from 'chesstwo'
 import { MoveRoot, MoveNode } from './node'
 
 export type OpeningDoc = DocId & {
@@ -23,15 +23,16 @@ export const OpeningBsonHandler: BSONId<Opening> = {
   }
 }
 
+export type FlatRoot = {
+  [key in Path]: MoveRoot | MoveNode
+}
 
 export type ChapterDoc = DocId & {
   name: string,
   openingId: string,
   site?: string,
-  root: string
+  root: FlatRoot
 }
-
-const fn_json = (obj: any) => JSON.stringify(obj)
 
 export const ChapterBsonHandler: BSONId<Chapter> = {
   read(doc: ChapterDoc): Chapter {
@@ -39,12 +40,13 @@ export const ChapterBsonHandler: BSONId<Chapter> = {
   },
 
   write(chapter: Chapter): ChapterDoc {
+    let root = flat_vec2map(flat(chapter.root))
     return {
       id: chapter.id,
       openingId: chapter.openingId,
       name: chapter.name,
       site: chapter.site,
-      root: flat(chapter.root, fn_json, fn_json)
+      root
     }
   }
 }

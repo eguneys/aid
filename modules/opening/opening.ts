@@ -1,7 +1,7 @@
 import { nextString } from 'domnar'
-import { ChapterDoc, OpeningDoc } from './bson'
+import { ChapterDoc, OpeningDoc, FlatRoot } from './bson'
 import { UserId } from '../user/user'
-import { pretty, flat_root, FRoot } from 'chesstwo'
+import { pretty, flat_root, FRoot, Path } from 'chesstwo'
 import { MoveRoot, MoveNode } from './node'
 
 export default class Opening {
@@ -29,7 +29,21 @@ export default class Opening {
   }
 }
 
-const fn_json_read = (str: string) => JSON.parse(str)
+export function flat_vec2map(vec: Array<[Path, object]>) {
+  let res: any = {}
+  vec.forEach(([path, _]) => res[path] = _)
+  return res
+}
+
+export function flat_map2vec(obj: FlatRoot) {
+  let res: any = []
+  for (let key in obj) {
+    res.push([key, obj[key]])
+  }
+  return res
+}
+
+
 
 export class Chapter {
 
@@ -37,7 +51,7 @@ export class Chapter {
     new Chapter(doc.id,
       doc.openingId,
       doc.name,
-      flat_root(doc.root, fn_json_read, fn_json_read),
+      flat_root(flat_map2vec(doc.root)),
       doc.site)
 
   static make = (event: string, 
