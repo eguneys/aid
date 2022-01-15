@@ -25,7 +25,12 @@ export function info(ctrl: Ctrl) {
   let { chapter } = ctrl
   return h('div.info', [
     h('h3', chapter.name),
-    h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess')
+    h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess'),
+    h('div.since', [h('span', 'Games since: '),
+      h('span', ctrl.games_since.toLocaleString())]),
+    h('div.button', {
+      hook: bind('click', ctrl.refresh_games, ctrl.redraw)
+    }, 'Refresh Games')
   ])
 }
 

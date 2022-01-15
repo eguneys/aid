@@ -13,11 +13,4 @@ export default class UserApi {
     let user = await this.repo.byUsername(profile.username)
     return user || this.repo.createUserFromLiAuth(profile)
   }
-// 
-//   async getOrCreate(profile: SteamProfile) {
-//     let user = await this.repo.byUsername(profile.personaname)
-// 
-//     return user || this.repo.createUserFromSteam(profile);
-//   }
-//   
 }

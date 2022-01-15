@@ -2,6 +2,22 @@ import { sanorcastles_san, move_uci, situation_fen, Esrar, QMove, Situation, map
 import Opening, { Chapter } from './opening'
 import { MoveNode, MoveRoot } from './node'
 
+export type ImportedGame = {
+  time: number,
+  fens: Map<Fen, Array<QMove>>
+}
+
+
+export function import_games(pgn: string) {
+  let res = Esrar(pgn)
+
+  if (!res) {
+    return 
+  }
+
+
+  return res
+}
 
 export function import_chapters(opening: Opening, pgn: string) {
 
@@ -14,7 +30,7 @@ export function import_chapters(opening: Opening, pgn: string) {
 
 
   return res.pgns.map(qpgn => 
-    Chapter.make(qpgn.tags.get('Event') || 'Dont have Event tag', 
+    Chapter.make(qpgn.tags.get('Event') || '', 
       opening,
       map(qpgn.variations, (qmove: QMove): MoveNode => ({
         ply: qmove.ply,

@@ -4,7 +4,8 @@ import LightUser from './lightuser';
 
 export type UserDoc = DocId & {
   username: string,
-  litoken: string
+  litoken: string,
+  games_since: number
 }
 
 export const UserBsonHandler: BSONId<User> = {
@@ -16,7 +17,8 @@ export const UserBsonHandler: BSONId<User> = {
     return {
       id: user.id,
       username: user.username,
-      litoken: user.litoken
+      litoken: user.litoken,
+      games_since: user.games_since
     };
   }
 };

@@ -8,11 +8,13 @@ export default class User {
   static make = (doc: UserDoc) =>
     new User(doc.id,
              doc.username,
-      doc.litoken)
+      doc.litoken, 
+    doc.games_since)
   
   constructor(readonly id: UserId,
     readonly username: string,
-    readonly litoken: string) {
+    readonly litoken: string,
+    readonly games_since: number) {
   }
   
 }

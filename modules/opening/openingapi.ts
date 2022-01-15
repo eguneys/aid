@@ -1,13 +1,21 @@
+import * as chest from '../'
 import User from '../user/user'
 import OpeningRepo from './openingrepo';
-import { import_chapters } from './parser'
+import { import_chapters, import_games } from './parser'
 import Opening, { OpeningWithChapters } from './opening'
 
 export default class OpeningApi {
   
-  constructor(readonly repo: OpeningRepo) {
+  constructor(readonly repo: OpeningRepo,
+    readonly lila: chest.lila.Env) {
   }
 
+  async opening_refresh_games(user: User) {
+
+    this.lila.games.get_games(user).then(games =>
+      import_games(games) 
+    ).then(console.log)
+  }
 
   async opening_delete(id: string, user: User) {
     return this.repo.deleteOpeningOfUser(id, user)

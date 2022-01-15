@@ -67,6 +67,7 @@ export default class Ctrl {
   chessground!: ChessgroundApi
   opening: LightOpening
   chapters: Array<LightChapter>;
+  games_since: Date
 
   selected: number
 
@@ -89,6 +90,18 @@ export default class Ctrl {
     this.selected = 0
 
     this.setPath('')
+
+    this.games_since = new Date(Math.random())
+  }
+
+
+  refresh_games = () => {
+    xhr.json(`/opening/refresh`, {
+    }).then(_ => {
+      if (_.since) {
+        this.games_since = new Date(_.since)
+      }
+    })
   }
 
   setPath(path: Path) {

@@ -12,11 +12,17 @@ export default class UserRepo {
     this.coll = coll;
   }
 
+
+  updateGamesSince(id: UserId, games_since: number) {
+    return this.coll.updateById(id, { games_since })
+  }
+
   createUserFromLiAuth(profile: LiAuth) {
     let user = User.make({
       id: nextString(8),
       username: profile.username,
-      litoken: profile.token
+      litoken: profile.token,
+      games_since: Date.now()
     });
 
     return this.insert(user)
@@ -31,7 +37,6 @@ export default class UserRepo {
     return this.coll.one({id});
   }
 
-  // abstract findProjection<B>(query: any, projection: any, bson: BSON<B>): Fu<Array<B>>
   findProjection<A>(id: UserId, projection: any, bson: BSON<A>): Fu<Maybe<A>> {
     return this.coll.findProjection({id}, projection, bson).then(_ => _[0]);
   }

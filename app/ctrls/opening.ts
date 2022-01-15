@@ -3,17 +3,28 @@ import * as html from '../views';
 import ChestCtrl from './chest';
 
 export default class Opening extends ChestCtrl {
+
   
   constructor(env: Env, env2: EnvAwait) {
     super(env, env2);
   }
+
+
+  refresh = async (req: any, res: any, next: any) => {
+    let ctx: any = await this.reqToCtx(req);
+
+    this.authUser(req, res, user =>
+      this.env2.opening.api.opening_refresh_games(user)
+    )(ctx)
+  }
+
 
   remove = async (req: any, res: any, next: any) => {
 
     let ctx: any = await this.reqToCtx(req);
 
     this.authUser(req, res, user =>
-      this.env.opening.api.opening_delete(req.params.id, user)
+      this.env2.opening.api.opening_delete(req.params.id, user)
       .then(_ => res.send({ok: true }))
     )(ctx)
 
@@ -22,7 +33,7 @@ export default class Opening extends ChestCtrl {
   show = async (req: any, res: any, next: any) => {
     let ctx: any = await this.reqToCtx(req);
 
-    this.opFuResult(this.env.opening
+    this.opFuResult(this.env2.opening
       .api.opening_with_chapters(req.params.id),
       res, next, opening_with_chapters =>
       html.opening.show(opening_with_chapters)(ctx)
@@ -44,7 +55,7 @@ export default class Opening extends ChestCtrl {
       this.env2.lila.study
       .sanitize_fetch_link_to_pgn(user, req.body.link)
       .then(pgn =>
-        pgn ? this.env.opening.api
+        pgn ? this.env2.opening.api
         .create_from_pgn(user, pgn)
         .then(opening => res.send({redirect: `opening/${opening.id}` })) :
         res.send({error: 'dont parse pgn' })
@@ -55,7 +66,7 @@ export default class Opening extends ChestCtrl {
   home = async (req: any, res: any, next: any) => {
     let ctx: any = await this.reqToCtx(req);
 
-    let mine: any = ctx.me ? await this.env.opening.api
+    let mine: any = ctx.me ? await this.env2.opening.api
       .byUser(ctx.me) : [],
       featured: any = [1]
 

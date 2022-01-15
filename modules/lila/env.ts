@@ -1,5 +1,6 @@
 import { Auth } from './auth';
 import { Study } from './study'
+import { Games } from './games'
 import Configuration from '../../app/config';
 import LateConfigEnv from '../../app/lateconfig';
 
@@ -7,6 +8,7 @@ export class Env {
 
   auth: Auth
   study: Study
+  games: Games
   
   constructor(config: Configuration,
               lateConfig: LateConfigEnv) {
@@ -19,6 +21,8 @@ export class Env {
 
 
     this.study = new Study()
+
+    this.games = new Games()
     
   }
   
