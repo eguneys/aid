@@ -29,7 +29,7 @@ export default class Opening {
   }
 }
 
-export function flat_vec2map(vec: Array<[Path, object]>) {
+export function flat_vec2map<A>(vec: Array<[Path, A]>) {
   let res: any = {}
   vec.forEach(([path, _]) => res[path] = _)
   return res
