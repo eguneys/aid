@@ -25,13 +25,19 @@ export class Api {
     readonly userapi: UserApi) {
   }
 
-  add_games(user: User, games: Array<ImportedGame>) {
-    return Promise.all(games.map(_ => this.add_game(user, _)))
+  async add_games(user: User, games: Array<ImportedGame>) {
+    await Promise.all(games.map(_ => this.add_game(user, _)))
+    if (games[0]) {
+      let { since } = games[0]
+
+      return [await this.userapi.update_since_ifrecent(user, since),
+        games.length]
+    }
   }
 
   async add_game(user: User, game: ImportedGame) {
 
-    let { fens, since } = game
+    let { fens } = game
 
     let res = []
 
@@ -48,8 +54,6 @@ export class Api {
     }
 
     await Promise.all(res)
-
-    return await this.userapi.update_since_ifrecent(user, since)
   }
 
   async statOrCreate(fen: Fen) {

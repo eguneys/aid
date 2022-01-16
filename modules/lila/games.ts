@@ -18,7 +18,7 @@ export class Games {
 
     let params = {
       max: 180,
-      since: user.games_since
+      since: user.games_since + 1000
     }
 
     let games = await fetch(url(`https://lichess.org/api/games/user/${username}`, params), {

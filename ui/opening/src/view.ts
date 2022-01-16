@@ -22,15 +22,21 @@ export default function view(ctrl: Ctrl) {
 }
 
 export function info(ctrl: Ctrl) {
-  let { chapter } = ctrl
+  let { chapter, flash_nb_games } = ctrl
+
+  let disabled = flash_nb_games !== undefined
+  let content = flash_nb_games !== undefined ? `${flash_nb_games} games loaded`:'Refresh Games'
+
+
   return h('div.info', [
     h('h3', chapter.name),
     h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess'),
     h('div.since', [h('span', 'Games since: '),
       h('span', ctrl.games_since.toLocaleString())]),
     h('div.button', {
+      cls: { disabled },
       hook: bind('click', ctrl.refresh_games, ctrl.redraw)
-    }, 'Refresh Games')
+    }, content)
   ])
 }
 

@@ -20,7 +20,8 @@ export default class UserApi {
 
     let since = Math.max(user.games_since, _since)
 
-    return this.repo.updateGamesSince(user.id, since)
+    await this.repo.updateGamesSince(user.id, since)
+    return since
   }
 }
 

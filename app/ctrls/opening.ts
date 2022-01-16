@@ -14,7 +14,14 @@ export default class Opening extends ChestCtrl {
     let ctx: any = await this.reqToCtx(req);
 
     this.authUser(req, res, user =>
-      this.env2.opening.api.opening_refresh_games(user)
+      this.env2.opening.api.opening_refresh_games(user).then(_ => {
+        if (_) {
+          let [since, nb_games] = _
+          res.send({since, nb_games})
+        } else {
+          res.send({err: 'no games'})
+        }
+      })
     )(ctx)
   }
 

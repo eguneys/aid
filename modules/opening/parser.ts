@@ -15,12 +15,12 @@ export function import_games(pgn: string): Array<ImportedGame> {
     return []
   }
 
-
   return res.pgns.map(qpgn => {
     let date = qpgn.tags.get('UTCDate'),
       time = qpgn.tags.get('UTCTime')
 
-    let since = new Date(date + ' ' + time).getMilliseconds()
+    let since = new Date(date + ' ' + time).valueOf()
+
     let { fens } = qpgn
 
     return {

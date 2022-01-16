@@ -83,6 +83,8 @@ export default class Ctrl {
     return this.chapter.root
   }
 
+  flash_nb_games?: number
+
   constructor(readonly opts: any, 
     readonly  redraw: any) {
     this.chapters = opts.chapters 
@@ -100,7 +102,15 @@ export default class Ctrl {
     }).then(_ => {
       if (_.since) {
         this.games_since = new Date(_.since)
+        this.flash_nb_games = _.nb_games
+      } else if (_.err) {
+        this.flash_nb_games = 0
       }
+      setTimeout(() => {
+        this.flash_nb_games = undefined
+        this.redraw()
+      }, 1000)
+      this.redraw()
     })
   }
 
