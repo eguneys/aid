@@ -3,20 +3,31 @@ import Opening, { Chapter } from './opening'
 import { MoveNode, MoveRoot } from './node'
 
 export type ImportedGame = {
-  time: number,
+  since: number,
   fens: Map<Fen, Array<QMove>>
 }
 
 
-export function import_games(pgn: string) {
+export function import_games(pgn: string): Array<ImportedGame> {
   let res = Esrar(pgn)
 
   if (!res) {
-    return 
+    return []
   }
 
 
-  return res
+  return res.pgns.map(qpgn => {
+    let date = qpgn.tags.get('UTCDate'),
+      time = qpgn.tags.get('UTCTime')
+
+    let since = new Date(date + ' ' + time).getMilliseconds()
+    let { fens } = qpgn
+
+    return {
+      since,
+      fens
+    }
+  })
 }
 
 export function import_chapters(opening: Opening, pgn: string) {

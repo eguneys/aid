@@ -74,6 +74,13 @@ export class MemCol<A> extends Coll<A> {
     .then(() => {})
   }
 
+  increment(id: string, field: string) {
+    let _update = (_: any) => _[field]++
+    return Promise.resolve()
+    .then(() =>
+      this.data.filter(fFind({id})).forEach(_update))
+  }
+
   updateById(id: string, update: any) {
     let _update = fUpdate(update);
     return Promise.resolve()

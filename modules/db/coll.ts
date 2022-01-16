@@ -25,6 +25,8 @@ export abstract class Coll<A> {
     return this.one(query).then(_ => !!_);
   }
   
+  abstract increment(id: string, field: string): Fu<void>
+
   abstract one(query: any): Fu<Maybe<A>>
   abstract insert(doc: A): Fu<void>
   abstract delete(id: string): Fu<void>

@@ -3,18 +3,19 @@ import User from '../user/user'
 import OpeningRepo from './openingrepo';
 import { import_chapters, import_games } from './parser'
 import Opening, { OpeningWithChapters } from './opening'
+import { Api as OpeningStats } from './stats'
 
 export default class OpeningApi {
   
   constructor(readonly repo: OpeningRepo,
+    readonly stats: OpeningStats,
     readonly lila: chest.lila.Env) {
   }
 
   async opening_refresh_games(user: User) {
-
-    this.lila.games.get_games(user).then(games =>
-      import_games(games) 
-    ).then(console.log)
+    return this.lila.games.get_games(user).then(games =>
+      this.stats.add_games(user, import_games(games)) 
+    )
   }
 
   async opening_delete(id: string, user: User) {

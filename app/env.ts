@@ -73,7 +73,9 @@ export default class EnvBoot {
     let lila = new chest.lila.Env(this.config,
       lateConfig)
 
-    let opening = new chest.opening.Env(this.mainDb, lila);
+    let opening = new chest.opening.Env(this.mainDb, 
+      this.env.user,
+      lila);
 
     this.envAwait = new EnvAwait(lateConfig,
       lila,

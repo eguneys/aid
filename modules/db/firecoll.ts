@@ -1,8 +1,9 @@
 import { CollectionReference,
-         DocumentSnapshot,
-         Query,
-         QuerySnapshot,
-         QueryDocumentSnapshot } from '@google-cloud/firestore';
+  DocumentSnapshot,
+  FieldValue,
+  Query,
+  QuerySnapshot,
+  QueryDocumentSnapshot } from '@google-cloud/firestore';
 import { Coll } from './coll';
 import { BSON, BSONId, DocId } from './bson';
 
@@ -108,6 +109,14 @@ export default class FireCol<A> extends Coll<A> {
     });
   }
   
+  increment(id: string, field: string) {
+    return this.coll
+    .doc(id).update({
+      [field]: FieldValue.increment(1)
+    })
+    .then(() => {})
+  }
+
   updateById(id: string, update: any) {
     return this.coll
       .doc(id).update(update)
