@@ -36,7 +36,13 @@ export function info(ctrl: Ctrl) {
     h('div.button', {
       cls: { disabled },
       hook: bind('click', ctrl.refresh_games, ctrl.redraw)
-    }, content)
+    }, content),
+    h('a.button', {
+      props: {
+        href: 'https://lichess.org/?user=openingsexercise#friend',
+        target: '_blank'
+      }
+    }, 'Challenge @openingsexercise')
   ])
 }
 
@@ -47,11 +53,11 @@ export function board(ctrl: Ctrl) {
 export function side(ctrl: Ctrl) {
   return h('div.side', [
     h('div.controls', [
-      h('a.delete', {
+      h('a.delete.red', {
         hook: bind('click', e => ctrl.delete(), ctrl.redraw)
-      }, 'Delete')
-    ]),
+      }, 'Delete'),
     chapters(ctrl)
+    ])
   ])
 }
 
@@ -99,11 +105,23 @@ function eventPath(e: MouseEvent): Path | null {
 }
 
 function renderInlineCommentsOf(ctrl: Ctrl, node: FNode<MoveNode>) {
-  if (!node.data.comments) return []
-  return node.data.comments.map(comment => {
-    let truncated = comment.text
-    return h('comment', truncated)
-  })
+  let res: any = []
+  if (node.data.comments)  {
+    res = node.data.comments.map(comment => {
+      let truncated = comment
+      return h('comment', truncated)
+    })
+  }
+
+  let a = node.data.nb_reached
+  let klass = { red: a < 2, green: a > 6 }
+  let stats = node.data.nb_made + '/' + a
+
+  return res.concat([
+    h('comment', {
+      class: klass
+    }, stats)
+  ])
 }
 
 function renderChildrenOf(ctrl: Ctrl, node: FRoot<MoveNode, MoveRoot> | FNode<MoveNode>, opts: Opts): Array<VNode> | undefined {

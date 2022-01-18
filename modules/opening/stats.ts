@@ -4,6 +4,10 @@ import User from '../user/user'
 import { Coll } from '../db';
 import { Fen, move_uci } from 'chesstwo'
 import { ImportedGame } from './parser'
+import { Chapter } from './opening'
+
+import { map, FNode, FRoot } from 'chesstwo'
+import { MoveNode, MoveRoot } from './node'
 
 export type PosStat = {
   id: string,
@@ -25,8 +29,37 @@ export class Api {
     readonly userapi: UserApi) {
   }
 
+
+  async chapter_stats(chapter: Chapter, games: Array<ImportedGame>) {
+    return map(chapter.root, (node: MoveNode) => {
+      games.forEach(game => {
+
+        let pos_stat = game.fens.get(node.fen_before)
+
+        if (pos_stat) {
+
+          let move_stat = pos_stat.filter(_ => {
+            return move_uci(_.move) === node.uci
+          })[0]
+
+          let nb_made = move_stat ? 1 : 0
+          let nb_reached = 1 
+
+
+          node.nb_made += nb_made
+          node.nb_reached += nb_reached
+        }
+      })
+      return node
+    }, (root: MoveRoot) => {
+      return root
+    })
+  }
+
+
   async add_games(user: User, games: Array<ImportedGame>) {
-    await Promise.all(games.map(_ => this.add_game(user, _)))
+    // TODO delete definitions below 
+    //await Promise.all(games.map(_ => this.add_game(user, _)))
     if (games[0]) {
       let { since } = games[0]
 

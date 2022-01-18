@@ -39,6 +39,10 @@
     .since {
       margin: 1em 0;
     }
+    .button {
+      display: block;
+      margin-top: 1em;
+    }
   }
 
   &__tools {
@@ -109,6 +113,18 @@
   color: black;
 }
 
+.tview comment {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.tview comment.green {
+  color: #91C483
+}
+
+.tview comment.red {
+  color: #FF6464
+}
 
 .tview lines {
   display: block;

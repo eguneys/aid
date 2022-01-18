@@ -1,8 +1,9 @@
 import { Coll } from '../db';
-import Opening, { Chapter } from './opening';
+import Opening, { flat_vec2map, Chapter } from './opening';
 import { BSON } from '../db/bson';
 import User from '../user/user'
-import { FRoot } from 'chesstwo'
+import { flat, flat_root, FRoot } from 'chesstwo'
+import { MoveNode, MoveRoot } from './node'
 
 export default class OpeningRepo {
 
@@ -45,6 +46,10 @@ export default class OpeningRepo {
   }
 
 
-  setComments() {
+  updateRoot(chapterId: string, _root: FRoot<MoveNode, MoveRoot>) {
+
+    let _froot = flat<MoveNode, MoveRoot>(_root)
+    let root = flat_vec2map(_froot)
+    return this.ccoll.updateById(chapterId, { root })
   }
 }

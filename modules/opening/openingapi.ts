@@ -13,9 +13,27 @@ export default class OpeningApi {
   }
 
   async opening_refresh_games(user: User) {
-    return this.lila.games.get_games(user).then(games =>
-      this.stats.add_games(user, import_games(games)) 
-    )
+    let games = await this.lila.games.get_games(user)
+    let imported_games = import_games(games)
+    let res = await this.stats.add_games(user, imported_games) 
+
+    if (res && res[1] > 0) {
+
+      let openings = await this.repo.byUser(user)
+
+      await Promise.all(openings.map(async opening => {
+        let opchapters = await this.opening_with_chapters(opening.id)
+        if (opchapters) {
+          let [op, chapters] = opchapters
+          await Promise.all(chapters.map(async chapter =>  {
+            let new_root = await this.stats.chapter_stats(chapter, imported_games)
+
+            await this.repo.updateRoot(chapter.id, new_root)
+          }))
+        }
+      }))
+    }
+    return res
   }
 
   async opening_delete(id: string, user: User) {

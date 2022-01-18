@@ -13,6 +13,8 @@ export type MoveNode = {
   fen: Fen,
   uci: string,
   san: string,
+  nb_made: number,
+  nb_reached: number,
   comments?: Array<Comment>
 }
 
