@@ -12,7 +12,7 @@ export default class OpeningApi {
     readonly lila: chest.lila.Env) {
   }
 
-  async opening_refresh_games(user: User) {
+  async opening_refresh_games(user: User, id: string) {
     let games = await this.lila.games.get_games(user)
     let imported_games = import_games(games)
     let res = await this.stats.add_games(user, imported_games) 

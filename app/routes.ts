@@ -18,10 +18,10 @@ export default function routes(c: wireCtrls) {
 
   router.post('/opening/addf', upload.none(), c.opening.addf)
   router.post('/opening/add', upload.none(), c.opening.add)
-  router.get('/opening/refresh', c.opening.refresh)
   router.get('/opening/:id', c.opening.show)
   router.delete('/opening/:id', c.opening.remove)
 
+  router.get('/opening/:id/refresh', c.opening.refresh)
  
   router.use(c.site.notFound.bind(c.site));
 

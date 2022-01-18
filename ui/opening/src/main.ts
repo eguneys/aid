@@ -18,17 +18,17 @@ const patch = init([
 
 export default function main($_: Element, opts: any) {
 
-    let vnode: VNode, ctrl: Ctrl;
+  let vnode: VNode, ctrl: Ctrl;
     
-    function redraw() {
-          vnode = patch(vnode, view(ctrl));
-        }
+  function redraw() {
+    vnode = patch(vnode, view(ctrl));
+  }
 
-    ctrl = new Ctrl(opts, redraw);
-    
-    vnode = patch($_, view(ctrl));
+  ctrl = new Ctrl(opts, redraw);
 
-    return { };
-    
+  vnode = patch($_, view(ctrl));
+
+  return { };
+
 }
 

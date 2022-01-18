@@ -24,6 +24,7 @@ export type MoveRoot = {
 }
 
 export type LightChapter = {
+  id: string,
   name: string,
   root: FRoot<MoveNode, MoveRoot>,
   site: string
@@ -100,11 +101,12 @@ export default class Ctrl {
 
 
   refresh_games = () => {
-    xhr.json(`/opening/refresh`, {
+    xhr.json(`/opening/${this.opening.id}/refresh`, {
     }).then(_ => {
       if (_.since) {
         this.games_since = new Date(_.since)
         this.flash_nb_games = _.nb_games
+        this.chapters = _.chapters
       } else if (_.err) {
         this.flash_nb_games = 0
       }
@@ -138,8 +140,12 @@ export default class Ctrl {
     }).then(_ => chest.redirect('/'))
   }
 
-  select = (chapter: LightChapter) => {
-    this.selected = this.chapters.indexOf(chapter)
+  select = (id: string) => {
+    this.chapters.map((_, i) => {
+      if (_.id === id) {
+        this.selected = i
+      }
+    })
   }
 
   makeCgOpts(): ChessgroundConfig {

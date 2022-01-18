@@ -66,7 +66,7 @@ export function chapters(ctrl: Ctrl) {
     .map(c => h('div.chapter', { class: { 
       selected: ctrl.chapter === c 
     },
-      hook: bind('click', e => ctrl.select(c), ctrl.redraw)
+      hook: bind('click', e => ctrl.select(c.id), ctrl.redraw)
     },  h('h3', c.name)))
   )
 }
