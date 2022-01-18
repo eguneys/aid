@@ -12,6 +12,20 @@ export default class OpeningApi {
     readonly lila: chest.lila.Env) {
   }
 
+  async opening_reset_progress(user: User, id: string) {
+
+    let opchapters = await this.opening_with_chapters(id)
+    if (opchapters) {
+      let [op, chapters] = opchapters
+      await Promise.all(chapters.map(async chapter =>  {
+        let new_root = await this.stats.reset_chapter_stats(chapter)
+
+        await this.repo.updateRoot(chapter.id, new_root)
+      }))
+    }
+
+  }
+
   async opening_refresh_games(user: User, id: string) {
     let games = await this.lila.games.get_games(user)
     let imported_games = import_games(games)

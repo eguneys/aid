@@ -10,6 +10,20 @@ export default class Opening extends ChestCtrl {
   }
 
 
+  reset = async (req: any, res: any, next: any) => {
+    let ctx: any = await this.reqToCtx(req);
+
+    let openingId = req.params.id
+
+    this.authUser(req, res, user =>
+      this.env2.opening.api.opening_reset_progress(user, openingId).then(_ => {
+        res.send({ok: true})
+      })
+    )(ctx)
+
+  }
+
+
   refresh = async (req: any, res: any, next: any) => {
     let ctx: any = await this.reqToCtx(req);
 

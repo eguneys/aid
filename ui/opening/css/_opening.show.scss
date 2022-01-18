@@ -52,6 +52,19 @@
     border-top: 1px solid #404040;
   }
 
+  &__side {
+    padding-top: 1em;
+
+    .controls {
+      display: flex;
+      justify-content: space-around;
+
+      .red {
+        color: #FF6464
+      }
+    }
+  }
+
 }
 
 .chapters {

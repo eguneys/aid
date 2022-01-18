@@ -22,6 +22,7 @@ export default function routes(c: wireCtrls) {
   router.delete('/opening/:id', c.opening.remove)
 
   router.get('/opening/:id/refresh', c.opening.refresh)
+  router.post('/opening/:id/reset', c.opening.reset)
  
   router.use(c.site.notFound.bind(c.site));
 

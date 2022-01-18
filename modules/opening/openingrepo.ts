@@ -45,7 +45,6 @@ export default class OpeningRepo {
     })
   }
 
-
   updateRoot(chapterId: string, _root: FRoot<MoveNode, MoveRoot>) {
 
     let _froot = flat<MoveNode, MoveRoot>(_root)

@@ -35,8 +35,7 @@ export type ChapterDoc = DocId & {
   name: string,
   openingId: string,
   site?: string,
-  root: FlatRoot,
-  fens: Fens
+  root: FlatRoot
 }
 
 export const ChapterBsonHandler: BSONId<Chapter> = {
@@ -47,17 +46,13 @@ export const ChapterBsonHandler: BSONId<Chapter> = {
   write(chapter: Chapter): ChapterDoc {
     let _froot = flat<MoveNode, MoveRoot>(chapter.root)
     let root = flat_vec2map(_froot)
-
-    let fens = flat_vec2map(_froot
-      .map(([path, hasfen]) => [hasfen.fen, path]))
-
+    
     return {
       id: chapter.id,
       openingId: chapter.openingId,
       name: chapter.name,
       site: chapter.site,
       root,
-      fens
     }
   }
 }

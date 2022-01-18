@@ -29,6 +29,15 @@ export class Api {
     readonly userapi: UserApi) {
   }
 
+  async reset_chapter_stats(chapter: Chapter) {
+    return map(chapter.root, (node: MoveNode) => {
+
+      node.nb_made = 0
+      node.nb_reached = 0
+
+      return node
+    }, (root: MoveRoot) => { return root })
+  }
 
   async chapter_stats(chapter: Chapter, games: Array<ImportedGame>) {
     return map(chapter.root, (node: MoveNode) => {

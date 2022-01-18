@@ -18,6 +18,7 @@ export class Games {
 
     let params = {
       max: 180,
+      vs: 'openingsexercise',
       since: user.games_since + 1000
     }
 

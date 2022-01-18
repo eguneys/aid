@@ -134,6 +134,14 @@ export default class Ctrl {
       cg.set(this.makeCgOpts())
     })
   }
+
+
+  reset = () => {
+    xhr.json(`/opening/${this.opening.id}/reset`, {
+      method: 'POST'
+    }).then(_ => chest.reload())
+  }
+
   delete = () => {
     xhr.json(`/opening/${this.opening.id}`, {
       method: 'DELETE'
