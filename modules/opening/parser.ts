@@ -19,7 +19,7 @@ export function import_games(pgn: string): Array<ImportedGame> {
     let date = qpgn.tags.get('UTCDate'),
       time = qpgn.tags.get('UTCTime')
 
-    let since = new Date(date + ' ' + time).valueOf()
+    let since = new Date(date + ' ' + time + 'Z').valueOf()
 
     let { fens } = qpgn
 
