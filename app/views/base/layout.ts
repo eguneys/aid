@@ -11,6 +11,10 @@ export type LayoutParams = {
   moreCss?: string
 }
 
+const viewport = tags.raw(`
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+`)
+
 const favicons = tags.raw(`
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 `);
@@ -45,6 +49,7 @@ export function layout(title: string, body: string[], params: LayoutParams) {
       doctype,
       htmlTag({}, [
         tags.head([
+          viewport,
           tags.headTitle(h.env.netConfig.isProd?
             `${title} • aidchess.com`:
             `${title} • aidchess.dev`),
