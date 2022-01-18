@@ -31,18 +31,42 @@ export function info(ctrl: Ctrl) {
   return h('div.info', [
     h('h3', chapter.name),
     h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess'),
-    h('div.since', [h('span', 'Games since: '),
-      h('span', ctrl.games_since.toLocaleString())]),
-    h('div.button', {
-      cls: { disabled },
-      hook: bind('click', ctrl.refresh_games, ctrl.redraw)
-    }, content),
+    h('div.paste', [
+      h('p', '1. Challenge @openingsexercise, and paste chapter link below to game chat on lichess'),
+      h('input', { attrs: { type: 'text', readonly: true },
+        hook: {
+          insert(vnode: VNode) {
+            const el = vnode.elm as HTMLInputElement;
+            el.value = chapter.site
+            el.onclick = function() {
+
+              navigator.clipboard.writeText(el.value)
+
+              el.value = 'Copied !';
+              setTimeout(() => {
+                el.value = chapter.site
+              }, 1000)
+            }
+          }
+        }
+      }),
+    ]),
     h('a.button', {
       props: {
         href: 'https://lichess.org/?user=openingsexercise#friend',
         target: '_blank'
       }
-    }, 'Challenge @openingsexercise')
+    }, 'Challenge @openingsexercise'),
+
+    h('div.paste', [
+      h('p', '2. Refresh games below to update your statistics'),
+      h('div.since', [h('span', 'Games since: '),
+        h('span', ctrl.games_since.toLocaleString())]),
+      h('div.button', {
+        cls: { disabled },
+        hook: bind('click', ctrl.refresh_games, ctrl.redraw)
+      }, content),
+    ]),
   ])
 }
 

@@ -36,12 +36,15 @@
   &__info {
     box-shadow: 1px 1px 2px black;
     padding: 1em;
-    .since {
-      margin: 1em 0;
-    }
     .button {
       display: block;
       margin-top: 1em;
+    }
+
+    .paste {
+      margin-top: 1em;
+      display: flex;
+      flex-flow: column;
     }
   }
 

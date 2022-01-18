@@ -1,6 +1,6 @@
 - [x] Games vs openingexercise
 - [x] Reset Progress
-- [ ] Notice: Paste study link to chat
+- [x] Notice: Paste study link to chat
 - [ ] About landing page beta warning, consideration, contact
 - [ ] Deploy
 - [ ] Test
