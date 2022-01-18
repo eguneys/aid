@@ -1,7 +1,7 @@
 - [x] Games vs openingexercise
 - [x] Reset Progress
 - [x] Notice: Paste study link to chat
-- [ ] About landing page beta warning, consideration, contact
+- [x] About landing page beta warning, consideration, contact
 - [ ] Deploy
 - [ ] Test
 - [ ] Limit openings to 3
