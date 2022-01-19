@@ -33,11 +33,10 @@ export function info(ctrl: Ctrl) {
     h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess'),
     h('div.paste', [
       h('p', '1. Challenge @openingsexercise, and paste chapter link below to game chat on lichess'),
-      h('input', { attrs: { type: 'text', readonly: true },
+      h('input', { attrs: { type: 'text', readonly: true, value: chapter.site },
         hook: {
           insert(vnode: VNode) {
             const el = vnode.elm as HTMLInputElement;
-            el.value = chapter.site
             el.onclick = function() {
 
               navigator.clipboard.writeText(el.value)
