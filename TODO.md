@@ -2,10 +2,12 @@
 - [x] Reset Progress
 - [x] Notice: Paste study link to chat
 - [x] About landing page beta warning, consideration, contact
-- [ ] Deploy
+- [x] Deploy
 - [ ] Test
-- [ ] Limit openings to 3
+- [+] Update Lichess Study (lose progress)
+- [ ] Accomplishment check mark on completion
 
+- [ ] Limit openings to 3
 - [ ] Help on stats
 - [x] Update on Refresh games
 - [ ] Only include moves of current chapter

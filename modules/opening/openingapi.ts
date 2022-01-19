@@ -1,3 +1,4 @@
+import { nextString } from 'domnar'
 import * as chest from '../'
 import User from '../user/user'
 import OpeningRepo from './openingrepo';
@@ -62,16 +63,22 @@ export default class OpeningApi {
 
   }
 
+  async opening_byid(id: string) {
+    return this.repo.byId(id)
+  }
+
   async byUser(user: User) {
     return this.repo.byUser(user)
   }
 
 
-  async create_from_pgn(user: User, pgn: string) {
+  async create_from_pgn(user: User, studyId: string, pgn: string, id?: string) {
 
     let opening = Opening.make(
-      'fill then',
-      user.id)
+      id || nextString(8),
+      'opening name, fill then',
+      user.id,
+      studyId)
 
 
     let chapters = import_chapters(opening, pgn)

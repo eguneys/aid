@@ -22,6 +22,6 @@ export class Study {
       }
     }).then(res => res.text())
 
-    return study
+    return [studyId, study]
   }
 }

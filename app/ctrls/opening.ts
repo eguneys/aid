@@ -14,12 +14,30 @@ export default class Opening extends ChestCtrl {
     let ctx: any = await this.reqToCtx(req);
 
     let openingId = req.params.id
-
-    this.authUser(req, res, user =>
-      this.env2.opening.api.opening_reset_progress(user, openingId).then(_ => {
-        res.send({ok: true})
-      })
-    )(ctx)
+    /*
+    this.env2.opening.api.opening_reset_progress(user, openingId).then(_ => {
+      res.send({ok: true})
+    })
+    */
+    this.authUser(req, res, async user => {
+      let opening = await this.env2.opening.api.opening_byid(req.params.id)
+      if (!opening) {
+        res.send({err: 'not found'})
+        return
+      }
+      await this.env2.opening.api.opening_delete(opening.id, user)
+      let idpgn = await this.env2.lila.study
+      .sanitize_fetch_link_to_pgn(user, 'https://lichess.org/study/'+opening.studyId)
+      if (idpgn) {
+        let new_opening = await this.env2.opening.api
+          .create_from_pgn(user, idpgn[0], idpgn[1], opening.id)
+        if (new_opening) {
+          res.send({ok: true})
+        } else {
+          res.send({error: 'dont parse pgn' })
+        }
+      }
+    })(ctx)
 
   }
 
@@ -82,9 +100,9 @@ export default class Opening extends ChestCtrl {
     this.authUser(req, res, user =>
       this.env2.lila.study
       .sanitize_fetch_link_to_pgn(user, req.body.link)
-      .then(pgn =>
-        pgn ? this.env2.opening.api
-        .create_from_pgn(user, pgn)
+      .then(idpgn =>
+        idpgn ? this.env2.opening.api
+        .create_from_pgn(user, idpgn[0], idpgn[1])
         .then(opening => res.send({redirect: `opening/${opening.id}` })) :
         res.send({error: 'dont parse pgn' })
       ).catch(err => res.send({err})))(ctx)

@@ -82,7 +82,7 @@ export function side(ctrl: Ctrl) {
       }, 'Delete'),
       h('a.reset.red', {
         hook: bind('click', e => ctrl.reset(), ctrl.redraw)
-      }, 'Reset Progress')
+      }, ['Update Study', h('small', ' (reset progress)')])
     ]),
     chapters(ctrl)
   ])

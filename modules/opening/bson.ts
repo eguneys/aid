@@ -5,7 +5,8 @@ import { MoveRoot, MoveNode } from './node'
 
 export type OpeningDoc = DocId & {
   name: string,
-  userId: string
+  userId: string,
+  studyId: string
 }
 
 
@@ -18,7 +19,8 @@ export const OpeningBsonHandler: BSONId<Opening> = {
     return {
       id: opening.id,
       userId: opening.userId,
-      name: opening.name
+      name: opening.name,
+      studyId: opening.studyId
     }
   }
 }

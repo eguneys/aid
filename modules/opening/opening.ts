@@ -6,26 +6,34 @@ import { MoveRoot, MoveNode } from './node'
 
 export default class Opening {
 
-  static make = (name: string,
-  userId: UserId) =>
-    new Opening(nextString(8),
+  static make = (
+    id: string,
+    name: string,
+    userId: UserId,
+    studyId: string,
+  ) =>
+    new Opening(id,
       userId,
-      name)
+      name,
+      studyId)
 
   static make2 = (name: string,
     opening: Opening) =>
     new Opening(opening.id,
       opening.userId,
-      name)
+      name,
+      opening.studyId)
 
   static from_doc = (doc: OpeningDoc) =>
     new Opening(doc.id,
       doc.userId,
-      doc.name)
+      doc.name,
+      doc.studyId)
 
   constructor(readonly id: string,
     readonly userId: UserId,
-    readonly name: string) {
+    readonly name: string,
+    readonly studyId: string) {
   }
 }
 
