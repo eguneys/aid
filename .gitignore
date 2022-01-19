@@ -3,3 +3,4 @@ lib/
 public/css/
 public/compiled/
 conf/late_prod.ts
+conf/app.ts
