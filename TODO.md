@@ -6,6 +6,8 @@
 - [ ] Test
 - [+] Update Lichess Study (lose progress)
 - [ ] Accomplishment check mark on completion
+- [ ] Featured Studies
+- [ ] Not updating links after a while on chapter selection
 
 - [ ] Limit openings to 3
 - [ ] Help on stats
