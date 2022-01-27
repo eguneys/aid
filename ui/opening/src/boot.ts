@@ -1,10 +1,15 @@
 import { json, form } from 'common/xhr'
 import main from './main'
 
+let version = '1.0'
+
 export function boot(opening: any) {
 
   let $el = document.querySelector('.opening') as HTMLElement
   main($el, opening)
+
+
+  console.log(`Opening v${version}`)
 }
 
 export function boot_home() {
