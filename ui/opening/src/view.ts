@@ -27,7 +27,6 @@ export function info(ctrl: Ctrl) {
   let disabled = flash_nb_games !== undefined
   let content = flash_nb_games !== undefined ? `${flash_nb_games} games loaded`:'Refresh Games'
 
-
   return h('div.info', [
     h('h3', chapter.name),
     h('a', { props: { href: chapter.site, target: '_blank' } }, 'See study on lichess'),

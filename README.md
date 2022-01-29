@@ -1,3 +1,9 @@
+## Notes
+
+The opening study must be comprehensive and as deep as possible.
+
+## About
+
 There is a lichess bot (@openingsexercise) that plays lines from a lichess study. Study opening lines with the bot, and you can see your statistics on this site.
 
 1. Pickup an opening book and make a lichess study of important lines.
